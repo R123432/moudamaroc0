@@ -12,6 +12,17 @@ function closeAdmin(){
 document.getElementById("adminPanel").style.display="none";
 }
 
+function checkLogin(){
+let pass=document.getElementById("adminPassword").value;
+
+if(pass==="1234"){
+document.getElementById("adminLogin").style.display="none";
+document.getElementById("adminContent").style.display="block";
+}else{
+document.getElementById("loginError").style.display="block";
+}
+
+
 function loginAdmin(){
 let pass=document.getElementById("adminPass").value;
 
