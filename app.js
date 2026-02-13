@@ -60,11 +60,12 @@ function updateCart(){
 
 function toggleCart(){
     document.getElementById("cart").classList.toggle("active");
+    document.getElementById("cartOverlay").classList.toggle("active");
 }
 
-/* إدارة */
 function openAdmin(){
     document.getElementById("adminPanel").classList.toggle("active");
+
 }
 
 function loginAdmin(){
