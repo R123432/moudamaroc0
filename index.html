@@ -4,114 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoudaMaroc</title>
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#f4f7ff;
-direction:rtl;
-}
-
-header{
-background:#0a3d62;
-color:white;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.product{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.1);
-text-align:center;
-}
-
-.product img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.price{
-font-size:18px;
-font-weight:bold;
-color:#0a3d62;
-margin:10px 0;
-}
-
-button{
-background:#25D366;
-color:white;
-border:none;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-width:100%;
-font-size:16px;
-}
-
-button:hover{
-opacity:.9;
-}
-</style>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-<header>🛍️ MoudaMaroc</header>
+<header>
+<div class="logo">MoudaMaroc</div>
+<div class="social">
+<a href="https://www.instagram.com/moudamaroc0" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://tiktok.com/@moudamaroc0" target="_blank"><i class="fab fa-tiktok"></i></a>
+</div>
+</header>
 
-<div class="products">
+<section class="hero">
+<div class="overlay">
+<h1>أفضل العروض الحصرية 🔥</h1>
+<p>ينتهي العرض خلال <span id="countdown"></span></p>
+</div>
+</section>
 
-<div class="product">
-<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
-<h3>قميص رجالي عصري</h3>
-<div class="price">199 درهم</div>
-<button onclick="orderNow('قميص رجالي عصري',199)">
-اطلب عبر واتساب
-</button>
+<section class="categories" id="categories"></section>
+
+<section class="products" id="products"></section>
+
+<div class="cart-btn" onclick="toggleCart()">
+<i class="fas fa-shopping-cart"></i>
 </div>
 
-<div class="product">
-<img src="https://images.unsplash.com/photo-1520975922203-becb6c9f3d3d?w=500">
-<h3>حقيبة نسائية فاخرة</h3>
-<div class="price">249 درهم</div>
-<button onclick="orderNow('حقيبة نسائية فاخرة',249)">
-اطلب عبر واتساب
-</button>
+<div class="admin-btn" onclick="openAdmin()">
+⚙
 </div>
 
+<div class="cart-panel" id="cartPanel">
+<h3>سلة المشتريات</h3>
+<div id="cartItems"></div>
+<h4 id="total"></h4>
+<input id="customerName" placeholder="الاسم">
+<input id="customerPhone" placeholder="الهاتف">
+<input id="customerCity" placeholder="المدينة">
+<input id="customerAddress" placeholder="العنوان">
+<button onclick="sendOrder()">اطلب الآن عبر واتساب</button>
 </div>
 
-<script>
+<div class="admin-panel" id="adminPanel">
+<h2>لوحة التحكم</h2>
+<input id="productName" placeholder="اسم المنتج">
+<input id="productPrice" type="number" placeholder="السعر">
+<input id="productOldPrice" type="number" placeholder="السعر القديم">
+<input id="productCategory" placeholder="القسم">
+<input id="productRating" type="number" max="5" placeholder="التقييم 1-5">
+<input type="file" id="productImage">
+<button onclick="addProduct()">إضافة منتج</button>
+<div id="adminProducts"></div>
+</div>
 
-function orderNow(name,price){
-
-let message =
-"طلب جديد 🛍️%0A%0A" +
-"المنتج: " + name + "%0A" +
-"السعر: " + price + " درهم%0A%0A" +
-"الاسم:%0Aالهاتف:%0Aالمدينة:%0Aالعنوان:";
-
-let whatsappNumber = "212712120673";
-
-let url = "https://wa.me/" + whatsappNumber + "?text=" + message;
-
-window.open(url, "_blank");
-
-}
-
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
