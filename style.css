@@ -183,13 +183,43 @@ header{
    CART & ADMIN CARDS
 ========================= */
 
-.cart,
-.admin{
+/* ===== CART PANEL ===== */
+.cart-panel{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:320px;
+    height:100%;
     background:#fff;
     padding:20px;
-    border-radius:15px;
-    box-shadow:0 5px 25px rgba(0,0,0,0.08);
-    margin:20px auto;
+    box-shadow:-5px 0 30px rgba(0,0,0,0.15);
+    transition:0.4s ease;
+    z-index:2000;
+    overflow-y:auto;
+}
+
+.cart-panel.active{
+    right:0;
+}
+
+/* ===== ADMIN POPUP ===== */
+.admin{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    max-width:420px;
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+    display:none;
+    z-index:3000;
+}
+
+.admin.active{
+    display:block;
 }
 
 /* =========================
