@@ -1,36 +1,30 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MODA MAROC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODA MAROC</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <header>
     <div class="container header-wrapper">
-
         <div class="brand">
             <h1 class="logo">MODA MAROC</h1>
             <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
         </div>
 
         <div class="header-actions">
-            <button type="button" onclick="toggleDarkMode()" class="icon-btn">🌙</button>
-            <button type="button" onclick="toggleCart()" class="icon-btn">
+            <button onclick="toggleDarkMode()" class="icon-btn">🌙</button>
+            <button onclick="toggleCart()" class="icon-btn">
                 🛒 <span id="cartCount">0</span>
             </button>
-            <button type="button" onclick="openAdmin()" class="icon-btn">⚙️</button>
+            <button onclick="openAdmin()" class="icon-btn">⚙️</button>
         </div>
-
     </div>
 
     <section class="hero container">
@@ -40,21 +34,19 @@
     </section>
 </header>
 
-
 <main>
-    <div class="container">
+<div class="container">
 
-        <section class="categories">
-            <button onclick="showCategory('رجالي')">رجالي</button>
-            <button onclick="showCategory('نسائي')">نسائي</button>
-            <button onclick="showCategory('أطفال')">أطفال</button>
-        </section>
+<section class="categories">
+    <button onclick="showCategory('رجالي')">رجالي</button>
+    <button onclick="showCategory('نسائي')">نسائي</button>
+    <button onclick="showCategory('أطفال')">أطفال</button>
+</section>
 
-        <section id="products" class="products"></section>
+<section id="products" class="products"></section>
 
-    </div>
+</div>
 </main>
-
 
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
@@ -63,14 +55,9 @@
         <h3>🛒 سلة المشتريات</h3>
         <button onclick="toggleCart()">✖</button>
     </div>
-
     <div id="cartItems"></div>
-
-    <button class="btn-main" onclick="sendOrder()">
-        اطلب الآن عبر واتساب
-    </button>
+    <button class="btn-main" onclick="sendOrder()">اطلب عبر واتساب</button>
 </aside>
-
 
 <div id="adminPanel" class="admin">
     <div class="admin-header">
@@ -78,14 +65,16 @@
         <button onclick="openAdmin()">✖</button>
     </div>
 
-    <input type="password" id="adminCode" placeholder="أدخل كود الدخول">
+    <input type="password" id="adminCode" placeholder="كود الدخول">
     <button onclick="loginAdmin()">دخول</button>
 
-    <div id="adminContent" style="display:none; margin-top:20px;">
+    <div id="adminContent" style="display:none;margin-top:20px;">
         <input type="text" id="pname" placeholder="اسم المنتج">
-        <input type="number" id="pprice" placeholder="السعر الجديد">
-        <input type="number" id="pold" placeholder="السعر القديم (اختياري)">
-        <input type="file" id="pimage">
+        <input type="number" id="pprice" placeholder="السعر">
+        <input type="number" id="pold" placeholder="السعر القديم">
+        <input type="file" id="pimage" multiple>
+        <input type="text" id="pcolors" placeholder="الألوان: أحمر,أسود,أبيض">
+        <input type="text" id="psizes" placeholder="المقاسات: S,M,L,XL">
 
         <select id="pcat">
             <option value="رجالي">رجالي</option>
@@ -94,24 +83,21 @@
         </select>
 
         <button onclick="addProduct()">حفظ المنتج</button>
-
         <div id="adminProducts"></div>
     </div>
 </div>
 
-
 <footer class="footer">
     <div class="container">
         <p>تابعنا على:</p>
-        <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
-        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
-        <p>© 2026 MODA MAROC - جميع الحقوق محفوظة</p>
+        <a href="https://www.instagram.com/moudamaroc0?igsh=MWgwMmM1dWw0eWppbw==" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@moudamaroc0?_r=1&_t=ZN-93tlvqsS2Q2" target="_blank">TikTok</a>
+        <p>© 2026 MODA MAROC</p>
     </div>
 </footer>
 
 <a href="https://wa.me/212712120673" class="whatsapp-float" target="_blank">💬</a>
 
 <script src="app.js"></script>
-
 </body>
 </html>
