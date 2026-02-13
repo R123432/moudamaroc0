@@ -287,3 +287,76 @@ header{
     }
 
 }
+/* =========================
+   STRUCTURE FIX PRO
+========================= */
+
+/* نجمع الصفحة كاملة فـ container */
+.container{
+    width:95%;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* نخلي جميع الأقسام مرتبين */
+section{
+    margin:40px 0;
+}
+
+/* العنوان الرئيسي يكون مركز */
+.hero{
+    text-align:center;
+    padding:20px 0;
+}
+
+/* ترتيب أزرار الفئات */
+.categories{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:15px;
+}
+
+/* تحسين شكل الأزرار */
+button{
+    cursor:pointer;
+    transition:0.3s ease;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+/* تحسين لوحة الادارة */
+.admin{
+    text-align:center;
+}
+
+/* تحسين سلة المشتريات */
+.cart{
+    text-align:center;
+}
+
+/* تحسين الروابط */
+a{
+    text-decoration:none;
+}
+
+/* مسافة تحت الهيدر */
+header{
+    margin-bottom:30px;
+}
+
+/* Responsive أقوى */
+@media(max-width:768px){
+
+    .container{
+        width:92%;
+    }
+
+    section{
+        margin:30px 0;
+    }
+
+}
