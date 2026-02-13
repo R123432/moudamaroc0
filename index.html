@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC Store 2025</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<div class="logo">MC Store</div>
+
+<input type="text" id="searchInput" placeholder="ابحث عن منتج..." onkeyup="searchProduct()">
+
+<div class="icons">
+<button onclick="toggleDark()">🌙</button>
+<button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+<button onclick="openAdmin()">⚙</button>
+</div>
+</header>
+
+<section class="hero">
+🔥 تخفيضات اليوم فقط
+<div id="countdown"></div>
+</section>
+
+<section class="categories">
+<div onclick="showCategory('ملابس')">ملابس</div>
+<div onclick="showCategory('أحذية')">أحذية</div>
+<div onclick="showCategory('ساعات')">ساعات</div>
+</section>
+
+<section id="products"></section>
+
+<!-- سلة -->
+<div class="cart" id="cart">
+<h2>سلة المشتريات</h2>
+<div id="cartItems"></div>
+
+<input type="text" id="name" placeholder="اسمك">
+<input type="text" id="phone" placeholder="رقم الهاتف">
+
+<button onclick="sendOrder()">إرسال الطلب عبر واتساب</button>
+</div>
+
+<!-- لوحة الإدارة -->
+<div class="admin" id="adminPanel">
+
+<h2>لوحة الإدارة</h2>
+
+<input type="password" id="adminCode" placeholder="كود الإدارة">
+<button onclick="loginAdmin()">دخول</button>
+
+<div id="adminContent" style="display:none">
+
+<h3>إضافة / تعديل منتج</h3>
+
+<input type="text" id="pname" placeholder="اسم المنتج">
+<input type="number" id="pprice" placeholder="السعر">
+<input type="number" id="pold" placeholder="السعر القديم (اختياري)">
+<select id="pcat">
+<option>ملابس</option>
+<option>أحذية</option>
+<option>ساعات</option>
+</select>
+<input type="file" id="pimage">
+<button onclick="addProduct()">حفظ المنتج</button>
+
+<h3>المنتجات</h3>
+<div id="adminProducts"></div>
+
+<h3>الإحصائيات</h3>
+<div id="stats"></div>
+
+</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
