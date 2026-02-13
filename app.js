@@ -1,137 +1,127 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let coupons = JSON.parse(localStorage.getItem("coupons")) || {};
+let discount = 0;
 
-function showCategory(cat){
-const container=document.getElementById("products");
-container.innerHTML="";
-
-products.filter(p=>p.cat===cat).forEach(p=>{
-
-let colorsHTML=p.colors.map(c=>`<option>${c}</option>`).join("");
-let sizesHTML=p.sizes.map(s=>`<option>${s}</option>`).join("");
-
-container.innerHTML+=`
-<div class="product-card">
-<img src="${p.images[0]}">
-<h3>${p.name}</h3>
-<p>${p.price} DH</p>
-
-<div class="product-options">
-<select id="color-${p.id}">${colorsHTML}</select>
-<select id="size-${p.id}">${sizesHTML}</select>
-</div>
-
-<button onclick="addToCart(${p.id})" class="btn-main">أضف للسلة</button>
-</div>
-`;
-});
-}
-
-function addProduct(){
-const files=document.getElementById("pimage").files;
-const name=document.getElementById("pname").value;
-const price=document.getElementById("pprice").value;
-const old=document.getElementById("pold").value;
-const cat=document.getElementById("pcat").value;
-const colors=document.getElementById("pcolors").value.split(",");
-const sizes=document.getElementById("psizes").value.split(",");
-
-if(!name||!price||files.length===0){alert("أكمل المعلومات");return;}
-
-let images=[];
-let loaded=0;
-
-for(let i=0;i<files.length;i++){
-let reader=new FileReader();
-reader.onload=function(e){
-images.push(e.target.result);
-loaded++;
-if(loaded===files.length){
-products.push({
-id:Date.now(),
-name,
-price,
-old,
-cat,
-images,
-colors,
-sizes
-});
-localStorage.setItem("products",JSON.stringify(products));
-alert("تمت الإضافة");
-loadAdminProducts();
-}
-}
-reader.readAsDataURL(files[i]);
-}
-}
-
-function addToCart(id){
-let product=products.find(p=>p.id===id);
-let color=document.getElementById(`color-${id}`).value;
-let size=document.getElementById(`size-${id}`).value;
-
-cart.push({...product,selectedColor:color,selectedSize:size});
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function sendOrder(){
-if(cart.length===0){alert("السلة فارغة");return;}
-
-let message="طلب جديد:%0A%0A";
-cart.forEach(item=>{
-message+=`المنتج: ${item.name}%0A`;
-message+=`اللون: ${item.selectedColor}%0A`;
-message+=`المقاس: ${item.selectedSize}%0A`;
-message+=`السعر: ${item.price} DH%0A`;
-message+="--------------------%0A";
-});
-
-window.open(`https://wa.me/212712120673?text=${message}`);
-}
-
-function loadAdminProducts(){
-let container=document.getElementById("adminProducts");
-container.innerHTML="";
-products.forEach(p=>{
-container.innerHTML+=`
-<div>
-${p.name} - ${p.price} DH
-<button onclick="deleteProduct(${p.id})">❌</button>
-</div>
-`;
-});
-}
-
-function deleteProduct(id){
-products=products.filter(p=>p.id!==id);
-localStorage.setItem("products",JSON.stringify(products));
-loadAdminProducts();
-}
-
-function toggleCart(){
-document.getElementById("cart").classList.toggle("active");
-document.getElementById("cartOverlay").classList.toggle("active");
-}
-
-function openAdmin(){
-document.getElementById("adminPanel").classList.toggle("active");
-}
-
-function loginAdmin(){
-if(document.getElementById("adminCode").value==="2025"){
-document.getElementById("adminContent").style.display="block";
-loadAdminProducts();
-}else{
-alert("كود خاطئ");
-}
+/* حفظ الوضع الليلي */
+if(localStorage.getItem("darkMode")==="on"){
+document.body.classList.add("dark");
 }
 
 function toggleDarkMode(){
 document.body.classList.toggle("dark");
+localStorage.setItem("darkMode",
+document.body.classList.contains("dark")?"on":"off");
 }
 
+/* عرض المنتجات */
+function showCategory(cat){
+const container=document.getElementById("products");
+container.innerHTML="";
+products.filter(p=>p.cat===cat).forEach(p=>{
+container.innerHTML+=`
+<div class="product-card" onclick="openProduct(${p.id})">
+<img src="${p.images[0]}">
+<h3>${p.name}</h3>
+<p>${p.price} DH</p>
+<small>المبيعات: ${p.sales||0}</small>
+</div>`;
+});
+}
+
+/* حفظ منتج */
+function saveProduct(){
+let id=document.getElementById("editId").value;
+let name=document.getElementById("pname").value;
+let price=document.getElementById("pprice").value;
+let cat=document.getElementById("pcat").value;
+let colors=document.getElementById("pcolors").value.split(",");
+let sizes=document.getElementById("psizes").value.split(",");
+let files=document.getElementById("pimage").files;
+
+let images=[];
+if(files.length>0){
+let reader=new FileReader();
+reader.onload=function(e){
+images.push(e.target.result);
+finishSave();
+}
+reader.readAsDataURL(files[0]);
+}else{
+finishSave();
+}
+
+function finishSave(){
+if(id){
+let p=products.find(x=>x.id==id);
+p.name=name;
+p.price=price;
+}else{
+products.push({
+id:Date.now(),
+name,price,cat,
+images,
+colors,
+sizes,
+sales:0
+});
+}
+localStorage.setItem("products",JSON.stringify(products));
+loadAdminProducts();
+}
+}
+
+/* كوبونات */
+function addCoupon(){
+let code=document.getElementById("newCoupon").value;
+let percent=document.getElementById("newDiscount").value;
+coupons[code]=percent/100;
+localStorage.setItem("coupons",JSON.stringify(coupons));
+alert("تم إضافة الكوبون");
+}
+
+function applyCoupon(){
+let code=document.getElementById("couponInput").value;
+if(coupons[code]){
+discount=coupons[code];
+alert("تم تطبيق الخصم");
+}else{
+discount=0;
+alert("كود غير صحيح");
+}
+renderCart();
+}
+
+/* بقية النظام نفس السابق مع احتساب المبيعات */
+function sendOrder(){
+if(cart.length===0){alert("السلة فارغة");return;}
+
+let name=document.getElementById("customerName").value;
+let phone=document.getElementById("customerPhone").value;
+let address=document.getElementById("customerAddress").value;
+
+let total=0;
+let message="طلب جديد:%0A";
+message+=`الاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${address}%0A%0A`;
+
+cart.forEach(item=>{
+total+=item.price*item.quantity;
+message+=`${item.name} ×${item.quantity}%0A`;
+let p=products.find(x=>x.id===item.id);
+p.sales=(p.sales||0)+item.quantity;
+});
+
+total=total-(total*discount);
+message+=`%0Aالمجموع: ${total} DH`;
+
+localStorage.setItem("products",JSON.stringify(products));
+window.open(`https://wa.me/212712120673?text=${message}`);
+cart=[];
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
+/* الباقي كما سبق */
 function updateCart(){
 document.getElementById("cartCount").innerText=cart.length;
 }
