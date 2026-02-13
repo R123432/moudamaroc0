@@ -6,208 +6,266 @@
 <title>Moudamaroc0</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4;direction:rtl}
-header{background:black;color:white;padding:15px;text-align:center}
-.filter{text-align:center;margin:20px}
-select{padding:8px}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f5f5;direction:rtl}
 
-.products{
+/* HEADER */
+.header{background:black;color:white;text-align:center;padding:20px;font-size:22px;font-weight:bold}
+.hero{width:100%;height:300px;object-fit:cover}
+
+/* OFFER */
+.offer{background:#e63946;color:white;text-align:center;padding:10px;font-weight:bold}
+.countdown{font-size:18px;margin-top:5px}
+
+/* CATEGORIES */
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:20px;padding:30px;
+}
+.cat{
+background:white;border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+text-align:center;padding:20px;cursor:pointer;
+font-weight:bold;transition:0.3s;
+}
+.cat:hover{transform:scale(1.05);background:black;color:white}
+
+/* PRODUCTS */
+.products{display:none;padding:20px}
+.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-padding:20px;
 }
-
 .card{
-background:white;
-padding:10px;
-border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-text-align:center;
+background:white;border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+overflow:hidden;text-align:center;
 }
-
-.card img{
-width:100%;
-height:200px;
-object-fit:cover;
-border-radius:10px;
-}
-
+.card img{width:100%;height:220px;object-fit:cover}
+.card-content{padding:15px}
+.price{color:#e63946;font-weight:bold}
+.old{text-decoration:line-through;color:gray}
+.stars{color:gold}
 button{
-margin-top:10px;
-padding:8px 12px;
-border:none;
-background:black;
-color:white;
-border-radius:5px;
-cursor:pointer;
+padding:7px 12px;border:none;border-radius:8px;
+background:black;color:white;cursor:pointer;margin-top:6px;
+}
+
+/* MODAL */
+.modal{
+display:none;position:fixed;top:0;left:0;
+width:100%;height:100%;background:rgba(0,0,0,0.7);
+justify-content:center;align-items:center;
+}
+.modal-content{
+background:white;padding:20px;border-radius:15px;
+width:90%;max-width:400px;text-align:center;
 }
 
 /* ADMIN */
 .admin{
-display:none;
-background:white;
-padding:20px;
-margin:20px;
-border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+display:none;background:white;margin:40px 20px;
+padding:20px;border-radius:15px;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
 }
-
-.admin input,.admin select{
-display:block;
-width:100%;
-margin-bottom:10px;
-padding:8px;
+.admin input,.admin select,.admin textarea{
+width:100%;margin-bottom:10px;padding:8px;
 }
 
 .cart{
-position:fixed;
-bottom:20px;
-right:20px;
-background:black;
-color:white;
-padding:15px;
-border-radius:50%;
-cursor:pointer;
-}
-
-.login-admin{
-text-align:center;
-margin:20px;
+position:fixed;bottom:20px;right:20px;
+background:black;color:white;padding:15px;
+border-radius:50%;cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<h2>Moudamaroc0</h2>
-<p>🚚 توصيل مجاني فوق 300 درهم</p>
-</header>
+<div class="header">Moudamaroc0</div>
 
-<div class="filter">
-<select onchange="filterProducts(this.value)">
-<option value="all">كل المنتجات</option>
-<option value="نساء">ملابس نسائية</option>
-<option value="رجال">ملابس رجالية</option>
-<option value="أطفال">ملابس أطفال</option>
-<option value="رياضة">معدات رياضية</option>
-<option value="منزل">أدوات منزلية</option>
-<option value="مراهم">مراهم</option>
-</select>
+<img class="hero" src="https://images.unsplash.com/photo-1521334884684-d80222895322">
+
+<div class="offer">
+🔥 عرض اليوم ينتهي خلال:
+<div class="countdown" id="countdown"></div>
 </div>
 
-<div class="products" id="products"></div>
+<div class="categories">
+<div class="cat" onclick="showProducts('نساء')">نساء</div>
+<div class="cat" onclick="showProducts('رجال')">رجال</div>
+<div class="cat" onclick="showProducts('أطفال')">أطفال</div>
+<div class="cat" onclick="showProducts('رياضة')">رياضة</div>
+<div class="cat" onclick="showProducts('منزل')">منزل</div>
+<div class="cat" onclick="showProducts('مراهم')">مراهم</div>
+</div>
+
+<div class="products" id="productsSection">
+<h2 id="categoryTitle"></h2>
+<div class="grid" id="products"></div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent"></div>
+</div>
 
 <div class="cart" onclick="checkout()">🛒</div>
 
-<!-- تسجيل دخول لوحة التحكم -->
-<div class="login-admin">
-<button onclick="loginAdmin()">دخول لوحة التحكم</button>
-</div>
+<button onclick="loginAdmin()" style="margin:20px">دخول الإدارة</button>
 
-<!-- لوحة التحكم -->
 <div class="admin" id="adminPanel">
-<h3>لوحة التحكم</h3>
+<h3>إضافة منتج</h3>
 <input type="text" id="name" placeholder="اسم المنتج">
 <input type="number" id="price" placeholder="السعر">
+<input type="number" id="discount" placeholder="خصم %">
+<select id="rating">
+<option value="5">5 نجوم</option>
+<option value="4">4 نجوم</option>
+<option value="3">3 نجوم</option>
+</select>
+<textarea id="description" placeholder="وصف المنتج"></textarea>
 <select id="category">
-<option value="نساء">ملابس نسائية</option>
-<option value="رجال">ملابس رجالية</option>
-<option value="أطفال">ملابس أطفال</option>
-<option value="رياضة">معدات رياضية</option>
-<option value="منزل">أدوات منزلية</option>
+<option value="نساء">نساء</option>
+<option value="رجال">رجال</option>
+<option value="أطفال">أطفال</option>
+<option value="رياضة">رياضة</option>
+<option value="منزل">منزل</option>
 <option value="مراهم">مراهم</option>
 </select>
 <input type="file" id="image">
 <button onclick="addProduct()">إضافة المنتج</button>
+
+<hr>
+
+<h3>📊 الإحصائيات</h3>
+<p>عدد الزوار: <span id="visits">0</span></p>
+<p>عدد الطلبات: <span id="orders">0</span></p>
+<p>إجمالي الأرباح: <span id="revenue">0</span> درهم</p>
 </div>
 
 <script>
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let cart = [];
+let products=JSON.parse(localStorage.getItem("products"))||[];
+let cart=[];
+let visits=localStorage.getItem("visits")||0;
+visits++;
+localStorage.setItem("visits",visits);
 
-/* عرض المنتجات */
-function displayProducts(list){
+let orders=localStorage.getItem("orders")||0;
+let revenue=localStorage.getItem("revenue")||0;
+
+document.getElementById("visits").innerText=visits;
+document.getElementById("orders").innerText=orders;
+document.getElementById("revenue").innerText=revenue;
+
+/* COUNTDOWN */
+let end=new Date();
+end.setHours(23,59,59);
+setInterval(()=>{
+let now=new Date().getTime();
+let diff=end-now;
+let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+let m=Math.floor((diff%(1000*60*60))/(1000*60));
+let s=Math.floor((diff%(1000*60))/1000);
+document.getElementById("countdown").innerText=h+"س "+m+"د "+s+"ث";
+},1000);
+
+/* SHOW PRODUCTS */
+function showProducts(cat){
+document.getElementById("productsSection").style.display="block";
+document.getElementById("categoryTitle").innerText=cat;
 let container=document.getElementById("products");
 container.innerHTML="";
-list.forEach((p,i)=>{
+products.filter(p=>p.category==cat).forEach((p,i)=>{
+let final=p.price-(p.price*(p.discount||0)/100);
 container.innerHTML+=`
 <div class="card">
 <img src="${p.image}">
+<div class="card-content">
 <h4>${p.name}</h4>
-<p>${p.price} درهم</p>
+<div class="stars">${"⭐".repeat(p.rating)}</div>
+<div class="price">${Math.round(final)} درهم</div>
+<button onclick="details(${i})">تفاصيل</button>
 <button onclick="addToCart(${i})">أضف للسلة</button>
+</div>
 </div>`;
 });
 }
 
-/* إضافة منتج */
+/* DETAILS */
+function details(i){
+let p=products[i];
+let final=p.price-(p.price*(p.discount||0)/100);
+document.getElementById("modalContent").innerHTML=`
+<h3>${p.name}</h3>
+<img src="${p.image}" style="width:100%;height:200px;object-fit:cover">
+<p>${p.description}</p>
+<div>${"⭐".repeat(p.rating)}</div>
+<div class="price">${Math.round(final)} درهم</div>
+<button onclick="addToCart(${i})">أضف للسلة</button>
+<button onclick="closeModal()">إغلاق</button>
+`;
+document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* ADD PRODUCT */
 function addProduct(){
 let name=document.getElementById("name").value;
-let price=document.getElementById("price").value;
+let price=parseInt(document.getElementById("price").value);
+let discount=parseInt(document.getElementById("discount").value)||0;
+let rating=parseInt(document.getElementById("rating").value);
+let description=document.getElementById("description").value;
 let category=document.getElementById("category").value;
 let file=document.getElementById("image").files[0];
 
-if(!name || !price || !file){
-alert("أكمل جميع المعلومات");
-return;
-}
+if(!name||!price||!file){alert("أكمل المعلومات");return;}
 
 let reader=new FileReader();
 reader.onload=function(e){
-let product={name,price,category,image:e.target.result};
-products.push(product);
+products.push({name,price,discount,rating,description,category,image:e.target.result});
 localStorage.setItem("products",JSON.stringify(products));
-displayProducts(products);
 alert("تمت إضافة المنتج");
 };
 reader.readAsDataURL(file);
 }
 
-/* فلترة */
-function filterProducts(cat){
-if(cat=="all"){
-displayProducts(products);
-}else{
-let filtered=products.filter(p=>p.category==cat);
-displayProducts(filtered);
-}
-}
-
-/* سلة */
-function addToCart(index){
-cart.push(products[index]);
-alert("تمت إضافة المنتج");
+/* CART */
+function addToCart(i){
+cart.push(products[i]);
+alert("تمت الإضافة");
 }
 
 function checkout(){
 if(cart.length==0){alert("السلة فارغة");return;}
-let total=0;
-let message="طلب جديد:\n";
-cart.forEach(item=>{
-total+=Number(item.price);
-message+=item.name+" - "+item.price+" درهم\n";
+let total=0,msg="طلب جديد:\n";
+cart.forEach(p=>{
+let final=p.price-(p.price*(p.discount||0)/100);
+total+=final;
+msg+=p.name+" - "+Math.round(final)+" درهم\n";
 });
-if(total>=300){
-message+="🚚 توصيل مجاني\n";
-}
-message+="المجموع: "+total+" درهم";
-window.open("https://wa.me/212712120673?text="+encodeURIComponent(message));
+msg+="المجموع: "+Math.round(total)+" درهم";
+
+orders++;
+revenue=parseInt(revenue)+Math.round(total);
+localStorage.setItem("orders",orders);
+localStorage.setItem("revenue",revenue);
+
+window.open("https://wa.me/212712120673?text="+encodeURIComponent(msg));
 }
 
-/* حماية لوحة التحكم */
+/* LOGIN */
 function loginAdmin(){
 let pass=prompt("أدخل كلمة السر:");
 if(pass==="1995"){
 document.getElementById("adminPanel").style.display="block";
-alert("مرحبا بك رضوان 🔥");
 }else{
-alert("كلمة السر غير صحيحة");
+alert("كلمة السر خاطئة");
 }
 }
-
-displayProducts(products);
 </script>
 
 </body>
