@@ -1,7 +1,7 @@
 <body>
 
 <!-- ================= HEADER ================= -->
-<header class="site-header">
+<header>
     <div class="container header-wrapper">
 
         <div class="brand">
@@ -10,15 +10,15 @@
         </div>
 
         <div class="header-actions">
-            <button onclick="toggleDarkMode()" aria-label="الوضع الليلي" class="icon-btn">
+            <button type="button" onclick="toggleDarkMode()" class="icon-btn" aria-label="الوضع الليلي">
                 🌙
             </button>
 
-            <button onclick="toggleCart()" aria-label="فتح السلة" class="icon-btn">
+            <button type="button" onclick="toggleCart()" class="icon-btn" aria-label="فتح السلة">
                 🛒 <span id="cartCount">0</span>
             </button>
 
-            <button onclick="openAdmin()" aria-label="لوحة الإدارة" class="icon-btn">
+            <button type="button" onclick="openAdmin()" class="icon-btn" aria-label="لوحة الإدارة">
                 ⚙️
             </button>
         </div>
@@ -31,61 +31,58 @@
         <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
         <a href="#products" class="btn-main">تسوق الآن</a>
     </section>
-
 </header>
 
 
 <!-- ================= MAIN ================= -->
-<main class="main-content">
-
+<main>
     <div class="container">
 
         <!-- ================= CATEGORIES ================= -->
-        <section class="categories" aria-label="تصنيفات المنتجات">
-            <button onclick="showCategory('رجالي')">رجالي</button>
-            <button onclick="showCategory('نسائي')">نسائي</button>
-            <button onclick="showCategory('أطفال')">أطفال</button>
+        <section class="categories">
+            <button type="button" onclick="showCategory('رجالي')">رجالي</button>
+            <button type="button" onclick="showCategory('نسائي')">نسائي</button>
+            <button type="button" onclick="showCategory('أطفال')">أطفال</button>
         </section>
 
         <!-- ================= PRODUCTS ================= -->
-        <section id="products" class="products" aria-live="polite"></section>
+        <section id="products" class="products"></section>
 
     </div>
-
 </main>
 
 
-<!-- ================= CART OVERLAY ================= -->
+<!-- ================= OVERLAY ================= -->
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
 
 <!-- ================= CART ================= -->
-<aside id="cart" class="cart-panel" aria-label="سلة المشتريات">
+<aside id="cart" class="cart-panel">
 
     <div class="cart-header">
         <h3>🛒 سلة المشتريات</h3>
-        <button onclick="toggleCart()" aria-label="إغلاق السلة">✖</button>
+        <button type="button" onclick="toggleCart()">✖</button>
     </div>
 
     <div id="cartItems"></div>
 
-    <button class="btn-order" onclick="sendOrder()">
+    <button type="button" class="btn-main" onclick="sendOrder()">
         اطلب الآن عبر واتساب
     </button>
 
 </aside>
 
 
-<!-- ================= ADMIN PANEL ================= -->
-<div id="adminPanel" class="admin" role="dialog" aria-modal="true">
+<!-- ================= ADMIN ================= -->
+<div id="adminPanel" class="admin">
 
     <div class="admin-header">
         <h3>لوحة الإدارة</h3>
-        <button onclick="openAdmin()" aria-label="إغلاق لوحة الإدارة">✖</button>
+        <button type="button" onclick="openAdmin()">✖</button>
     </div>
 
     <input type="password" id="adminCode" placeholder="أدخل كود الدخول">
-    <button onclick="loginAdmin()">دخول</button>
+    <button type="button" onclick="loginAdmin()">دخول</button>
 
     <div id="adminContent" style="display:none; margin-top:20px;">
 
@@ -100,7 +97,7 @@
             <option value="أطفال">أطفال</option>
         </select>
 
-        <button onclick="addProduct()">حفظ المنتج</button>
+        <button type="button" onclick="addProduct()">حفظ المنتج</button>
 
         <div id="adminProducts"></div>
 
@@ -115,9 +112,9 @@
 
         <p>تابعنا على:</p>
 
-        <div class="social-links">
-            <a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <div>
+            <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
+            <a href="https://www.instagram.com/" target="_blank">Instagram</a>
         </div>
 
         <p>© 2026 MODA MAROC - جميع الحقوق محفوظة</p>
@@ -126,17 +123,13 @@
 </footer>
 
 
-<!-- ================= FLOATING WHATSAPP ================= -->
+<!-- ================= WHATSAPP FLOAT ================= -->
 <a href="https://wa.me/212712120673"
    class="whatsapp-float"
-   target="_blank"
-   rel="noopener"
-   aria-label="تواصل معنا عبر واتساب">
+   target="_blank">
    💬
 </a>
 
-
-<!-- ================= JS ================= -->
 <script src="app.js"></script>
 
 </body>
