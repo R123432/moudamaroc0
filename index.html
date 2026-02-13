@@ -1,247 +1,82 @@
-/* ===== إعداد عام ===== */
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-font-family:'Segoe UI',sans-serif;
-transition:0.3s;
-}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC Store 2025</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-body{
-background:#f4f7ff;
-direction:rtl;
-color:#222;
-}
+<body>
 
-/* ===== Dark Mode ===== */
-body.dark{
-background:#121212;
-color:white;
-}
+<header>
+<div class="logo">MC Store</div>
 
-body.dark header,
-body.dark .product,
-body.dark .categories div,
-body.dark .cart,
-body.dark .admin,
-body.dark footer{
-background:#1e1e1e;
-color:white;
-}
+<input type="text" id="searchInput" placeholder="ابحث عن منتج..." onkeyup="searchProduct()">
 
-body.dark input,
-body.dark select{
-background:#2a2a2a;
-color:white;
-border:1px solid #444;
-}
+<div class="icons">
+<button onclick="toggleDark()">🌙</button>
+<button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+<button onclick="openAdmin()">⚙</button>
+</div>
+</header>
 
-/* ===== Header ===== */
-header{
-background:rgba(255,255,255,0.85);
-backdrop-filter:blur(10px);
-padding:15px 25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 5px 20px rgba(0,0,0,.05);
-position:sticky;
-top:0;
-z-index:1000;
-}
+<section class="hero">
+🔥 تخفيضات اليوم فقط
+<div id="countdown"></div>
+</section>
 
-.logo{
-font-size:24px;
-font-weight:bold;
-color:#0a3d62;
-}
+<section class="categories">
+<div onclick="showCategory('ملابس')">ملابس</div>
+<div onclick="showCategory('أحذية')">أحذية</div>
+<div onclick="showCategory('ساعات')">ساعات</div>
+</section>
 
-.social i{
-color:#0a3d62;
-margin-left:15px;
-font-size:20px;
-cursor:pointer;
-}
+<section id="products"></section>
 
-.social i:hover{
-color:#e55039;
-transform:scale(1.2);
-}
+<!-- سلة -->
+<div class="cart" id="cart">
+<h2>سلة المشتريات</h2>
+<div id="cartItems"></div>
 
-/* ===== Hero ===== */
-.hero{
-background:linear-gradient(45deg,#0a3d62,#3c6382);
-color:white;
-padding:70px 20px;
-text-align:center;
-font-size:28px;
-font-weight:bold;
-}
+<input type="text" id="name" placeholder="اسمك">
+<input type="text" id="phone" placeholder="رقم الهاتف">
 
-/* ===== Search ===== */
-#searchInput{
-width:60%;
-max-width:400px;
-padding:10px;
-border-radius:25px;
-border:1px solid #ccc;
-text-align:center;
-}
+<button onclick="sendOrder()">إرسال الطلب عبر واتساب</button>
+</div>
 
-/* ===== Categories ===== */
-.categories{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-padding:25px;
-justify-content:center;
-}
+<!-- لوحة الإدارة -->
+<div class="admin" id="adminPanel">
 
-.categories div{
-background:white;
-padding:12px 22px;
-border-radius:30px;
-cursor:pointer;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
-font-weight:500;
-}
+<h2>لوحة الإدارة</h2>
 
-.categories div:hover{
-background:#0a3d62;
-color:white;
-transform:translateY(-4px);
-}
+<input type="password" id="adminCode" placeholder="كود الإدارة">
+<button onclick="loginAdmin()">دخول</button>
 
-/* ===== Products ===== */
-#products{
-display:flex;
-flex-wrap:wrap;
-gap:25px;
-padding:25px;
-justify-content:center;
-}
+<div id="adminContent" style="display:none">
 
-.product{
-background:white;
-width:240px;
-border-radius:18px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-position:relative;
-animation:fadeIn 0.6s ease;
-}
+<h3>إضافة / تعديل منتج</h3>
 
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
-}
+<input type="text" id="pname" placeholder="اسم المنتج">
+<input type="number" id="pprice" placeholder="السعر">
+<input type="number" id="pold" placeholder="السعر القديم (اختياري)">
+<select id="pcat">
+<option>ملابس</option>
+<option>أحذية</option>
+<option>ساعات</option>
+</select>
+<input type="file" id="pimage">
+<button onclick="addProduct()">حفظ المنتج</button>
 
-.product:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(0,0,0,.15);
-}
+<h3>المنتجات</h3>
+<div id="adminProducts"></div>
 
-.product img{
-width:100%;
-height:230px;
-object-fit:cover;
-}
+<h3>الإحصائيات</h3>
+<div id="stats"></div>
 
-.product h3{
-padding:10px;
-font-size:18px;
-}
+</div>
+</div>
 
-.price{
-color:#e55039;
-padding:0 10px 10px;
-font-weight:bold;
-}
-
-.product button{
-margin:10px;
-background:#0a3d62;
-color:white;
-border:none;
-border-radius:10px;
-padding:10px;
-cursor:pointer;
-}
-
-.product button:hover{
-background:#e55039;
-}
-
-/* ===== Cart & Admin ===== */
-.cart,
-.admin{
-position:fixed;
-right:-400px;
-top:0;
-width:370px;
-height:100%;
-background:white;
-padding:25px;
-box-shadow:-5px 0 25px rgba(0,0,0,.2);
-overflow:auto;
-z-index:2000;
-}
-
-.cart.active,
-.admin.active{
-right:0;
-}
-
-/* ===== Forms ===== */
-input,
-select,
-button{
-width:100%;
-padding:10px;
-margin-bottom:12px;
-border-radius:10px;
-border:1px solid #ddd;
-}
-
-input:focus,
-select:focus{
-outline:none;
-border:1px solid #0a3d62;
-}
-
-button{
-background:#0a3d62;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-button:hover{
-background:#e55039;
-}
-
-/* ===== Footer ===== */
-footer{
-background:white;
-text-align:center;
-padding:20px;
-margin-top:40px;
-font-size:14px;
-}
-
-/* ===== Responsive ===== */
-@media(max-width:768px){
-
-.product{ width:45%; }
-
-.cart,.admin{ width:100%; }
-
-#searchInput{ width:90%; }
-
-}
-
-@media(max-width:480px){
-
-.product{ width:100%; }
-
-}
+<script src="app.js"></script>
+</body>
+</html>
