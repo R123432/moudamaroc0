@@ -3,267 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MoudaMaroc</title>
+<title>Mouda Maroc</title>
+
 <link rel="stylesheet" href="style.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-</head>
 
+</head>
 <body>
 
 <header>
-<div class="logo">MoudaMaroc</div>
-<div class="social">
-<a href="https://www.instagram.com/moudamaroc0" target="_blank"><i class="fab fa-instagram"></i></a>
-<a href="https://tiktok.com/@moudamaroc0" target="_blank"><i class="fab fa-tiktok"></i></a>
-</div>
+    <div class="logo">Mouda Maroc</div>
+
+    <div class="social">
+        <a href="https://tiktok.com/@moudamaroc0" target="_blank">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.instagram.com/moudamaroc0" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <i class="fas fa-shopping-cart" onclick="toggleCart()"></i>
+        <i class="fas fa-user-cog" onclick="openAdmin()"></i>
+    </div>
 </header>
 
 <section class="hero">
-<div class="overlay">
-<h1>أفضل العروض الحصرية 🔥</h1>
-<p>ينتهي العرض خلال <span id="countdown"></span></p>
-</div>
+    🔥 أفضل العروض
+    <div id="countdown"></div>
 </section>
 
-<section class="categories" id="categories"></section>
+<section class="categories">
+    <div onclick="showCategory('men')">ملابس رجالية</div>
+    <div onclick="showCategory('women')">ملابس نسائية</div>
+    <div onclick="showCategory('kids')">ملابس أطفال</div>
+    <div onclick="showCategory('sport')">معدات رياضية</div>
+    <div onclick="showCategory('home')">أدوات منزلية</div>
+    <div onclick="showCategory('cream')">مراهم</div>
+</section>
 
-<section class="products" id="products"></section>
+<section id="products"></section>
 
-<div class="cart-btn" onclick="toggleCart()">
-<i class="fas fa-shopping-cart"></i>
-</div>
+<section id="cart" class="cart">
+<h2>سلة المشتريات</h2>
 
-<div class="admin-btn" onclick="openAdmin()">
-⚙
-</div>
+<input id="name" placeholder="الاسم">
+<input id="phone" placeholder="الهاتف">
+<input id="city" placeholder="المدينة">
+<input id="address" placeholder="العنوان">
 
-<div class="cart-panel" id="cartPanel">
-<h3>سلة المشتريات</h3>
-<div id="cartItems"></div>
-<h4 id="total"></h4>
-<input id="customerName" placeholder="الاسم">
-<input id="customerPhone" placeholder="الهاتف">
-<input id="customerCity" placeholder="المدينة">
-<input id="customerAddress" placeholder="العنوان">
 <button onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+</section>
+
+<div id="adminPanel" class="admin">
+<h2>لوحة التحكم</h2>
+
+<input id="adminCode" placeholder="أدخل كود الإدارة">
+<button onclick="loginAdmin()">دخول</button>
+
+<div id="adminContent" style="display:none;">
+<input id="pname" placeholder="اسم المنتج">
+<input id="pprice" placeholder="السعر">
+<input id="pold" placeholder="السعر القديم">
+<select id="pcat">
+<option value="men">رجالي</option>
+<option value="women">نسائي</option>
+<option value="kids">أطفال</option>
+<option value="sport">رياضي</option>
+<option value="home">منزلي</option>
+<option value="cream">مراهم</option>
+</select>
+
+<input type="file" id="pimage">
+<button onclick="addProduct()">إضافة منتج</button>
 </div>
 
-<div class="admin-panel" id="adminPanel">
-<h2>لوحة التحكم</h2>
-<input id="productName" placeholder="اسم المنتج">
-<input id="productPrice" type="number" placeholder="السعر">
-<input id="productOldPrice" type="number" placeholder="السعر القديم">
-<input id="productCategory" placeholder="القسم">
-<input id="productRating" type="number" max="5" placeholder="التقييم 1-5">
-<input type="file" id="productImage">
-<button onclick="addProduct()">إضافة منتج</button>
-<div id="adminProducts"></div>
 </div>
 
 <script src="app.js"></script>
 </body>
 </html>
-body{
-margin:0;
-font-family:Segoe UI;
-background:#f4f7ff;
-direction:rtl;
-}
-
-header{
-background:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#0a3d62;
-}
-
-.social a{
-color:#0a3d62;
-margin-left:10px;
-font-size:20px;
-}
-
-.hero{
-height:300px;
-background:url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd53?q=80&w=1600') center/cover;
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-}
-
-.overlay{
-background:rgba(0,0,0,.5);
-padding:30px;
-border-radius:20px;
-text-align:center;
-}
-
-.categories{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-padding:20px;
-}
-
-.cat{
-background:white;
-padding:20px;
-border-radius:15px;
-text-align:center;
-cursor:pointer;
-font-weight:bold;
-box-shadow:0 5px 15px rgba(0,0,0,.05);
-}
-
-.products{
-display:none;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.product{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,.05);
-}
-
-.product img{
-width:100%;
-height:200px;
-object-fit:cover;
-border-radius:10px;
-}
-
-.price{
-font-weight:bold;
-color:#0a3d62;
-}
-
-.old{
-text-decoration:line-through;
-color:gray;
-font-size:13px;
-}
-
-.cart-btn,.admin-btn{
-position:fixed;
-bottom:20px;
-background:#0a3d62;
-color:white;
-padding:15px;
-border-radius:50%;
-cursor:pointer;
-}
-
-.cart-btn{left:20px;}
-.admin-btn{right:20px;}
-
-.cart-panel,.admin-panel{
-display:none;
-position:fixed;
-top:0;
-right:0;
-width:350px;
-height:100%;
-background:white;
-padding:20px;
-overflow:auto;
-}
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let cart = [];
-let whatsapp = "212712120673";
-
-let categories = ["ملابس رجالية","ملابس نسائية","ملابس أطفال","معدات رياضية","أدوات منزلية","مراهم"];
-
-function displayCategories(){
-let box = document.getElementById("categories");
-categories.forEach(cat=>{
-box.innerHTML += `<div class="cat" onclick="showProducts('${cat}')">${cat}</div>`;
-});
-}
-
-function showProducts(cat){
-let box = document.getElementById("products");
-box.style.display="grid";
-box.innerHTML="";
-products.filter(p=>p.category==cat).forEach((p,i)=>{
-box.innerHTML+=`
-<div class="product">
-<img src="${p.image}">
-<h3>${p.name}</h3>
-<div>${"★".repeat(p.rating||0)}</div>
-<div class="price">${p.price} DH ${p.oldPrice?`<span class="old">${p.oldPrice} DH</span>`:''}</div>
-<button onclick="addToCart(${i})">أضف للسلة</button>
-</div>`;
-});
-}
-
-function addProduct(){
-let file = document.getElementById("productImage").files[0];
-let reader = new FileReader();
-reader.onload = function(e){
-let product = {
-name: productName.value,
-price: productPrice.value,
-oldPrice: productOldPrice.value,
-category: productCategory.value,
-rating: productRating.value,
-image: e.target.result
-};
-products.push(product);
-localStorage.setItem("products",JSON.stringify(products));
-alert("تمت الإضافة");
-};
-if(file) reader.readAsDataURL(file);
-}
-
-function addToCart(i){
-cart.push(products[i]);
-alert("تمت الإضافة للسلة");
-}
-
-function toggleCart(){
-cartPanel.style.display = cartPanel.style.display=="block"?"none":"block";
-}
-
-function sendOrder(){
-let message="طلب جديد 🛍️%0A";
-cart.forEach(p=>{
-message+=p.name+" - "+p.price+" DH%0A";
-});
-message+="%0Aالاسم:"+customerName.value+"%0Aالهاتف:"+customerPhone.value;
-window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
-}
-
-function openAdmin(){
-let pass = prompt("أدخل كود الإدارة");
-if(pass==="2025"){
-adminPanel.style.display="block";
-}
-}
-
-let end = new Date();
-end.setHours(end.getHours()+24);
-
-setInterval(()=>{
-let now = new Date().getTime();
-let distance = end - now;
-let h = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-let m = Math.floor((distance%(1000*60*60))/(1000*60));
-let s = Math.floor((distance%(1000*60))/1000);
-document.getElementById("countdown").innerHTML = h+"h "+m+"m "+s+"s";
-},1000);
-
-displayCategories();
