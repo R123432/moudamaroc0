@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MODA MAROC</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
 <div class="container header-wrapper">
+
 <div>
 <h1 class="logo">MODA MAROC</h1>
 <p class="logo-sub">PREMIUM FASHION • EST. 2026</p>
@@ -20,11 +19,10 @@
 
 <div class="header-actions">
 <button onclick="toggleDarkMode()" class="icon-btn">🌙</button>
-<button onclick="toggleCart()" class="icon-btn">
-🛒 <span id="cartCount">0</span>
-</button>
+<button onclick="toggleCart()" class="icon-btn">🛒 <span id="cartCount">0</span></button>
 <button onclick="openAdmin()" class="icon-btn">⚙️</button>
 </div>
+
 </div>
 </header>
 
@@ -40,27 +38,15 @@
 
 </main>
 
-<!-- Product Modal -->
-<div id="productModal" class="modal">
-<div class="modal-content">
-<span class="close" onclick="closeModal()">×</span>
-<div id="modalBody"></div>
-</div>
-</div>
-
-<!-- Cart -->
+<!-- CART -->
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
 <aside id="cart" class="cart-panel">
 <h3>🛒 سلة المشتريات</h3>
-
 <div id="cartItems"></div>
 
 <div class="cart-summary">
 <p>المجموع: <span id="totalPrice">0</span> DH</p>
-
-<input type="text" id="couponInput" placeholder="كود التخفيض">
-<button onclick="applyCoupon()">تطبيق</button>
 
 <input type="text" id="customerName" placeholder="الاسم الكامل">
 <input type="text" id="customerPhone" placeholder="رقم الهاتف">
@@ -70,48 +56,52 @@
 </div>
 </aside>
 
-<!-- Admin Panel -->
-<div id="adminPanel" class="admin">
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="admin-panel">
 
-<h3>لوحة إدارة MODA MAROC</h3>
+<div class="admin-box">
 
-<input type="password" id="adminCode" placeholder="كود الدخول">
-<button onclick="loginAdmin()">دخول</button>
+<h2>لوحة تحكم MODA MAROC</h2>
+
+<div id="loginBox">
+<input type="password" id="adminPass" placeholder="كلمة المرور">
+<button onclick="loginAdmin()" class="btn-main">دخول</button>
+</div>
 
 <div id="adminContent" style="display:none;">
 
-<h4>إضافة / تعديل منتج</h4>
-
-<input type="hidden" id="editId">
+<h3>إضافة منتج</h3>
 
 <input type="text" id="pname" placeholder="اسم المنتج">
 <input type="number" id="pprice" placeholder="السعر">
-<input type="file" id="pimage" multiple>
-<input type="text" id="pcolors" placeholder="الألوان: أحمر,أسود">
-<input type="text" id="psizes" placeholder="المقاسات: S,M,L">
+<input type="number" id="pstock" placeholder="المخزون">
+<input type="number" id="prating" placeholder="التقييم (1-5)">
+<input type="text" id="pimage" placeholder="رابط الصورة">
 <select id="pcat">
-<option value="رجالي">رجالي</option>
-<option value="نسائي">نسائي</option>
-<option value="أطفال">أطفال</option>
+<option>رجالي</option>
+<option>نسائي</option>
+<option>أطفال</option>
 </select>
 
-<button onclick="saveProduct()">حفظ المنتج</button>
+<button onclick="addProduct()" class="btn-main">إضافة المنتج</button>
 
-<h4>الكوبونات</h4>
-<input type="text" id="newCoupon" placeholder="كود جديد">
-<input type="number" id="newDiscount" placeholder="نسبة الخصم مثال 15">
-<button onclick="addCoupon()">إضافة كوبون</button>
+<h3>المنتجات</h3>
 
 <div id="adminProducts"></div>
 
 </div>
+
+<button onclick="closeAdmin()" class="close-admin">✖</button>
+
+</div>
+
 </div>
 
 <footer class="footer">
-<a href="https://www.instagram.com/moudamaroc0" target="_blank">Instagram</a>
-<a href="https://www.tiktok.com/@moudamaroc0" target="_blank">TikTok</a>
 <p>© 2026 MODA MAROC</p>
 </footer>
+
+<a href="https://wa.me/212712120673" class="whatsapp-float">💬</a>
 
 <script src="app.js"></script>
 </body>
