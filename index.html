@@ -4,44 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MODA MAROC</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-<!-- Admin Panel -->
-<div class="admin-panel" id="adminPanel">
 
-<div class="admin-box">
-
-<button class="close-admin" onclick="closeAdmin()">✖</button>
-
-<h2>لوحة تحكم MODA MAROC</h2>
-
-<div class="admin-login" id="adminLogin">
-
-<input type="password" id="adminPassword" placeholder="أدخل كلمة المرور">
-<button class="btn-main" onclick="checkLogin()">دخول</button>
-
-<p id="loginError" style="color:red; display:none; margin-top:10px;">
-كلمة المرور غير صحيحة
-</p>
-
-</div>
-
-<div class="admin-content" id="adminContent" style="display:none;">
-
-<h3>إضافة منتج جديد</h3>
-
-<input type="text" id="newName" placeholder="اسم المنتج">
-<input type="number" id="newPrice" placeholder="السعر">
-<input type="number" id="newStock" placeholder="الكمية">
-<input type="text" id="newImage" placeholder="رابط الصورة">
-
-<button class="btn-main" onclick="addProduct()">إضافة المنتج</button>
-
-</div>
-
-</div>
-</div>
 <body>
 
 <header>
@@ -91,16 +58,18 @@
 </div>
 </aside>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="adminPanel" class="admin-panel">
-
 <div class="admin-box">
+
+<button onclick="closeAdmin()" class="close-admin">✖</button>
 
 <h2>لوحة تحكم MODA MAROC</h2>
 
 <div id="loginBox">
 <input type="password" id="adminPass" placeholder="كلمة المرور">
 <button onclick="loginAdmin()" class="btn-main">دخول</button>
+<p id="adminError" style="color:red;display:none;">كلمة المرور غير صحيحة</p>
 </div>
 
 <div id="adminContent" style="display:none;">
@@ -112,6 +81,7 @@
 <input type="number" id="pstock" placeholder="المخزون">
 <input type="number" id="prating" placeholder="التقييم (1-5)">
 <input type="text" id="pimage" placeholder="رابط الصورة">
+
 <select id="pcat">
 <option>رجالي</option>
 <option>نسائي</option>
@@ -121,15 +91,11 @@
 <button onclick="addProduct()" class="btn-main">إضافة المنتج</button>
 
 <h3>المنتجات</h3>
-
 <div id="adminProducts"></div>
 
 </div>
 
-<button onclick="closeAdmin()" class="close-admin">✖</button>
-
 </div>
-
 </div>
 
 <footer class="footer">
@@ -139,5 +105,6 @@
 <a href="https://wa.me/212712120673" class="whatsapp-float">💬</a>
 
 <script src="app.js"></script>
+
 </body>
 </html>
