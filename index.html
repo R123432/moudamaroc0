@@ -12,91 +12,106 @@
 <body>
 
 <header>
-    <div class="container header-wrapper">
-        <div class="brand">
-            <h1 class="logo">MODA MAROC</h1>
-            <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
-        </div>
+<div class="container header-wrapper">
+<div>
+<h1 class="logo">MODA MAROC</h1>
+<p class="logo-sub">PREMIUM FASHION • EST. 2026</p>
+</div>
 
-        <div class="header-actions">
-            <button onclick="toggleDarkMode()" class="icon-btn">🌙</button>
-            <button onclick="toggleCart()" class="icon-btn">
-                🛒 <span id="cartCount">0</span>
-            </button>
-            <button onclick="openAdmin()" class="icon-btn">⚙️</button>
-        </div>
-    </div>
-
-    <section class="hero container">
-        <h2>أحدث صيحات الموضة بأفضل الأسعار</h2>
-        <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
-        <a href="#products" class="btn-main">تسوق الآن</a>
-    </section>
+<div class="header-actions">
+<button onclick="toggleDarkMode()" class="icon-btn">🌙</button>
+<button onclick="toggleCart()" class="icon-btn">
+🛒 <span id="cartCount">0</span>
+</button>
+<button onclick="openAdmin()" class="icon-btn">⚙️</button>
+</div>
+</div>
 </header>
 
-<main>
-<div class="container">
+<main class="container">
 
 <section class="categories">
-    <button onclick="showCategory('رجالي')">رجالي</button>
-    <button onclick="showCategory('نسائي')">نسائي</button>
-    <button onclick="showCategory('أطفال')">أطفال</button>
+<button onclick="showCategory('رجالي')">رجالي</button>
+<button onclick="showCategory('نسائي')">نسائي</button>
+<button onclick="showCategory('أطفال')">أطفال</button>
 </section>
 
 <section id="products" class="products"></section>
 
-</div>
 </main>
 
+<!-- Product Modal -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">×</span>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<!-- Cart -->
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
 <aside id="cart" class="cart-panel">
-    <div class="cart-header">
-        <h3>🛒 سلة المشتريات</h3>
-        <button onclick="toggleCart()">✖</button>
-    </div>
-    <div id="cartItems"></div>
-    <button class="btn-main" onclick="sendOrder()">اطلب عبر واتساب</button>
+<h3>🛒 سلة المشتريات</h3>
+
+<div id="cartItems"></div>
+
+<div class="cart-summary">
+<p>المجموع: <span id="totalPrice">0</span> DH</p>
+
+<input type="text" id="couponInput" placeholder="كود التخفيض">
+<button onclick="applyCoupon()">تطبيق</button>
+
+<input type="text" id="customerName" placeholder="الاسم الكامل">
+<input type="text" id="customerPhone" placeholder="رقم الهاتف">
+<input type="text" id="customerAddress" placeholder="العنوان الكامل">
+
+<button class="btn-main" onclick="sendOrder()">تأكيد الطلب عبر واتساب</button>
+</div>
 </aside>
 
+<!-- Admin Panel -->
 <div id="adminPanel" class="admin">
-    <div class="admin-header">
-        <h3>لوحة الإدارة</h3>
-        <button onclick="openAdmin()">✖</button>
-    </div>
 
-    <input type="password" id="adminCode" placeholder="كود الدخول">
-    <button onclick="loginAdmin()">دخول</button>
+<h3>لوحة إدارة MODA MAROC</h3>
 
-    <div id="adminContent" style="display:none;margin-top:20px;">
-        <input type="text" id="pname" placeholder="اسم المنتج">
-        <input type="number" id="pprice" placeholder="السعر">
-        <input type="number" id="pold" placeholder="السعر القديم">
-        <input type="file" id="pimage" multiple>
-        <input type="text" id="pcolors" placeholder="الألوان: أحمر,أسود,أبيض">
-        <input type="text" id="psizes" placeholder="المقاسات: S,M,L,XL">
+<input type="password" id="adminCode" placeholder="كود الدخول">
+<button onclick="loginAdmin()">دخول</button>
 
-        <select id="pcat">
-            <option value="رجالي">رجالي</option>
-            <option value="نسائي">نسائي</option>
-            <option value="أطفال">أطفال</option>
-        </select>
+<div id="adminContent" style="display:none;">
 
-        <button onclick="addProduct()">حفظ المنتج</button>
-        <div id="adminProducts"></div>
-    </div>
+<h4>إضافة / تعديل منتج</h4>
+
+<input type="hidden" id="editId">
+
+<input type="text" id="pname" placeholder="اسم المنتج">
+<input type="number" id="pprice" placeholder="السعر">
+<input type="file" id="pimage" multiple>
+<input type="text" id="pcolors" placeholder="الألوان: أحمر,أسود">
+<input type="text" id="psizes" placeholder="المقاسات: S,M,L">
+<select id="pcat">
+<option value="رجالي">رجالي</option>
+<option value="نسائي">نسائي</option>
+<option value="أطفال">أطفال</option>
+</select>
+
+<button onclick="saveProduct()">حفظ المنتج</button>
+
+<h4>الكوبونات</h4>
+<input type="text" id="newCoupon" placeholder="كود جديد">
+<input type="number" id="newDiscount" placeholder="نسبة الخصم مثال 15">
+<button onclick="addCoupon()">إضافة كوبون</button>
+
+<div id="adminProducts"></div>
+
+</div>
 </div>
 
 <footer class="footer">
-    <div class="container">
-        <p>تابعنا على:</p>
-        <a href="https://www.instagram.com/moudamaroc0?igsh=MWgwMmM1dWw0eWppbw==" target="_blank">Instagram</a>
-        <a href="https://www.tiktok.com/@moudamaroc0?_r=1&_t=ZN-93tlvqsS2Q2" target="_blank">TikTok</a>
-        <p>© 2026 MODA MAROC</p>
-    </div>
+<a href="https://www.instagram.com/moudamaroc0" target="_blank">Instagram</a>
+<a href="https://www.tiktok.com/@moudamaroc0" target="_blank">TikTok</a>
+<p>© 2026 MODA MAROC</p>
 </footer>
-
-<a href="https://wa.me/212712120673" class="whatsapp-float" target="_blank">💬</a>
 
 <script src="app.js"></script>
 </body>
