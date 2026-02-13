@@ -1,140 +1,44 @@
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:'Cairo',sans-serif;
-}
-
-body{
-    background:#f4f7ff;
-    transition:0.3s;
-}
-
-body.dark{
-    background:#121212;
-    color:white;
-}
-
 header{
-    background:linear-gradient(45deg,#0a3d62,#3c6382);
+    background:linear-gradient(135deg,#0a3d62,#3c6382);
     color:white;
-    padding:20px;
+    padding:25px 20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    border-bottom-left-radius:30px;
+    border-bottom-right-radius:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.2);
+    position:relative;
 }
 
-.header-actions button{
-    background:white;
-    border:none;
-    padding:8px 12px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-left:5px;
+/* عنوان المتجر */
+header h1{
+    font-size:28px;
+    font-weight:700;
 }
 
-.categories{
+/* الأزرار */
+.header-actions{
     display:flex;
-    justify-content:center;
     gap:10px;
-    margin:20px;
 }
 
-.categories button{
-    padding:8px 15px;
+/* شكل الأزرار */
+.header-actions button{
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(5px);
     border:none;
-    background:#0a3d62;
     color:white;
-    border-radius:20px;
+    padding:10px 12px;
+    border-radius:12px;
     cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
 }
 
-.products{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:20px;
-    padding:20px;
-}
-
-.product{
+/* تأثير hover */
+.header-actions button:hover{
     background:white;
-    width:220px;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
-
-.product:hover{
-    transform:translateY(-5px);
-}
-
-.product img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-}
-
-.product h3{
-    padding:10px;
-}
-
-.product .price{
-    color:#e55039;
-    font-weight:bold;
-    padding:0 10px;
-}
-
-.product button{
-    width:100%;
-    padding:10px;
-    border:none;
-    background:#0a3d62;
-    color:white;
-    cursor:pointer;
-}
-
-.cart{
-    position:fixed;
-    right:-100%;
-    top:0;
-    width:300px;
-    height:100%;
-    background:white;
-    padding:20px;
-    transition:0.3s;
-    overflow:auto;
-}
-
-.cart.active{
-    right:0;
-}
-
-.admin{
-    position:fixed;
-    left:-100%;
-    top:0;
-    width:350px;
-    height:100%;
-    background:#fff;
-    padding:20px;
-    overflow:auto;
-    transition:0.3s;
-}
-
-.admin.active{
-    left:0;
-}
-
-@media(max-width:768px){
-    .product{
-        width:45%;
-    }
-}
-
-@media(max-width:480px){
-    .product{
-        width:100%;
-    }
+    color:#0a3d62;
+    transform:translateY(-3px);
 }
