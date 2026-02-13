@@ -4,257 +4,270 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoudaMaroc</title>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
+
 body{
 margin:0;
-font-family:Arial;
-background:#f5f6fa;
+font-family:'Segoe UI',sans-serif;
+background:#f2f6ff;
 direction:rtl;
 }
 
 header{
-background:linear-gradient(135deg,#000,#333);
-color:white;
-padding:20px;
-text-align:center;
-font-size:28px;
-font-weight:bold;
+background:white;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-.hero{
-height:300px;
-background:url("https://images.unsplash.com/photo-1441986300917-64674bd600d8") center/cover;
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#0a3d62;
+}
+
+.social{
 display:flex;
 align-items:center;
-justify-content:center;
-color:white;
-font-size:30px;
-font-weight:bold;
+gap:10px;
 }
 
-.offers{
-background:#ff4757;
-color:white;
-padding:10px;
-text-align:center;
-font-size:18px;
+.social a{
+color:#0a3d62;
+font-size:20px;
+text-decoration:none;
 }
 
-#countdown{
-font-weight:bold;
-}
-
-.categories{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-padding:20px;
-}
-
-.category{
-background:white;
-padding:15px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-cursor:pointer;
-transition:0.3s;
-}
-
-.category:hover{
-transform:scale(1.05);
-}
-
-.category img{
-width:100%;
-height:120px;
-object-fit:cover;
-border-radius:10px;
+.username{
+font-size:14px;
+color:#555;
 }
 
 .products{
-display:none;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:20px;
 padding:20px;
 }
 
 .product{
 background:white;
+border-radius:15px;
 padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+transition:0.3s;
+}
+
+.product:hover{
+transform:translateY(-5px);
 }
 
 .product img{
 width:100%;
-height:200px;
+height:220px;
 object-fit:cover;
 border-radius:10px;
 }
 
 .price{
-color:#e84118;
 font-weight:bold;
-font-size:18px;
+color:#0a3d62;
+margin:8px 0;
 }
 
-.old{
-text-decoration:line-through;
-color:gray;
-font-size:14px;
-}
-
-.stars{
-color:gold;
-}
-
-button{
-background:#000;
+.add-btn{
+background:#0a3d62;
 color:white;
-border:none;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-margin-top:10px;
-}
-
-.admin-panel{
-display:none;
-padding:20px;
-background:white;
-margin:20px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-
-input,select{
 width:100%;
-padding:10px;
-margin:5px 0;
+padding:8px;
+border:none;
+border-radius:20px;
+cursor:pointer;
 }
+
+.cart-btn{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#0a3d62;
+color:white;
+padding:15px;
+border-radius:50%;
+font-size:20px;
+cursor:pointer;
+}
+
+.order-now{
+background:#25D366;
+color:white;
+width:100%;
+margin-top:10px;
+padding:10px;
+border:none;
+border-radius:25px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.panel{
+display:none;
+position:fixed;
+top:0;
+right:0;
+width:350px;
+height:100%;
+background:white;
+box-shadow:-5px 0 20px rgba(0,0,0,0.1);
+padding:20px;
+overflow:auto;
+}
+
+input{
+width:100%;
+padding:8px;
+margin:5px 0;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.admin-trigger{
+position:fixed;
+top:50%;
+right:0;
+background:#0a3d62;
+color:white;
+padding:8px;
+border-radius:10px 0 0 10px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>MoudaMaroc</header>
-
-<div class="hero">
-أحدث صيحات الموضة
+<header>
+<div class="logo">MoudaMaroc</div>
+<div class="social">
+<a href="https://www.instagram.com/moudamaroc0" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+<a href="https://tiktok.com/@moudamaroc0" target="_blank">
+<i class="fab fa-tiktok"></i>
+</a>
+<div class="username">@moudamaroc0</div>
 </div>
-
-<div class="offers">
-🔥 عرض اليوم ينتهي خلال: <span id="countdown"></span>
-</div>
-
-<div class="categories">
-
-<div class="category" onclick="showProducts('men')">
-<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-ملابس رجالية
-</div>
-
-<div class="category" onclick="showProducts('women')">
-<img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a8e">
-ملابس نسائية
-</div>
-
-<div class="category" onclick="showProducts('kids')">
-<img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9">
-ملابس أطفال
-</div>
-
-<div class="category" onclick="showProducts('sport')">
-<img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438">
-معدات رياضية
-</div>
-
-<div class="category" onclick="showProducts('home')">
-<img src="https://images.unsplash.com/photo-1505691723518-36a5ac3be353">
-أدوات منزلية
-</div>
-
-<div class="category" onclick="showProducts('cream')">
-<img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843">
-مراهم
-</div>
-
-</div>
+</header>
 
 <div class="products" id="products"></div>
 
-<div class="admin-panel" id="adminPanel">
-<h3>لوحة التحكم</h3>
-<input type="text" id="pname" placeholder="اسم المنتج">
-<input type="text" id="pprice" placeholder="السعر الجديد">
-<input type="text" id="pold" placeholder="السعر القديم">
-<input type="text" id="pimg" placeholder="رابط الصورة">
-<select id="pcat">
-<option value="men">رجالي</option>
-<option value="women">نسائي</option>
-<option value="kids">أطفال</option>
-<option value="sport">رياضة</option>
-<option value="home">منزل</option>
-<option value="cream">مراهم</option>
-</select>
-<button onclick="addProduct()">إضافة المنتج</button>
+<div class="cart-btn" onclick="openCart()">
+<i class="fas fa-shopping-cart"></i>
+</div>
+
+<div class="admin-trigger" onclick="openAdmin()">⚙</div>
+
+<!-- سلة -->
+<div class="panel" id="cartPanel">
+<h3>سلة المشتريات</h3>
+<div id="cartItems"></div>
+<h4 id="total"></h4>
+
+<h3>معلومات الطلب</h3>
+<input type="text" id="cname" placeholder="الاسم الكامل">
+<input type="text" id="cphone" placeholder="رقم الهاتف">
+<input type="text" id="ccity" placeholder="المدينة">
+<input type="text" id="caddress" placeholder="العنوان">
+
+<button class="order-now" onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+<button onclick="closeCart()">إغلاق</button>
 </div>
 
 <script>
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
+let products = JSON.parse(localStorage.getItem("products")) || [
+{name:"قميص رجالي",price:199,img:"https://picsum.photos/400?1"},
+{name:"حذاء رياضي",price:299,img:"https://picsum.photos/400?2"}
+];
 
-function showProducts(cat){
-let box = document.getElementById("products");
+let cart=[];
+let whatsapp="212712120673";
+
+function saveProducts(){
+localStorage.setItem("products",JSON.stringify(products));
+}
+
+function displayProducts(){
+let box=document.getElementById("products");
 box.innerHTML="";
-box.style.display="block";
-
-products.filter(p=>p.cat==cat).forEach(p=>{
+products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="product">
 <img src="${p.img}">
 <h3>${p.name}</h3>
-<div class="price">${p.price} DH <span class="old">${p.old} DH</span></div>
-<div class="stars">★★★★★</div>
-<button>الدفع عند الاستلام</button>
-</div>
-`;
+<div class="price">${p.price} DH</div>
+<button class="add-btn" onclick="addToCart(${i})">أضف للسلة</button>
+</div>`;
 });
 }
 
-function addProduct(){
-let p={
-name:pname.value,
-price:pprice.value,
-old:pold.value,
-img:pimg.value,
-cat:pcat.value
-};
-products.push(p);
-localStorage.setItem("products",JSON.stringify(products));
-alert("تمت الإضافة");
+function addToCart(i){
+cart.push(products[i]);
+alert("تمت إضافة المنتج للسلة");
 }
 
-function adminLogin(){
-let pass=prompt("أدخل كلمة السر");
-if(pass=="1995"){
-adminPanel.style.display="block";
+function openCart(){
+document.getElementById("cartPanel").style.display="block";
+displayCart();
+}
+
+function closeCart(){
+document.getElementById("cartPanel").style.display="none";
+}
+
+function displayCart(){
+let box=document.getElementById("cartItems");
+box.innerHTML="";
+let total=0;
+cart.forEach(p=>{
+box.innerHTML+=`<div>${p.name} - ${p.price} DH</div>`;
+total+=p.price;
+});
+document.getElementById("total").innerText="المجموع: "+total+" DH";
+}
+
+function sendOrder(){
+if(cart.length==0) return alert("السلة فارغة");
+
+let total=cart.reduce((sum,p)=>sum+p.price,0);
+
+let message="طلب جديد 🛍️%0A";
+cart.forEach(p=>{
+message+=p.name+" - "+p.price+" DH%0A";
+});
+message+="المجموع: "+total+" DH%0A";
+message+="الاسم: "+cname.value+"%0A";
+message+="الهاتف: "+cphone.value+"%0A";
+message+="المدينة: "+ccity.value+"%0A";
+message+="العنوان: "+caddress.value;
+
+window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
+
+cart=[];
+closeCart();
+}
+
+function openAdmin(){
+let pass=prompt("أدخل كود الإدارة");
+if(pass==="2025"){
+alert("Dashboard غادي نبنيوها فالمرحلة الجاية 👑");
 }
 }
 
-setTimeout(adminLogin,1000);
-
-let end=new Date().getTime()+86400000;
-
-setInterval(()=>{
-let now=new Date().getTime();
-let diff=end-now;
-let h=Math.floor(diff/(1000*60*60));
-let m=Math.floor((diff%(1000*60*60))/(1000*60));
-let s=Math.floor((diff%(1000*60))/1000);
-document.getElementById("countdown").innerHTML=h+"h "+m+"m "+s+"s";
-},1000);
+displayProducts();
 
 </script>
 
