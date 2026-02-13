@@ -4,211 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoudaMaroc</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
-body{margin:0;font-family:Segoe UI;background:#f4f7ff;direction:rtl}
-header{background:white;padding:15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 15px rgba(0,0,0,.05)}
-.logo{font-size:24px;font-weight:bold;color:#0a3d62}
-.social a{margin-left:10px;font-size:20px;color:#0a3d62}
+body{
+margin:0;
+font-family:Arial;
+background:#f4f7ff;
+direction:rtl;
+}
 
-.hero{height:220px;background:url('https://images.unsplash.com/photo-1521335629791-ce4aec67dd53?q=80&w=1200') center/cover;border-radius:0 0 30px 30px}
+header{
+background:#0a3d62;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
 
-.offer{background:#ff4757;color:white;text-align:center;padding:10px;font-weight:bold}
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+padding:20px;
+}
 
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;padding:20px}
-.cat{background:white;padding:20px;border-radius:20px;text-align:center;cursor:pointer;box-shadow:0 5px 20px rgba(0,0,0,.05);font-weight:bold}
+.product{
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+text-align:center;
+}
 
-.products{display:none;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;padding:20px}
+.product img{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:10px;
+}
 
-.product{background:white;border-radius:20px;padding:15px;box-shadow:0 10px 25px rgba(0,0,0,.05);transition:.3s}
-.product:hover{transform:translateY(-5px)}
-.product img{width:100%;height:200px;object-fit:cover;border-radius:15px}
-.price{font-weight:bold;color:#0a3d62}
-.old{text-decoration:line-through;color:gray;font-size:13px}
-.stars{color:gold}
-button{border:none;padding:8px 12px;border-radius:20px;margin-top:8px;cursor:pointer}
-.add{background:#0a3d62;color:white;width:100%}
+.price{
+font-size:18px;
+font-weight:bold;
+color:#0a3d62;
+margin:10px 0;
+}
 
-.cart-btn{position:fixed;bottom:20px;left:20px;background:#0a3d62;color:white;padding:15px;border-radius:50%}
-.admin-trigger{position:fixed;top:50%;right:0;background:#0a3d62;color:white;padding:8px;border-radius:10px 0 0 10px;cursor:pointer}
+button{
+background:#25D366;
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+width:100%;
+font-size:16px;
+}
 
-.panel,.dashboard{display:none;position:fixed;top:0;right:0;height:100%;overflow:auto;padding:20px;z-index:1000}
-.panel{width:350px;background:white}
-.dashboard{width:420px;background:#0a3d62;color:white}
-
-input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px solid #ddd}
-.admin-box{background:white;color:black;padding:8px;border-radius:8px;margin-top:5px}
+button:hover{
+opacity:.9;
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<div class="logo">MoudaMaroc</div>
-<div class="social">
-<a href="https://www.instagram.com/moudamaroc0" target="_blank"><i class="fab fa-instagram"></i></a>
-<a href="https://tiktok.com/@moudamaroc0" target="_blank"><i class="fab fa-tiktok"></i></a>
-</div>
-</header>
+<header>🛍️ MoudaMaroc</header>
 
-<div class="hero"></div>
+<div class="products">
 
-<div class="offer">🔥 عرض اليوم ينتهي خلال: <span id="countdown"></span></div>
-
-<div class="categories" id="categories"></div>
-<div class="products" id="products"></div>
-
-<div class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-cart"></i></div>
-<div class="admin-trigger" onclick="openAdmin()">⚙</div>
-
-<div class="panel" id="cartPanel">
-<h3>سلة المشتريات</h3>
-<div id="cartItems"></div>
-<h4 id="total"></h4>
-<input id="coupon" placeholder="كود الخصم">
-<input id="cname" placeholder="الاسم">
-<input id="cphone" placeholder="الهاتف">
-<input id="ccity" placeholder="المدينة">
-<input id="caddress" placeholder="العنوان">
-<button style="background:#25D366;color:white;width:100%" onclick="sendOrder()">اطلب الآن</button>
-<button onclick="closeCart()">إغلاق</button>
+<div class="product">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500">
+<h3>قميص رجالي عصري</h3>
+<div class="price">199 درهم</div>
+<button onclick="orderNow('قميص رجالي عصري',199)">
+اطلب عبر واتساب
+</button>
 </div>
 
-<div class="dashboard" id="dashboard">
-<h2>لوحة التحكم</h2>
-<input id="pname" placeholder="اسم المنتج">
-<input id="pprice" type="number" placeholder="السعر">
-<input id="pold" type="number" placeholder="السعر القديم">
-<input id="pcat" placeholder="القسم">
-<input id="prating" type="number" max="5" placeholder="عدد النجوم 1-5">
-<input type="file" id="pimg">
-<input type="hidden" id="editIndex">
-<button onclick="saveProduct()">حفظ</button>
-<h3>إدارة المنتجات</h3>
-<div id="adminProducts"></div>
-<h3>إحصائيات</h3>
-<div id="stats"></div>
-<button onclick="closeDashboard()">إغلاق</button>
+<div class="product">
+<img src="https://images.unsplash.com/photo-1520975922203-becb6c9f3d3d?w=500">
+<h3>حقيبة نسائية فاخرة</h3>
+<div class="price">249 درهم</div>
+<button onclick="orderNow('حقيبة نسائية فاخرة',249)">
+اطلب عبر واتساب
+</button>
+</div>
+
 </div>
 
 <script>
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let cart=[];
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
-let whatsapp="212712120673";
 
-let categories=["ملابس رجالية","ملابس نسائية","ملابس أطفال","معدات رياضية","أدوات منزلية","مراهم"];
+function orderNow(name,price){
 
-function saveAll(){
-localStorage.setItem("products",JSON.stringify(products));
-localStorage.setItem("orders",JSON.stringify(orders));
-displayProducts();
-displayAdmin();
+let message =
+"طلب جديد 🛍️%0A%0A" +
+"المنتج: " + name + "%0A" +
+"السعر: " + price + " درهم%0A%0A" +
+"الاسم:%0Aالهاتف:%0Aالمدينة:%0Aالعنوان:";
+
+let whatsappNumber = "212712120673";
+
+let url = "https://wa.me/" + whatsappNumber + "?text=" + message;
+
+window.open(url, "_blank");
+
 }
 
-function displayCategories(){
-categories.forEach(c=>{
-document.getElementById("categories").innerHTML+=
-`<div class="cat" onclick="showProducts('${c}')">${c}</div>`;
-});
-}
-
-function showProducts(cat){
-document.getElementById("products").style.display="grid";
-let box=document.getElementById("products");
-box.innerHTML="";
-products.filter(p=>p.cat==cat).forEach((p,i)=>{
-box.innerHTML+=`
-<div class="product">
-<img src="${p.img}">
-<h3>${p.name}</h3>
-<div class="stars">${"★".repeat(p.rating||0)}</div>
-<div class="price">${p.price} DH ${p.old?`<span class="old">${p.old} DH</span>`:''}</div>
-<button class="add" onclick="addToCart(${i})">أضف للسلة</button>
-</div>`;
-});
-}
-
-function saveProduct(){
-let file=pimg.files[0];
-let reader=new FileReader();
-reader.onload=e=>{
-let index=editIndex.value;
-let data={name:pname.value,price:+pprice.value,old:+pold.value,cat:pcat.value,rating:+prating.value,img:e.target.result};
-if(index===""){products.push(data)}else{products[index]=data}
-saveAll();
-};
-if(file) reader.readAsDataURL(file);
-}
-
-function displayAdmin(){
-let box=document.getElementById("adminProducts");
-box.innerHTML="";
-products.forEach((p,i)=>{
-box.innerHTML+=`<div class="admin-box">
-${p.name}
-<button onclick="editProduct(${i})">تعديل</button>
-<button onclick="deleteProduct(${i})">حذف</button>
-</div>`;
-});
-document.getElementById("stats").innerHTML="عدد الطلبات: "+orders.length;
-}
-
-function editProduct(i){
-let p=products[i];
-pname.value=p.name;
-pprice.value=p.price;
-pold.value=p.old;
-pcat.value=p.cat;
-prating.value=p.rating;
-editIndex.value=i;
-}
-
-function deleteProduct(i){products.splice(i,1);saveAll()}
-
-function addToCart(i){cart.push(products[i]);alert("تمت الإضافة")}
-
-function openCart(){cartPanel.style.display="block";displayCart()}
-function closeCart(){cartPanel.style.display="none"}
-
-function displayCart(){
-let total=0;
-cartItems.innerHTML="";
-cart.forEach(p=>{cartItems.innerHTML+=p.name+" - "+p.price+" DH<br>";total+=p.price});
-document.getElementById("total").innerText="المجموع: "+total+" DH";
-}
-
-function sendOrder(){
-let total=cart.reduce((s,p)=>s+p.price,0);
-orders.push({name:cname.value,total:total});
-saveAll();
-let message="طلب جديد 🛍️%0A";
-cart.forEach(p=>{message+=p.name+" - "+p.price+" DH%0A"});
-message+="المجموع: "+total+" DH%0Aالاسم: "+cname.value+"%0Aالهاتف: "+cphone.value;
-window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
-cart=[];
-closeCart();
-}
-
-function openAdmin(){
-let pass=prompt("أدخل كود الإدارة");
-if(pass==="2025"){dashboard.style.display="block";displayAdmin()}
-}
-
-function closeDashboard(){dashboard.style.display="none"}
-
-let end=new Date(); end.setHours(end.getHours()+24);
-setInterval(()=>{
-let now=new Date().getTime();
-let distance=end-now;
-let h=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-let m=Math.floor((distance%(1000*60*60))/(1000*60));
-let s=Math.floor((distance%(1000*60))/1000);
-document.getElementById("countdown").innerHTML=h+"h "+m+"m "+s+"s";
-},1000);
-
-displayCategories();
-displayAdmin();
 </script>
 
 </body>
