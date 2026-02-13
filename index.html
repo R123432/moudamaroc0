@@ -7,6 +7,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+
+<div class="admin-box">
+
+<button class="close-admin" onclick="closeAdmin()">✖</button>
+
+<h2>لوحة تحكم MODA MAROC</h2>
+
+<div class="admin-login" id="adminLogin">
+
+<input type="password" id="adminPassword" placeholder="أدخل كلمة المرور">
+<button class="btn-main" onclick="checkLogin()">دخول</button>
+
+<p id="loginError" style="color:red; display:none; margin-top:10px;">
+كلمة المرور غير صحيحة
+</p>
+
+</div>
+
+<div class="admin-content" id="adminContent" style="display:none;">
+
+<h3>إضافة منتج جديد</h3>
+
+<input type="text" id="newName" placeholder="اسم المنتج">
+<input type="number" id="newPrice" placeholder="السعر">
+<input type="number" id="newStock" placeholder="الكمية">
+<input type="text" id="newImage" placeholder="رابط الصورة">
+
+<button class="btn-main" onclick="addProduct()">إضافة المنتج</button>
+
+</div>
+
+</div>
+</div>
 <body>
 
 <header>
