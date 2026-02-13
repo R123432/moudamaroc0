@@ -1,0 +1,107 @@
+body{
+margin:0;
+font-family:Segoe UI;
+background:#f4f7ff;
+direction:rtl;
+}
+
+header{
+background:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#0a3d62;
+}
+
+.social i{
+color:#0a3d62;
+margin-left:15px;
+font-size:20px;
+cursor:pointer;
+}
+
+.hero{
+background:linear-gradient(45deg,#0a3d62,#3c6382);
+color:white;
+padding:40px;
+text-align:center;
+font-size:26px;
+}
+
+.categories{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+padding:20px;
+justify-content:center;
+}
+
+.categories div{
+background:white;
+padding:12px 18px;
+border-radius:8px;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+#products{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+padding:20px;
+justify-content:center;
+}
+
+.product{
+background:white;
+width:220px;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.product img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.product h3{
+padding:10px;
+margin:0;
+}
+
+.price{
+color:#e55039;
+padding:0 10px 10px;
+}
+
+.cart,.admin{
+position:fixed;
+right:-400px;
+top:0;
+width:350px;
+height:100%;
+background:white;
+padding:20px;
+box-shadow:-5px 0 20px rgba(0,0,0,.1);
+overflow:auto;
+transition:.3s;
+}
+
+.cart.active,.admin.active{
+right:0;
+}
+
+input,select,button{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+}
