@@ -1,59 +1,70 @@
 <body>
 
 <!-- ================= HEADER ================= -->
-<header>
-    <div class="container">
+<header class="site-header">
+    <div class="container header-wrapper">
 
-        <h1 class="logo">MODA MAROC</h1>
-        <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
+        <div class="brand">
+            <h1 class="logo">MODA MAROC</h1>
+            <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
+        </div>
 
         <div class="header-actions">
-            <button onclick="toggleDarkMode()" aria-label="الوضع الليلي">🌙</button>
+            <button onclick="toggleDarkMode()" aria-label="الوضع الليلي" class="icon-btn">
+                🌙
+            </button>
 
-            <button onclick="toggleCart()" aria-label="السلة">
+            <button onclick="toggleCart()" aria-label="فتح السلة" class="icon-btn">
                 🛒 <span id="cartCount">0</span>
             </button>
 
-            <button onclick="openAdmin()" aria-label="لوحة الإدارة">⚙️</button>
+            <button onclick="openAdmin()" aria-label="لوحة الإدارة" class="icon-btn">
+                ⚙️
+            </button>
         </div>
 
-        <section class="hero">
-            <h2>أحدث صيحات الموضة بأفضل الأسعار</h2>
-            <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
-            <a href="#products" class="btn-main">تسوق الآن</a>
-        </section>
-
     </div>
+
+    <!-- HERO -->
+    <section class="hero container">
+        <h2>أحدث صيحات الموضة بأفضل الأسعار</h2>
+        <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
+        <a href="#products" class="btn-main">تسوق الآن</a>
+    </section>
+
 </header>
 
+
 <!-- ================= MAIN ================= -->
-<main>
+<main class="main-content">
 
     <div class="container">
 
         <!-- ================= CATEGORIES ================= -->
-        <section class="categories">
+        <section class="categories" aria-label="تصنيفات المنتجات">
             <button onclick="showCategory('رجالي')">رجالي</button>
             <button onclick="showCategory('نسائي')">نسائي</button>
             <button onclick="showCategory('أطفال')">أطفال</button>
         </section>
 
         <!-- ================= PRODUCTS ================= -->
-        <section id="products" class="products"></section>
+        <section id="products" class="products" aria-live="polite"></section>
 
     </div>
 
 </main>
 
+
 <!-- ================= CART OVERLAY ================= -->
 <div id="cartOverlay" onclick="toggleCart()"></div>
 
+
 <!-- ================= CART ================= -->
-<div id="cart" class="cart-panel">
+<aside id="cart" class="cart-panel" aria-label="سلة المشتريات">
 
     <div class="cart-header">
         <h3>🛒 سلة المشتريات</h3>
-        <button onclick="toggleCart()">✖</button>
+        <button onclick="toggleCart()" aria-label="إغلاق السلة">✖</button>
     </div>
 
     <div id="cartItems"></div>
@@ -62,14 +73,15 @@
         اطلب الآن عبر واتساب
     </button>
 
-</div>
+</aside>
+
 
 <!-- ================= ADMIN PANEL ================= -->
-<div id="adminPanel" class="admin">
+<div id="adminPanel" class="admin" role="dialog" aria-modal="true">
 
     <div class="admin-header">
         <h3>لوحة الإدارة</h3>
-        <button onclick="openAdmin()">✖</button>
+        <button onclick="openAdmin()" aria-label="إغلاق لوحة الإدارة">✖</button>
     </div>
 
     <input type="password" id="adminCode" placeholder="أدخل كود الدخول">
@@ -93,7 +105,9 @@
         <div id="adminProducts"></div>
 
     </div>
+
 </div>
+
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
@@ -102,8 +116,8 @@
         <p>تابعنا على:</p>
 
         <div class="social-links">
-            <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
-            <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+            <a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
         </div>
 
         <p>© 2026 MODA MAROC - جميع الحقوق محفوظة</p>
@@ -111,13 +125,16 @@
     </div>
 </footer>
 
+
 <!-- ================= FLOATING WHATSAPP ================= -->
 <a href="https://wa.me/212712120673"
    class="whatsapp-float"
    target="_blank"
-   title="تواصل معنا عبر واتساب">
+   rel="noopener"
+   aria-label="تواصل معنا عبر واتساب">
    💬
 </a>
+
 
 <!-- ================= JS ================= -->
 <script src="app.js"></script>
