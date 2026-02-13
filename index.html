@@ -1,84 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mouda Maroc</title>
-
-<link rel="stylesheet" href="style.css">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-</head>
-<body>
-
-<header>
-    <div class="logo">Mouda Maroc</div>
-
-    <div class="social">
-        <a href="https://tiktok.com/@moudamaroc0" target="_blank">
-            <i class="fab fa-tiktok"></i>
-        </a>
-        <a href="https://www.instagram.com/moudamaroc0" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
-        <i class="fas fa-shopping-cart" onclick="toggleCart()"></i>
-        <i class="fas fa-user-cog" onclick="openAdmin()"></i>
-    </div>
-</header>
-
-<section class="hero">
-    🔥 أفضل العروض
-    <div id="countdown"></div>
-</section>
-
-<section class="categories">
-    <div onclick="showCategory('men')">ملابس رجالية</div>
-    <div onclick="showCategory('women')">ملابس نسائية</div>
-    <div onclick="showCategory('kids')">ملابس أطفال</div>
-    <div onclick="showCategory('sport')">معدات رياضية</div>
-    <div onclick="showCategory('home')">أدوات منزلية</div>
-    <div onclick="showCategory('cream')">مراهم</div>
-</section>
-
-<section id="products"></section>
-
-<section id="cart" class="cart">
-<h2>سلة المشتريات</h2>
-
-<input id="name" placeholder="الاسم">
-<input id="phone" placeholder="الهاتف">
-<input id="city" placeholder="المدينة">
-<input id="address" placeholder="العنوان">
-
-<button onclick="sendOrder()">اطلب الآن عبر واتساب</button>
-</section>
-
-<div id="adminPanel" class="admin">
-<h2>لوحة التحكم</h2>
-
-<input id="adminCode" placeholder="أدخل كود الإدارة">
-<button onclick="loginAdmin()">دخول</button>
-
-<div id="adminContent" style="display:none;">
-<input id="pname" placeholder="اسم المنتج">
-<input id="pprice" placeholder="السعر">
-<input id="pold" placeholder="السعر القديم">
-<select id="pcat">
-<option value="men">رجالي</option>
-<option value="women">نسائي</option>
-<option value="kids">أطفال</option>
-<option value="sport">رياضي</option>
-<option value="home">منزلي</option>
-<option value="cream">مراهم</option>
-</select>
-
-<input type="file" id="pimage">
-<button onclick="addProduct()">إضافة منتج</button>
-</div>
-
-</div>
-
-<script src="app.js"></script>
-</body>
-</html>
-<div id="adminProducts"></div>
