@@ -46,46 +46,42 @@ header h1{
 }
 
 /* شكل الأزرار */
-..header-actions button{
+.header-actions button{
     position:relative;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:none;
     background:rgba(255,255,255,0.15);
-    border:1px solid rgba(255,255,255,0.2);
     color:white;
-    width:50px;
-    height:50px;
-    border-radius:16px;
-    cursor:pointer;
     font-size:20px;
+    cursor:pointer;
     transition:all 0.3s ease;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-/* تأثير hover */
 .header-actions button:hover{
     background:white;
     color:#0a3d62;
-    transform:translateY(-4px) scale(1.05);
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    transform:scale(1.1);
 }
 
-/* رقم السلة Badge */
 #cartCount{
     position:absolute;
-    top:-5px;
-    right:-5px;
-    background:#ff4757;
+    top:-4px;
+    right:-4px;
+    background:#ff3b3b;
     color:white;
-    font-size:12px;
-    width:20px;
-    height:20px;
+    font-size:11px;
+    width:18px;
+    height:18px;
     display:flex;
     align-items:center;
     justify-content:center;
     border-radius:50%;
     font-weight:bold;
-    box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
 /* استجابة للموبايل */
@@ -161,4 +157,45 @@ header.scrolled{
     text-decoration:none;
     color:#0a3d62;
     font-weight:bold;
+}
+.hero{
+    padding:80px 20px 60px 20px;
+    text-align:center;
+    background:linear-gradient(to bottom,#3c6382,#0a3d62);
+    color:white;
+}
+
+.hero h2{
+    font-size:28px;
+    margin-bottom:15px;
+    font-weight:900;
+}
+
+.hero p{
+    font-size:16px;
+    margin-bottom:25px;
+    opacity:0.9;
+}
+.btn-main{
+    background:white;
+    color:#0a3d62;
+    padding:12px 25px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+    display:inline-block;
+}
+
+.btn-main:hover{
+    background:#ffcc00;
+    color:black;
+    transform:translateY(-3px);
+
+}
+
+body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    background:#f5f6fa;
 }
