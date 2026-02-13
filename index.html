@@ -8,137 +8,29 @@
 <style>
 
 body{margin:0;font-family:'Segoe UI',sans-serif;background:#f2f6ff;direction:rtl}
-
-header{
-background:white;
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,.05)
-}
-
+header{background:white;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.05)}
 .logo{font-size:22px;font-weight:bold;color:#0a3d62}
-
 .social a{color:#0a3d62;font-size:20px;margin-left:10px}
 
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
-padding:20px
-}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding:20px}
 
-.product{
-background:white;
-border-radius:15px;
-padding:15px;
-box-shadow:0 10px 25px rgba(0,0,0,.05);
-transition:.3s
-}
-
+.product{background:white;border-radius:15px;padding:15px;box-shadow:0 10px 25px rgba(0,0,0,.05);transition:.3s}
 .product:hover{transform:translateY(-5px)}
+.product img{width:100%;height:200px;object-fit:cover;border-radius:10px}
+.price{font-weight:bold;color:#0a3d62}
+.old{text-decoration:line-through;color:gray;font-size:13px}
 
-.product img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px
-}
-
-.price{font-weight:bold;color:#0a3d62;margin:8px 0}
-
-button{
-cursor:pointer;
-border:none;
-border-radius:20px;
-padding:8px 12px;
-margin-top:6px
-}
-
+button{cursor:pointer;border:none;border-radius:20px;padding:8px 12px;margin-top:6px}
 .add-btn{background:#0a3d62;color:white;width:100%}
+.cart-btn{position:fixed;bottom:20px;left:20px;background:#0a3d62;color:white;padding:15px;border-radius:50%}
+.admin-trigger{position:fixed;top:50%;right:0;background:#0a3d62;color:white;padding:8px;border-radius:10px 0 0 10px;cursor:pointer}
 
-.cart-btn{
-position:fixed;
-bottom:20px;
-left:20px;
-background:#0a3d62;
-color:white;
-padding:15px;
-border-radius:50%;
-font-size:20px
-}
+.panel{display:none;position:fixed;top:0;right:0;width:350px;height:100%;background:white;box-shadow:-5px 0 20px rgba(0,0,0,.1);padding:20px;overflow:auto;z-index:1000}
+.dashboard{display:none;position:fixed;top:0;right:0;width:420px;height:100%;background:#0a3d62;color:white;padding:20px;overflow:auto;z-index:2000}
 
-.admin-trigger{
-position:fixed;
-top:50%;
-right:0;
-background:#0a3d62;
-color:white;
-padding:8px;
-border-radius:10px 0 0 10px;
-cursor:pointer
-}
+input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:1px solid #ddd}
 
-/* سلة */
-.panel{
-display:none;
-position:fixed;
-top:0;
-right:0;
-width:350px;
-height:100%;
-background:white;
-box-shadow:-5px 0 20px rgba(0,0,0,.1);
-padding:20px;
-overflow:auto;
-z-index:1000
-}
-
-input{
-width:100%;
-padding:8px;
-margin:5px 0;
-border-radius:8px;
-border:1px solid #ddd
-}
-
-/* Dashboard */
-.dashboard{
-display:none;
-position:fixed;
-top:0;
-right:0;
-width:400px;
-height:100%;
-background:#0a3d62;
-color:white;
-padding:20px;
-overflow:auto;
-z-index:2000
-}
-
-.dashboard h3{margin-top:20px}
-
-.dashboard button{
-background:white;
-color:#0a3d62;
-width:100%
-}
-
-.admin-product{
-background:white;
-color:#000;
-padding:8px;
-border-radius:8px;
-margin-top:5px
-}
-
-.delete-btn{
-background:red;
-color:white;
-margin-top:5px
-}
+.admin-box{background:white;color:black;padding:8px;border-radius:8px;margin-top:5px}
 
 </style>
 </head>
@@ -147,11 +39,17 @@ margin-top:5px
 
 <header>
 <div class="logo">MoudaMaroc</div>
-<div class="social">
+<div>
 <a href="https://www.instagram.com/moudamaroc0" target="_blank"><i class="fab fa-instagram"></i></a>
 <a href="https://tiktok.com/@moudamaroc0" target="_blank"><i class="fab fa-tiktok"></i></a>
 </div>
 </header>
+
+<div style="padding:10px">
+<select onchange="filterCategory(this.value)">
+<option value="all">كل الأقسام</option>
+</select>
+</div>
 
 <div class="products" id="products"></div>
 
@@ -163,13 +61,11 @@ margin-top:5px
 <h3>سلة المشتريات</h3>
 <div id="cartItems"></div>
 <h4 id="total"></h4>
-
-<h3>معلومات الطلب</h3>
-<input type="text" id="cname" placeholder="الاسم الكامل">
-<input type="text" id="cphone" placeholder="رقم الهاتف">
-<input type="text" id="ccity" placeholder="المدينة">
-<input type="text" id="caddress" placeholder="العنوان">
-
+<input id="coupon" placeholder="كود الخصم">
+<input id="cname" placeholder="الاسم">
+<input id="cphone" placeholder="الهاتف">
+<input id="ccity" placeholder="المدينة">
+<input id="caddress" placeholder="العنوان">
 <button style="background:#25D366;color:white;width:100%" onclick="sendOrder()">اطلب الآن</button>
 <button onclick="closeCart()">إغلاق</button>
 </div>
@@ -178,14 +74,29 @@ margin-top:5px
 <div class="dashboard" id="dashboard">
 <h2>لوحة التحكم</h2>
 
-<h3>إضافة منتج</h3>
-<input type="text" id="pname" placeholder="اسم المنتج">
-<input type="number" id="pprice" placeholder="السعر">
-<input type="file" id="pimg" accept="image/*">
-<button onclick="addProduct()">إضافة المنتج</button>
+<h3>إضافة / تعديل منتج</h3>
+<input id="pname" placeholder="اسم المنتج">
+<input id="pprice" type="number" placeholder="السعر الجديد">
+<input id="pold" type="number" placeholder="السعر القديم">
+<input id="pcat" placeholder="القسم">
+<input id="editIndex" type="hidden">
+<input type="file" id="pimg">
+<button onclick="saveProduct()">حفظ</button>
 
-<h3>المنتجات</h3>
+<h3>إدارة المنتجات</h3>
 <div id="adminProducts"></div>
+
+<h3>إدارة الكوبونات</h3>
+<input id="couponCode" placeholder="الكود">
+<input id="couponValue" type="number" placeholder="نسبة الخصم %">
+<button onclick="addCoupon()">إضافة كوبون</button>
+<div id="couponList"></div>
+
+<h3>الطلبات</h3>
+<div id="ordersList"></div>
+
+<h3>إحصائيات</h3>
+<div id="stats"></div>
 
 <button onclick="closeDashboard()">إغلاق</button>
 </div>
@@ -193,13 +104,17 @@ margin-top:5px
 <script>
 
 let products=JSON.parse(localStorage.getItem("products"))||[];
+let orders=JSON.parse(localStorage.getItem("orders"))||[];
+let coupons=JSON.parse(localStorage.getItem("coupons"))||[];
 let cart=[];
 let whatsapp="212712120673";
 
-function save(){
+function saveAll(){
 localStorage.setItem("products",JSON.stringify(products));
+localStorage.setItem("orders",JSON.stringify(orders));
+localStorage.setItem("coupons",JSON.stringify(coupons));
 displayProducts();
-displayAdminProducts();
+displayAdmin();
 }
 
 function displayProducts(){
@@ -210,91 +125,103 @@ box.innerHTML+=`
 <div class="product">
 <img src="${p.img}">
 <h3>${p.name}</h3>
-<div class="price">${p.price} DH</div>
+<div class="price">${p.price} DH ${p.old?`<span class="old">${p.old} DH</span>`:''}</div>
 <button class="add-btn" onclick="addToCart(${i})">أضف للسلة</button>
 </div>`;
 });
 }
 
-function addProduct(){
+function saveProduct(){
+let index=document.getElementById("editIndex").value;
 let file=pimg.files[0];
-if(!file) return alert("اختر صورة");
+if(file){
 let reader=new FileReader();
 reader.onload=e=>{
-products.push({name:pname.value,price:+pprice.value,img:e.target.result});
-save();
+if(index===""){
+products.push({name:pname.value,price:+pprice.value,old:+pold.value,cat:pcat.value,img:e.target.result});
+}else{
+products[index]={...products[index],name:pname.value,price:+pprice.value,old:+pold.value,cat:pcat.value,img:e.target.result};
+}
+saveAll();
 };
 reader.readAsDataURL(file);
+}else{
+if(index!==""){
+products[index]={...products[index],name:pname.value,price:+pprice.value,old:+pold.value,cat:pcat.value};
+saveAll();
+}
+}
 }
 
-function displayAdminProducts(){
+function displayAdmin(){
 let box=document.getElementById("adminProducts");
 box.innerHTML="";
 products.forEach((p,i)=>{
 box.innerHTML+=`
-<div class="admin-product">
-${p.name} - ${p.price} DH
-<button class="delete-btn" onclick="deleteProduct(${i})">حذف</button>
+<div class="admin-box">
+${p.name}
+<button onclick="editProduct(${i})">تعديل</button>
+<button onclick="deleteProduct(${i})">حذف</button>
 </div>`;
 });
+document.getElementById("couponList").innerHTML=
+coupons.map(c=>c.code+" - "+c.value+"%").join("<br>");
+let totalProfit=orders.reduce((s,o)=>s+o.total,0);
+document.getElementById("stats").innerHTML=
+"عدد الطلبات: "+orders.length+"<br>إجمالي الأرباح: "+totalProfit+" DH";
 }
 
-function deleteProduct(i){
-products.splice(i,1);
-save();
+function editProduct(i){
+let p=products[i];
+pname.value=p.name;
+pprice.value=p.price;
+pold.value=p.old;
+pcat.value=p.cat;
+editIndex.value=i;
 }
 
-function addToCart(i){
-cart.push(products[i]);
-alert("تمت الإضافة للسلة");
+function deleteProduct(i){products.splice(i,1);saveAll()}
+
+function addCoupon(){
+coupons.push({code:couponCode.value,value:+couponValue.value});
+saveAll();
 }
 
-function openCart(){
-document.getElementById("cartPanel").style.display="block";
-displayCart();
-}
+function addToCart(i){cart.push(products[i]);alert("تمت الإضافة")}
 
-function closeCart(){
-document.getElementById("cartPanel").style.display="none";
-}
+function openCart(){cartPanel.style.display="block";displayCart()}
+function closeCart(){cartPanel.style.display="none"}
 
 function displayCart(){
-let box=document.getElementById("cartItems");
-box.innerHTML="";
 let total=0;
-cart.forEach(p=>{
-box.innerHTML+=`<div>${p.name} - ${p.price} DH</div>`;
-total+=p.price;
-});
+cartItems.innerHTML="";
+cart.forEach(p=>{cartItems.innerHTML+=p.name+" - "+p.price+" DH<br>";total+=p.price});
+totalText=total;
 document.getElementById("total").innerText="المجموع: "+total+" DH";
 }
 
 function sendOrder(){
-if(cart.length==0) return alert("السلة فارغة");
-
 let total=cart.reduce((s,p)=>s+p.price,0);
+let code=document.getElementById("coupon").value;
+let found=coupons.find(c=>c.code===code);
+if(found){total-=total*(found.value/100)}
+orders.push({name:cname.value,total:total,status:"جديد"});
+saveAll();
+
 let message="طلب جديد 🛍️%0A";
 cart.forEach(p=>{message+=p.name+" - "+p.price+" DH%0A"});
-message+="المجموع: "+total+" DH%0A";
-message+="الاسم: "+cname.value+"%0Aالهاتف: "+cphone.value+"%0Aالمدينة: "+ccity.value+"%0Aالعنوان: "+caddress.value;
-
+message+="المجموع: "+total+" DH%0Aالاسم: "+cname.value+"%0Aالهاتف: "+cphone.value;
 window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
-
 cart=[];
 closeCart();
 }
 
 function openAdmin(){
 let pass=prompt("أدخل كود الإدارة");
-if(pass==="2025"){
-document.getElementById("dashboard").style.display="block";
-displayAdminProducts();
-}
+if(pass==="2025"){dashboard.style.display="block";displayAdmin()}
 }
 
-function closeDashboard(){
-document.getElementById("dashboard").style.display="none";
-}
+function closeDashboard(){dashboard.style.display="none"}
 
 displayProducts();
 
