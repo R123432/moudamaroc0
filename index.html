@@ -1,69 +1,76 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO -->
-    <meta name="description" content="MODA MAROC - أفضل متجر أونلاين للملابس الرجالية والنسائية والأطفال بأفضل الأسعار في المغرب.">
-    <meta name="keywords" content="ملابس, متجر ملابس, moda maroc, أزياء المغرب, ملابس رجالية, ملابس نسائية">
-    <meta name="author" content="MODA MAROC">
-
-    <title>MODA MAROC | Premium Fashion</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
-</head>
-
 <body>
 
 <!-- ================= HEADER ================= -->
 <header>
+    <div class="container">
 
-    <h1 class="logo">MODA MAROC</h1>
-    <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
+        <h1 class="logo">MODA MAROC</h1>
+        <p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
 
-    <div class="header-actions">
-        <button onclick="toggleDarkMode()" title="الوضع الليلي">🌙</button>
-        <button onclick="toggleCart()" title="السلة">
-            🛒 <span id="cartCount">0</span>
-        </button>
-        <button onclick="openAdmin()" title="لوحة الإدارة">⚙️</button>
+        <div class="header-actions">
+            <button onclick="toggleDarkMode()" aria-label="الوضع الليلي">🌙</button>
+
+            <button onclick="toggleCart()" aria-label="السلة">
+                🛒 <span id="cartCount">0</span>
+            </button>
+
+            <button onclick="openAdmin()" aria-label="لوحة الإدارة">⚙️</button>
+        </div>
+
+        <section class="hero">
+            <h2>أحدث صيحات الموضة بأفضل الأسعار</h2>
+            <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
+            <a href="#products" class="btn-main">تسوق الآن</a>
+        </section>
+
     </div>
-
-    <section class="hero">
-        <h2>أحدث صيحات الموضة بأفضل الأسعار</h2>
-        <p>توصيل سريع • جودة عالية • أسعار مناسبة</p>
-        <a href="#products" class="btn-main">تسوق الآن</a>
-    </section>
-
 </header>
 
-<!-- ================= CATEGORIES ================= -->
-<section class="categories">
-    <button onclick="showCategory('رجالي')">رجالي</button>
-    <button onclick="showCategory('نسائي')">نسائي</button>
-    <button onclick="showCategory('أطفال')">أطفال</button>
-</section>
+<!-- ================= MAIN ================= -->
+<main>
 
-<!-- ================= PRODUCTS ================= -->
-<section id="products" class="products"></section>
+    <div class="container">
+
+        <!-- ================= CATEGORIES ================= -->
+        <section class="categories">
+            <button onclick="showCategory('رجالي')">رجالي</button>
+            <button onclick="showCategory('نسائي')">نسائي</button>
+            <button onclick="showCategory('أطفال')">أطفال</button>
+        </section>
+
+        <!-- ================= PRODUCTS ================= -->
+        <section id="products" class="products"></section>
+
+    </div>
+
+</main>
+
+<!-- ================= CART OVERLAY ================= -->
+<div id="cartOverlay" onclick="toggleCart()"></div>
 
 <!-- ================= CART ================= -->
 <div id="cart" class="cart-panel">
-    <h3>🛒 سلة المشتريات</h3>
+
+    <div class="cart-header">
+        <h3>🛒 سلة المشتريات</h3>
+        <button onclick="toggleCart()">✖</button>
+    </div>
+
     <div id="cartItems"></div>
-    <button class="btn-order" onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+
+    <button class="btn-order" onclick="sendOrder()">
+        اطلب الآن عبر واتساب
+    </button>
+
 </div>
 
 <!-- ================= ADMIN PANEL ================= -->
 <div id="adminPanel" class="admin">
-    <h3>لوحة الإدارة</h3>
+
+    <div class="admin-header">
+        <h3>لوحة الإدارة</h3>
+        <button onclick="openAdmin()">✖</button>
+    </div>
 
     <input type="password" id="adminCode" placeholder="أدخل كود الدخول">
     <button onclick="loginAdmin()">دخول</button>
@@ -84,19 +91,24 @@
         <button onclick="addProduct()">حفظ المنتج</button>
 
         <div id="adminProducts"></div>
+
     </div>
 </div>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
-    <p>تابعنا على:</p>
+    <div class="container">
 
-    <div class="social-links">
-        <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
-        <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+        <p>تابعنا على:</p>
+
+        <div class="social-links">
+            <a href="https://www.tiktok.com/" target="_blank">TikTok</a>
+            <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+        </div>
+
+        <p>© 2026 MODA MAROC - جميع الحقوق محفوظة</p>
+
     </div>
-
-    <p>© 2026 MODA MAROC - جميع الحقوق محفوظة</p>
 </footer>
 
 <!-- ================= FLOATING WHATSAPP ================= -->
@@ -111,4 +123,3 @@
 <script src="app.js"></script>
 
 </body>
-</html>
