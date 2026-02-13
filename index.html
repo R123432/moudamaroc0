@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mouda Maroc - أفضل العروض والمنتجات في المغرب مع طلب مباشر عبر واتساب">
+<meta name="keywords" content="ملابس, متجر مغربي, تسوق, عروض, Mouda Maroc">
+<meta name="author" content="Mouda Maroc">
+
+<title>Mouda Maroc | متجر احترافي</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<link rel="icon" href="favicon.ico">
+
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="logo">Mouda Maroc</div>
+
+    <div class="social">
+        <a href="https://tiktok.com/@moudamaroc0" target="_blank">
+            <i class="fab fa-tiktok"></i>
+        </a>
+
+        <a href="https://www.instagram.com/moudamaroc0" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <i class="fas fa-shopping-cart" onclick="toggleCart()" title="السلة"></i>
+        <i class="fas fa-user-cog" onclick="openAdmin()" title="لوحة الإدارة"></i>
+    </div>
+</header>
+
+<!-- ===== HERO + عرض يومي ===== -->
+<section class="hero">
+    🔥 عرض اليوم الخاص
+    <div id="countdown"></div>
+</section>
+
+<!-- ===== أقسام ===== -->
+<section class="categories">
+    <div onclick="showCategory('men')">ملابس رجالية</div>
+    <div onclick="showCategory('women')">ملابس نسائية</div>
+    <div onclick="showCategory('kids')">ملابس أطفال</div>
+    <div onclick="showCategory('sport')">معدات رياضية</div>
+    <div onclick="showCategory('home')">أدوات منزلية</div>
+    <div onclick="showCategory('cream')">مراهم</div>
+</section>
+
+<!-- ===== عرض المنتجات ===== -->
+<section id="products"></section>
+
+<!-- ===== السلة ===== -->
+<section id="cart" class="cart">
+
+<h2>🛒 سلة المشتريات</h2>
+
+<div id="cartItems"></div>
+
+<input id="name" placeholder="الاسم الكامل">
+<input id="phone" placeholder="رقم الهاتف">
+<input id="city" placeholder="المدينة">
+<input id="address" placeholder="العنوان الكامل">
+
+<input id="coupon" placeholder="كود الخصم">
+
+<button onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+
+<button onclick="toggleCart()">إغلاق</button>
+
+</section>
+
+<!-- ===== لوحة الإدارة ===== -->
+<div id="adminPanel" class="admin">
+
+<h2>⚙️ لوحة التحكم</h2>
+
+<input id="adminCode" placeholder="أدخل كود الإدارة">
+<button onclick="loginAdmin()">دخول</button>
+
+<div id="adminContent" style="display:none;">
+
+<h3>إضافة / تعديل منتج</h3>
+
+<input id="pname" placeholder="اسم المنتج">
+<input id="pprice" placeholder="السعر الجديد">
+<input id="pold" placeholder="السعر القديم (اختياري)">
+<select id="pcat">
+<option value="men">رجالي</option>
+<option value="women">نسائي</option>
+<option value="kids">أطفال</option>
+<option value="sport">رياضي</option>
+<option value="home">منزلي</option>
+<option value="cream">مراهم</option>
+</select>
+
+<input type="file" id="pimage">
+
+<button onclick="addProduct()">حفظ المنتج</button>
+
+<hr>
+
+<h3>📦 المنتجات الحالية</h3>
+<div id="adminProducts"></div>
+
+<hr>
+
+<h3>📊 الإحصائيات</h3>
+<div id="stats"></div>
+
+</div>
+
+<button onclick="openAdmin()">إغلاق</button>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer style="text-align:center;padding:20px;background:#fff;margin-top:40px">
+© 2026 Mouda Maroc - جميع الحقوق محفوظة
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>
