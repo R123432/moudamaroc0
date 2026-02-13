@@ -1,129 +1,202 @@
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let coupons = JSON.parse(localStorage.getItem("coupons")) || {};
-let discount = 0;
+let products=JSON.parse(localStorage.getItem("products"))||[];
+let cart=[];
 
-/* حفظ الوضع الليلي */
-if(localStorage.getItem("darkMode")==="on"){
-document.body.classList.add("dark");
+const ADMIN_PASS="1234";
+
+/* ADMIN */
+function openAdmin(){
+document.getElementById("adminPanel").style.display="flex";
 }
 
-function toggleDarkMode(){
-document.body.classList.toggle("dark");
-localStorage.setItem("darkMode",
-document.body.classList.contains("dark")?"on":"off");
+function closeAdmin(){
+document.getElementById("adminPanel").style.display="none";
 }
 
-/* عرض المنتجات */
-function showCategory(cat){
-const container=document.getElementById("products");
-container.innerHTML="";
-products.filter(p=>p.cat===cat).forEach(p=>{
-container.innerHTML+=`
-<div class="product-card" onclick="openProduct(${p.id})">
-<img src="${p.images[0]}">
-<h3>${p.name}</h3>
-<p>${p.price} DH</p>
-<small>المبيعات: ${p.sales||0}</small>
-</div>`;
-});
-}
+function loginAdmin(){
+let pass=document.getElementById("adminPass").value;
 
-/* حفظ منتج */
-function saveProduct(){
-let id=document.getElementById("editId").value;
-let name=document.getElementById("pname").value;
-let price=document.getElementById("pprice").value;
-let cat=document.getElementById("pcat").value;
-let colors=document.getElementById("pcolors").value.split(",");
-let sizes=document.getElementById("psizes").value.split(",");
-let files=document.getElementById("pimage").files;
+if(pass===ADMIN_PASS){
 
-let images=[];
-if(files.length>0){
-let reader=new FileReader();
-reader.onload=function(e){
-images.push(e.target.result);
-finishSave();
-}
-reader.readAsDataURL(files[0]);
-}else{
-finishSave();
-}
+document.getElementById("loginBox").style.display="none";
+document.getElementById("adminContent").style.display="block";
 
-function finishSave(){
-if(id){
-let p=products.find(x=>x.id==id);
-p.name=name;
-p.price=price;
-}else{
-products.push({
-id:Date.now(),
-name,price,cat,
-images,
-colors,
-sizes,
-sales:0
-});
-}
-localStorage.setItem("products",JSON.stringify(products));
 loadAdminProducts();
-}
-}
 
-/* كوبونات */
-function addCoupon(){
-let code=document.getElementById("newCoupon").value;
-let percent=document.getElementById("newDiscount").value;
-coupons[code]=percent/100;
-localStorage.setItem("coupons",JSON.stringify(coupons));
-alert("تم إضافة الكوبون");
-}
-
-function applyCoupon(){
-let code=document.getElementById("couponInput").value;
-if(coupons[code]){
-discount=coupons[code];
-alert("تم تطبيق الخصم");
 }else{
-discount=0;
-alert("كود غير صحيح");
+
+alert("كلمة المرور خاطئة");
+
 }
-renderCart();
 }
 
-/* بقية النظام نفس السابق مع احتساب المبيعات */
-function sendOrder(){
-if(cart.length===0){alert("السلة فارغة");return;}
+/* ADD PRODUCT */
+function addProduct(){
 
-let name=document.getElementById("customerName").value;
-let phone=document.getElementById("customerPhone").value;
-let address=document.getElementById("customerAddress").value;
+let product={
+
+id:Date.now(),
+name:pname.value,
+price:Number(pprice.value),
+stock:Number(pstock.value),
+rating:Number(prating.value),
+image:pimage.value,
+cat:pcat.value,
+sales:0
+
+};
+
+products.push(product);
+
+localStorage.setItem("products",JSON.stringify(products));
+
+loadAdminProducts();
+
+alert("تم إضافة المنتج");
+
+}
+
+/* LOAD ADMIN PRODUCTS */
+function loadAdminProducts(){
+
+let container=document.getElementById("adminProducts");
+
+container.innerHTML="";
+
+products.forEach(p=>{
+
+container.innerHTML+=`
+
+<div class="admin-product">
+
+${p.name} - ${p.price} DH
+
+<button onclick="deleteProduct(${p.id})" class="delete-btn">
+
+حذف
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* DELETE */
+function deleteProduct(id){
+
+products=products.filter(p=>p.id!==id);
+
+localStorage.setItem("products",JSON.stringify(products));
+
+loadAdminProducts();
+
+}
+
+/* SHOW PRODUCTS */
+function showCategory(cat){
+
+let container=document.getElementById("products");
+
+container.innerHTML="";
+
+products.filter(p=>p.cat===cat).forEach(p=>{
+
+container.innerHTML+=`
+
+<div class="product-card">
+
+<img src="${p.image}">
+
+<h3>${p.name}</h3>
+
+<p>${p.price} DH</p>
+
+<div class="rating">${"⭐".repeat(p.rating)}</div>
+
+<div class="stock">المخزون: ${p.stock}</div>
+
+<button onclick="addToCart(${p.id})" class="btn-main">
+
+إضافة للسلة
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* CART */
+function addToCart(id){
+
+let p=products.find(x=>x.id===id);
+
+if(p.stock<=0){
+
+alert("نفذ المخزون");
+
+return;
+
+}
+
+p.stock--;
+
+cart.push(p);
+
+updateCart();
+
+}
+
+function updateCart(){
+
+cartCount.innerText=cart.length;
 
 let total=0;
-let message="طلب جديد:%0A";
-message+=`الاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${address}%0A%0A`;
 
-cart.forEach(item=>{
-total+=item.price*item.quantity;
-message+=`${item.name} ×${item.quantity}%0A`;
-let p=products.find(x=>x.id===item.id);
-p.sales=(p.sales||0)+item.quantity;
+cartItems.innerHTML="";
+
+cart.forEach(p=>{
+
+total+=p.price;
+
+cartItems.innerHTML+=`<p>${p.name}</p>`;
+
 });
 
-total=total-(total*discount);
-message+=`%0Aالمجموع: ${total} DH`;
+totalPrice.innerText=total;
 
-localStorage.setItem("products",JSON.stringify(products));
-window.open(`https://wa.me/212712120673?text=${message}`);
-cart=[];
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
 }
 
-/* الباقي كما سبق */
-function updateCart(){
-document.getElementById("cartCount").innerText=cart.length;
+/* TOGGLE CART */
+function toggleCart(){
+
+cart.classList.toggle("active");
+
+cartOverlay.classList.toggle("active");
+
 }
 
-updateCart();
+/* ORDER */
+function sendOrder(){
+
+let total=cart.reduce((a,b)=>a+b.price,0);
+
+let msg="طلب جديد:%0A";
+
+cart.forEach(p=>{
+
+msg+=p.name+"%0A";
+
+});
+
+msg+="المجموع:"+total;
+
+window.open("https://wa.me/212712120673?text="+msg);
+
+}
