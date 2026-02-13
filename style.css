@@ -26,7 +26,7 @@ body{
 }
 
 /* =========================
-   HEADER VIP LUXURY
+   HEADER
 ========================= */
 
 header{
@@ -36,10 +36,15 @@ header{
     box-shadow:0 5px 30px rgba(0,0,0,0.05);
     margin-bottom:30px;
     animation:fadeIn 1.2s ease forwards;
+
+    position:sticky;
+    top:0;
+    backdrop-filter:blur(10px);
+    z-index:1000;
 }
 
 /* =========================
-   LOGO GOLD ANIMATION
+   LOGO
 ========================= */
 
 .logo{
@@ -68,7 +73,6 @@ header{
     filter:drop-shadow(0 0 8px rgba(255,215,0,0.3));
 }
 
-/* خط تحت اللوجو */
 .logo::after{
     content:"";
     position:absolute;
@@ -87,36 +91,44 @@ header{
     width:140px;
 }
 
-/* لمعان */
-.logo::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-120%;
-    width:60%;
-    height:100%;
-    background:linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.7),
-        transparent
-    );
-    transform:skewX(-25deg);
-    animation:shineMove 4s infinite;
-    pointer-events:none;
-}
-
-/* Sub text */
 .logo-sub{
     font-size:14px;
     letter-spacing:3px;
     margin-top:20px;
     color:#d4af37;
-    opacity:0.9;
 }
 
 /* =========================
-   HERO SECTION
+   HEADER ACTIONS
+========================= */
+
+.header-wrapper{
+    position:relative;
+}
+
+.header-actions{
+    position:absolute;
+    top:10px;
+    left:10px;
+    display:flex;
+    gap:8px;
+}
+
+.icon-btn{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.icon-btn:hover{
+    background:#ffd700;
+}
+
+/* =========================
+   HERO
 ========================= */
 
 .hero{
@@ -125,7 +137,6 @@ header{
 
 .hero h2{
     font-size:26px;
-    font-weight:700;
     margin-bottom:10px;
 }
 
@@ -135,7 +146,6 @@ header{
     margin-bottom:20px;
 }
 
-/* زر رئيسي */
 .btn-main{
     display:inline-block;
     padding:12px 30px;
@@ -150,7 +160,6 @@ header{
 
 .btn-main:hover{
     transform:translateY(-3px);
-    box-shadow:0 8px 25px rgba(255,215,0,0.5);
 }
 
 /* =========================
@@ -180,10 +189,37 @@ header{
 }
 
 /* =========================
-   CART & ADMIN CARDS
+   PRODUCTS
 ========================= */
 
-/* ===== CART PANEL ===== */
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+}
+
+.product-card{
+    background:#fff;
+    border-radius:18px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 5px 25px rgba(0,0,0,0.05);
+    transition:0.4s;
+}
+
+.product-card:hover{
+    transform:translateY(-8px);
+}
+
+.product-card img{
+    width:100%;
+    border-radius:12px;
+}
+
+/* =========================
+   CART PANEL
+========================= */
+
 .cart-panel{
     position:fixed;
     top:0;
@@ -202,7 +238,10 @@ header{
     right:0;
 }
 
-/* ===== ADMIN POPUP ===== */
+/* =========================
+   ADMIN POPUP
+========================= */
+
 .admin{
     position:fixed;
     top:50%;
@@ -223,6 +262,25 @@ header{
 }
 
 /* =========================
+   OVERLAY
+========================= */
+
+#cartOverlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    display:none;
+    z-index:1900;
+}
+
+#cartOverlay.active{
+    display:block;
+}
+
+/* =========================
    FOOTER
 ========================= */
 
@@ -236,26 +294,6 @@ header{
 .footer a{
     color:#ffd700;
     margin:0 10px;
-    text-decoration:none;
-}
-
-/* =========================
-   OVERLAY
-========================= */
-
-#cartOverlay{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.4);
-    display:none;
-    z-index:90;
-}
-
-#cartOverlay.active{
-    display:block;
 }
 
 /* =========================
@@ -266,237 +304,7 @@ header{
     to{ background-position:300% center; }
 }
 
-@keyframes shineMove{
-    0%{ left:-120%; }
-    50%{ left:120%; }
-    100%{ left:120%; }
-}
-
 @keyframes fadeIn{
     from{ opacity:0; transform:translateY(-20px); }
     to{ opacity:1; transform:translateY(0); }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:768px){
-
-    .logo{
-        font-size:28px;
-        letter-spacing:3px;
-    }
-
-    .logo-sub{
-        font-size:12px;
-    }
-
-    .hero h2{
-        font-size:20px;
-    }
-
-    .btn-main{
-        padding:10px 20px;
-        font-size:14px;
-    }
-
-}
-/* =========================
-   PREMIUM UPGRADE PRO
-========================= */
-
-/* ===== HEADER STICKY BLUR ===== */
-header{
-    position:sticky;
-    top:0;
-    backdrop-filter:blur(10px);
-    z-index:1000;
-}
-
-/* ===== HEADER ACTIONS ===== */
-.header-wrapper{
-    position:relative;
-}
-
-.header-actions{
-    position:absolute;
-    top:10px;
-    left:10px;
-    display:flex;
-    gap:8px;
-}
-
-.icon-btn{
-    background:#fff;
-    border:1px solid #ddd;
-    padding:6px 10px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.icon-btn:hover{
-    background:#ffd700;
-}
-
-/* ===== PRODUCTS GRID ===== */
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:25px;
-    margin-top:20px;
-}
-
-/* ===== PRODUCT CARD ===== */
-.product-card{
-    background:#fff;
-    border-radius:18px;
-    padding:15px;
-    text-align:center;
-    box-shadow:0 5px 25px rgba(0,0,0,0.05);
-    transition:0.4s;
-    position:relative;
-    overflow:hidden;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 0.8s forwards;
-}
-
-.product-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 40px rgba(0,0,0,0.12);
-}
-
-.product-card img{
-    width:100%;
-    border-radius:12px;
-    margin-bottom:10px;
-}
-
-/* ===== PRICE STYLE ===== */
-.price{
-    font-weight:700;
-    color:#b8860b;
-    margin:8px 0;
-}
-
-.old-price{
-    text-decoration:line-through;
-    color:#999;
-    font-size:14px;
-    margin-right:5px;
-}
-
-/* ===== SALE BADGE ===== */
-.sale-badge{
-    position:absolute;
-    top:10px;
-    right:10px;
-    background:#e63946;
-    color:#fff;
-    padding:5px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:700;
-}
-
-/* ===== CART PANEL SLIDE ===== */
-.cart-panel{
-    position:fixed;
-    top:0;
-    right:-100%;
-    width:320px;
-    height:100%;
-    background:#fff;
-    padding:20px;
-    box-shadow:-5px 0 30px rgba(0,0,0,0.15);
-    transition:0.4s ease;
-    z-index:2000;
-    overflow-y:auto;
-}
-
-.cart-panel.active{
-    right:0;
-}
-
-/* ===== ADMIN POPUP ===== */
-.admin{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:90%;
-    max-width:420px;
-    display:none;
-    z-index:3000;
-}
-
-.admin.active{
-    display:block;
-}
-
-.admin input,
-.admin select{
-    width:100%;
-    padding:10px;
-    margin:8px 0;
-    border-radius:10px;
-    border:1px solid #ccc;
-}
-
-/* ===== DARK MODE ===== */
-body.dark{
-    background:#111;
-    color:#eee;
-}
-
-body.dark header{
-    background:rgba(20,20,20,0.95);
-}
-
-body.dark .product-card,
-body.dark .cart-panel,
-body.dark .admin{
-    background:#1c1c1c;
-    color:#fff;
-}
-
-body.dark .categories button{
-    background:#222;
-    color:#fff;
-    border-color:#333;
-}
-
-body.dark .icon-btn{
-    background:#222;
-    color:#fff;
-    border-color:#333;
-}
-
-/* ===== WHATSAPP FLOAT ===== */
-.whatsapp-float{
-    position:fixed;
-    bottom:20px;
-    left:20px;
-    background:#25D366;
-    color:#fff;
-    font-size:22px;
-    padding:12px 14px;
-    border-radius:50%;
-    text-decoration:none;
-    box-shadow:0 5px 20px rgba(0,0,0,0.3);
-    transition:0.3s;
-}
-
-.whatsapp-float:hover{
-    transform:scale(1.1);
-}
-
-/* ===== SCROLL ANIMATION ===== */
-@keyframes fadeUp{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
