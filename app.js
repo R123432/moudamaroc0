@@ -1,6 +1,5 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = [];
-
 const ADMIN_PASS="1234";
 
 const adminPanel=document.getElementById("adminPanel");
@@ -21,7 +20,7 @@ document.getElementById("loginBox").style.display="none";
 document.getElementById("adminContent").style.display="block";
 loadAdminProducts();
 }else{
-document.getElementById("adminError").style.display="block";
+document.querySelector(".error-msg").style.display="block";
 }
 }
 
@@ -36,10 +35,11 @@ rating:Number(prating.value),
 image:pimage.value,
 cat:pcat.value
 };
+
 products.push(product);
 localStorage.setItem("products",JSON.stringify(products));
 loadAdminProducts();
-alert("تم إضافة المنتج");
+alert("تمت الإضافة");
 }
 
 /* LOAD ADMIN PRODUCTS */
@@ -48,7 +48,7 @@ let container=document.getElementById("adminProducts");
 container.innerHTML="";
 products.forEach(p=>{
 container.innerHTML+=`
-<div class="admin-product">
+<div>
 ${p.name} - ${p.price} DH
 <button onclick="deleteProduct(${p.id})" class="btn-main">حذف</button>
 </div>`;
@@ -69,7 +69,7 @@ container.innerHTML="";
 products.filter(p=>p.cat===cat).forEach(p=>{
 container.innerHTML+=`
 <div class="product-card">
-<img src="${p.image}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+<img src="${p.image}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
 <h3>${p.name}</h3>
 <p>${p.price} DH</p>
 <div class="rating">${"⭐".repeat(p.rating)}</div>
