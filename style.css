@@ -3,14 +3,13 @@
 ========================= */
 
 header{
-    header{
-    header{
     background:linear-gradient(to bottom,#3c6382,#0a3d62);
     color:white;
-    padding:25px 20px 0 20px;
+    padding:25px 20px 60px 20px;
     border-bottom-left-radius:40px;
     border-bottom-right-radius:40px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    position:relative;
+    overflow:hidden;
 }
 
 /* حركة دخول */
@@ -102,8 +101,18 @@ header h1{
 header.scrolled{
     box-shadow:0 10px 35px rgba(0,0,0,0.35);
 }
-..hero{
-    padding:80px 20px 70px 20px;
+header::after{
+    content:"";
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    width:100%;
+    height:5px;
+    background:#0a3d62;
+}
+.hero{
+    padding:40px 20px 0 20px;
+    margin:0;
     text-align:center;
     color:white;
 }
@@ -194,9 +203,7 @@ header.scrolled{
     transform:translateY(-3px);
 
 }
-
 body{
     margin:0;
-    font-family:'Cairo',sans-serif;
-    background:#f5f6fa;
+    padding:0;
 }
