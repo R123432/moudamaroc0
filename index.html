@@ -181,3 +181,89 @@ background:white;
 padding:20px;
 overflow:auto;
 }
+let products = JSON.parse(localStorage.getItem("products")) || [];
+let cart = [];
+let whatsapp = "212712120673";
+
+let categories = ["ملابس رجالية","ملابس نسائية","ملابس أطفال","معدات رياضية","أدوات منزلية","مراهم"];
+
+function displayCategories(){
+let box = document.getElementById("categories");
+categories.forEach(cat=>{
+box.innerHTML += `<div class="cat" onclick="showProducts('${cat}')">${cat}</div>`;
+});
+}
+
+function showProducts(cat){
+let box = document.getElementById("products");
+box.style.display="grid";
+box.innerHTML="";
+products.filter(p=>p.category==cat).forEach((p,i)=>{
+box.innerHTML+=`
+<div class="product">
+<img src="${p.image}">
+<h3>${p.name}</h3>
+<div>${"★".repeat(p.rating||0)}</div>
+<div class="price">${p.price} DH ${p.oldPrice?`<span class="old">${p.oldPrice} DH</span>`:''}</div>
+<button onclick="addToCart(${i})">أضف للسلة</button>
+</div>`;
+});
+}
+
+function addProduct(){
+let file = document.getElementById("productImage").files[0];
+let reader = new FileReader();
+reader.onload = function(e){
+let product = {
+name: productName.value,
+price: productPrice.value,
+oldPrice: productOldPrice.value,
+category: productCategory.value,
+rating: productRating.value,
+image: e.target.result
+};
+products.push(product);
+localStorage.setItem("products",JSON.stringify(products));
+alert("تمت الإضافة");
+};
+if(file) reader.readAsDataURL(file);
+}
+
+function addToCart(i){
+cart.push(products[i]);
+alert("تمت الإضافة للسلة");
+}
+
+function toggleCart(){
+cartPanel.style.display = cartPanel.style.display=="block"?"none":"block";
+}
+
+function sendOrder(){
+let message="طلب جديد 🛍️%0A";
+cart.forEach(p=>{
+message+=p.name+" - "+p.price+" DH%0A";
+});
+message+="%0Aالاسم:"+customerName.value+"%0Aالهاتف:"+customerPhone.value;
+window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
+}
+
+function openAdmin(){
+let pass = prompt("أدخل كود الإدارة");
+if(pass==="2025"){
+adminPanel.style.display="block";
+}
+}
+
+let end = new Date();
+end.setHours(end.getHours()+24);
+
+setInterval(()=>{
+let now = new Date().getTime();
+let distance = end - now;
+let h = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let m = Math.floor((distance%(1000*60*60))/(1000*60));
+let s = Math.floor((distance%(1000*60))/1000);
+document.getElementById("countdown").innerHTML = h+"h "+m+"m "+s+"s";
+},1000);
+
+displayCategories();
