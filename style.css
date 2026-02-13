@@ -1,239 +1,149 @@
-/* ===== إعداد عام ===== */
-*{
-box-sizing:border-box;
-transition:0.3s;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;transition:.3s}
 
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#f4f7ff;
-direction:rtl;
-color:#222;
-}
+body{background:#f4f7ff;direction:rtl;color:#222}
 
-/* ===== DARK MODE ===== */
-body.dark{
-background:#121212;
-color:white;
-}
+body.dark{background:#121212;color:white}
 
-body.dark header,
-body.dark .product,
-body.dark .categories div,
-body.dark .cart,
-body.dark .admin,
-body.dark footer{
-background:#1e1e1e;
-color:white;
-}
-
-body.dark .price{
-color:#ff7675;
-}
-
-/* ===== Header ===== */
 header{
-background:rgba(255,255,255,0.7);
-backdrop-filter:blur(10px);
-padding:15px 25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+padding:15px;
+background:white;
 box-shadow:0 5px 20px rgba(0,0,0,.05);
 position:sticky;
 top:0;
-z-index:1000;
+z-index:1000
 }
 
-.logo{
-font-size:24px;
-font-weight:bold;
-color:#0a3d62;
+body.dark header{background:#1e1e1e}
+
+.logo{font-size:22px;font-weight:bold}
+
+.icons button{
+margin-left:10px;
+padding:6px 10px;
+border:none;
+background:#0a3d62;
+color:white;
+border-radius:8px;
+cursor:pointer
 }
 
-.social i{
-color:#0a3d62;
-margin-left:15px;
-font-size:20px;
-cursor:pointer;
-}
-
-.social i:hover{
-color:#e55039;
-transform:scale(1.2);
-}
-
-/* ===== Hero ===== */
 .hero{
 background:linear-gradient(45deg,#0a3d62,#3c6382);
 color:white;
-padding:70px 20px;
 text-align:center;
-font-size:28px;
-font-weight:bold;
+padding:50px 20px;
+font-size:24px
 }
 
-/* ===== Categories ===== */
+#countdown{margin-top:10px;font-size:18px}
+
 .categories{
 display:flex;
-flex-wrap:wrap;
-gap:12px;
-padding:25px;
 justify-content:center;
+gap:10px;
+padding:20px;
+flex-wrap:wrap
 }
 
 .categories div{
-background:rgba(255,255,255,0.8);
-backdrop-filter:blur(8px);
-padding:12px 22px;
+background:white;
+padding:10px 20px;
 border-radius:30px;
 cursor:pointer;
-box-shadow:0 5px 15px rgba(0,0,0,.08);
+box-shadow:0 5px 15px rgba(0,0,0,.1)
 }
 
-.categories div:hover{
-background:#0a3d62;
-color:white;
-transform:translateY(-4px);
-}
+body.dark .categories div{background:#1e1e1e}
 
-/* ===== Products ===== */
 #products{
 display:flex;
 flex-wrap:wrap;
-gap:25px;
-padding:25px;
 justify-content:center;
+gap:20px;
+padding:20px
 }
 
 .product{
 background:white;
-width:240px;
-border-radius:18px;
+width:230px;
+border-radius:15px;
 overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-position:relative;
-animation:fadeIn 0.6s ease;
+box-shadow:0 10px 25px rgba(0,0,0,.1)
 }
 
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(20px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-.product:hover{
-transform:translateY(-6px);
-box-shadow:0 15px 35px rgba(0,0,0,.15);
-}
+body.dark .product{background:#1e1e1e}
 
 .product img{
 width:100%;
-height:230px;
-object-fit:cover;
+height:200px;
+object-fit:cover
 }
 
-/* ===== BADGE تخفيض ===== */
-.badge{
-position:absolute;
-top:10px;
-left:10px;
-background:#e55039;
-color:white;
-padding:5px 10px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
-}
-
-.product h3{
-padding:10px;
-margin:0;
-font-size:18px;
-}
+.product h3{padding:10px}
 
 .price{
-color:#e55039;
 padding:0 10px 10px;
-font-weight:bold;
+color:#e55039;
+font-weight:bold
 }
 
 .product button{
 margin:10px;
+padding:8px;
 background:#0a3d62;
 color:white;
 border:none;
-border-radius:10px;
-cursor:pointer;
-padding:10px;
+border-radius:8px;
+cursor:pointer
 }
 
-.product button:hover{
-background:#e55039;
+.badge{
+position:absolute;
+background:red;
+color:white;
+padding:5px 8px;
+border-radius:8px;
+top:10px;
+left:10px;
+font-size:12px
 }
 
-/* ===== Cart + Admin ===== */
-.cart,
-.admin{
+.cart,.admin{
 position:fixed;
 right:-400px;
 top:0;
-width:370px;
+width:350px;
 height:100%;
 background:white;
-padding:25px;
-box-shadow:-5px 0 25px rgba(0,0,0,.2);
-overflow:auto;
-z-index:2000;
-}
-
-.cart.active,
-.admin.active{
-right:0;
-}
-
-/* ===== Inputs ===== */
-input,
-select,
-button{
-width:100%;
-padding:10px;
-margin-bottom:12px;
-border-radius:10px;
-border:1px solid #ddd;
-}
-
-input:focus,
-select:focus{
-outline:none;
-border:1px solid #0a3d62;
-}
-
-button{
-background:#0a3d62;
-color:white;
-border:none;
-cursor:pointer;
-}
-
-button:hover{
-background:#e55039;
-}
-
-/* ===== Footer ===== */
-footer{
-background:white;
-text-align:center;
 padding:20px;
-margin-top:40px;
+overflow:auto;
+box-shadow:-5px 0 20px rgba(0,0,0,.2)
 }
 
-/* ===== Responsive ===== */
+body.dark .cart,body.dark .admin{background:#1e1e1e}
+
+.cart.active,.admin.active{right:0}
+
+input,select{
+width:100%;
+padding:8px;
+margin-bottom:10px;
+border-radius:8px;
+border:1px solid #ccc
+}
+
+button{
+cursor:pointer
+}
+
 @media(max-width:768px){
-.product{ width:45%; }
-.cart,.admin{ width:100%; }
+.product{width:45%}
+.cart,.admin{width:100%}
 }
 
 @media(max-width:480px){
-.product{ width:100%; }
+.product{width:100%}
 }
