@@ -84,3 +84,59 @@
     text-align:center;
     opacity:0.9;
 }
+/* =========================
+   LUXURY IMPROVEMENTS
+========================= */
+
+/* نخلي اللمعة ما تخرجش خارج النص */
+.logo{
+    overflow:hidden;
+    padding:10px 0;
+    text-align:center;
+}
+
+/* تحسين الأداء */
+.logo::before{
+    pointer-events:none;
+}
+
+/* تحسين الخط تحت الاسم */
+.logo::after{
+    transition:0.4s ease;
+}
+
+.logo:hover::after{
+    width:130px;
+}
+
+/* تأثير دخول راقي */
+header{
+    animation:headerFade 1.5s ease forwards;
+    opacity:0;
+}
+
+@keyframes headerFade{
+    to{
+        opacity:1;
+    }
+}
+
+/* Responsive للموبايل */
+@media(max-width:768px){
+
+    .logo{
+        font-size:30px;
+        letter-spacing:4px;
+    }
+
+    .logo-sub{
+        font-size:12px;
+        letter-spacing:2px;
+    }
+
+    .logo::after{
+        width:70px;
+        bottom:-12px;
+    }
+
+}
