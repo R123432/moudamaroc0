@@ -7,12 +7,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
 
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#f2f6ff;
-direction:rtl;
-}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:#f2f6ff;direction:rtl}
 
 header{
 background:white;
@@ -20,73 +15,48 @@ padding:15px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
+box-shadow:0 2px 10px rgba(0,0,0,.05)
 }
 
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#0a3d62;
-}
+.logo{font-size:22px;font-weight:bold;color:#0a3d62}
 
-.social{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.social a{
-color:#0a3d62;
-font-size:20px;
-text-decoration:none;
-}
-
-.username{
-font-size:14px;
-color:#555;
-}
+.social a{color:#0a3d62;font-size:20px;margin-left:10px}
 
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
-padding:20px;
+padding:20px
 }
 
 .product{
 background:white;
 border-radius:15px;
 padding:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.05);
-transition:0.3s;
+box-shadow:0 10px 25px rgba(0,0,0,.05);
+transition:.3s
 }
 
-.product:hover{
-transform:translateY(-5px);
-}
+.product:hover{transform:translateY(-5px)}
 
 .product img{
 width:100%;
 height:220px;
 object-fit:cover;
-border-radius:10px;
+border-radius:10px
 }
 
-.price{
-font-weight:bold;
-color:#0a3d62;
-margin:8px 0;
-}
+.price{font-weight:bold;color:#0a3d62;margin:8px 0}
 
-.add-btn{
-background:#0a3d62;
-color:white;
-width:100%;
-padding:8px;
+button{
+cursor:pointer;
 border:none;
 border-radius:20px;
-cursor:pointer;
+padding:8px 12px;
+margin-top:6px
 }
+
+.add-btn{background:#0a3d62;color:white;width:100%}
 
 .cart-btn{
 position:fixed;
@@ -96,41 +66,7 @@ background:#0a3d62;
 color:white;
 padding:15px;
 border-radius:50%;
-font-size:20px;
-cursor:pointer;
-}
-
-.order-now{
-background:#25D366;
-color:white;
-width:100%;
-margin-top:10px;
-padding:10px;
-border:none;
-border-radius:25px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.panel{
-display:none;
-position:fixed;
-top:0;
-right:0;
-width:350px;
-height:100%;
-background:white;
-box-shadow:-5px 0 20px rgba(0,0,0,0.1);
-padding:20px;
-overflow:auto;
-}
-
-input{
-width:100%;
-padding:8px;
-margin:5px 0;
-border-radius:8px;
-border:1px solid #ddd;
+font-size:20px
 }
 
 .admin-trigger{
@@ -141,7 +77,67 @@ background:#0a3d62;
 color:white;
 padding:8px;
 border-radius:10px 0 0 10px;
-cursor:pointer;
+cursor:pointer
+}
+
+/* سلة */
+.panel{
+display:none;
+position:fixed;
+top:0;
+right:0;
+width:350px;
+height:100%;
+background:white;
+box-shadow:-5px 0 20px rgba(0,0,0,.1);
+padding:20px;
+overflow:auto;
+z-index:1000
+}
+
+input{
+width:100%;
+padding:8px;
+margin:5px 0;
+border-radius:8px;
+border:1px solid #ddd
+}
+
+/* Dashboard */
+.dashboard{
+display:none;
+position:fixed;
+top:0;
+right:0;
+width:400px;
+height:100%;
+background:#0a3d62;
+color:white;
+padding:20px;
+overflow:auto;
+z-index:2000
+}
+
+.dashboard h3{margin-top:20px}
+
+.dashboard button{
+background:white;
+color:#0a3d62;
+width:100%
+}
+
+.admin-product{
+background:white;
+color:#000;
+padding:8px;
+border-radius:8px;
+margin-top:5px
+}
+
+.delete-btn{
+background:red;
+color:white;
+margin-top:5px
 }
 
 </style>
@@ -152,22 +148,14 @@ cursor:pointer;
 <header>
 <div class="logo">MoudaMaroc</div>
 <div class="social">
-<a href="https://www.instagram.com/moudamaroc0" target="_blank">
-<i class="fab fa-instagram"></i>
-</a>
-<a href="https://tiktok.com/@moudamaroc0" target="_blank">
-<i class="fab fa-tiktok"></i>
-</a>
-<div class="username">@moudamaroc0</div>
+<a href="https://www.instagram.com/moudamaroc0" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://tiktok.com/@moudamaroc0" target="_blank"><i class="fab fa-tiktok"></i></a>
 </div>
 </header>
 
 <div class="products" id="products"></div>
 
-<div class="cart-btn" onclick="openCart()">
-<i class="fas fa-shopping-cart"></i>
-</div>
-
+<div class="cart-btn" onclick="openCart()"><i class="fas fa-shopping-cart"></i></div>
 <div class="admin-trigger" onclick="openAdmin()">⚙</div>
 
 <!-- سلة -->
@@ -182,22 +170,36 @@ cursor:pointer;
 <input type="text" id="ccity" placeholder="المدينة">
 <input type="text" id="caddress" placeholder="العنوان">
 
-<button class="order-now" onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+<button style="background:#25D366;color:white;width:100%" onclick="sendOrder()">اطلب الآن</button>
 <button onclick="closeCart()">إغلاق</button>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard" id="dashboard">
+<h2>لوحة التحكم</h2>
+
+<h3>إضافة منتج</h3>
+<input type="text" id="pname" placeholder="اسم المنتج">
+<input type="number" id="pprice" placeholder="السعر">
+<input type="file" id="pimg" accept="image/*">
+<button onclick="addProduct()">إضافة المنتج</button>
+
+<h3>المنتجات</h3>
+<div id="adminProducts"></div>
+
+<button onclick="closeDashboard()">إغلاق</button>
 </div>
 
 <script>
 
-let products = JSON.parse(localStorage.getItem("products")) || [
-{name:"قميص رجالي",price:199,img:"https://picsum.photos/400?1"},
-{name:"حذاء رياضي",price:299,img:"https://picsum.photos/400?2"}
-];
-
+let products=JSON.parse(localStorage.getItem("products"))||[];
 let cart=[];
 let whatsapp="212712120673";
 
-function saveProducts(){
+function save(){
 localStorage.setItem("products",JSON.stringify(products));
+displayProducts();
+displayAdminProducts();
 }
 
 function displayProducts(){
@@ -214,9 +216,37 @@ box.innerHTML+=`
 });
 }
 
+function addProduct(){
+let file=pimg.files[0];
+if(!file) return alert("اختر صورة");
+let reader=new FileReader();
+reader.onload=e=>{
+products.push({name:pname.value,price:+pprice.value,img:e.target.result});
+save();
+};
+reader.readAsDataURL(file);
+}
+
+function displayAdminProducts(){
+let box=document.getElementById("adminProducts");
+box.innerHTML="";
+products.forEach((p,i)=>{
+box.innerHTML+=`
+<div class="admin-product">
+${p.name} - ${p.price} DH
+<button class="delete-btn" onclick="deleteProduct(${i})">حذف</button>
+</div>`;
+});
+}
+
+function deleteProduct(i){
+products.splice(i,1);
+save();
+}
+
 function addToCart(i){
 cart.push(products[i]);
-alert("تمت إضافة المنتج للسلة");
+alert("تمت الإضافة للسلة");
 }
 
 function openCart(){
@@ -242,17 +272,11 @@ document.getElementById("total").innerText="المجموع: "+total+" DH";
 function sendOrder(){
 if(cart.length==0) return alert("السلة فارغة");
 
-let total=cart.reduce((sum,p)=>sum+p.price,0);
-
+let total=cart.reduce((s,p)=>s+p.price,0);
 let message="طلب جديد 🛍️%0A";
-cart.forEach(p=>{
-message+=p.name+" - "+p.price+" DH%0A";
-});
+cart.forEach(p=>{message+=p.name+" - "+p.price+" DH%0A"});
 message+="المجموع: "+total+" DH%0A";
-message+="الاسم: "+cname.value+"%0A";
-message+="الهاتف: "+cphone.value+"%0A";
-message+="المدينة: "+ccity.value+"%0A";
-message+="العنوان: "+caddress.value;
+message+="الاسم: "+cname.value+"%0Aالهاتف: "+cphone.value+"%0Aالمدينة: "+ccity.value+"%0Aالعنوان: "+caddress.value;
 
 window.open("https://wa.me/"+whatsapp+"?text="+message,"_blank");
 
@@ -263,8 +287,13 @@ closeCart();
 function openAdmin(){
 let pass=prompt("أدخل كود الإدارة");
 if(pass==="2025"){
-alert("Dashboard غادي نبنيوها فالمرحلة الجاية 👑");
+document.getElementById("dashboard").style.display="block";
+displayAdminProducts();
 }
+}
+
+function closeDashboard(){
+document.getElementById("dashboard").style.display="none";
 }
 
 displayProducts();
