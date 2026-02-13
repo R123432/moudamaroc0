@@ -140,3 +140,40 @@ header{
     }
 
 }
+/* =========================
+   VIP HEADER FIX
+========================= */
+
+header{
+    padding:40px 20px;
+    text-align:center;
+    background:linear-gradient(to bottom,#ffffff,#f5f5f5);
+}
+
+/* تقليل الفراغ */
+.logo{
+    margin-top:10px;
+    line-height:1.1;
+}
+
+/* تحسين النص السفلي */
+.logo-sub{
+    margin-top:18px;
+    font-weight:500;
+}
+
+/* تقليل حجم اللوجو فالموبايل */
+@media(max-width:768px){
+
+    header{
+        padding:25px 15px;
+    }
+
+    .logo{
+        font-size:26px;
+    }
+
+    .logo-sub{
+        font-size:11px;
+    }
+}
