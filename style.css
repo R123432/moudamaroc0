@@ -1,47 +1,86 @@
 /* =========================
-   LOGO MODA MAROC PREMIUM
+   MODA MAROC VIP LUXURY LOGO
 ========================= */
 
 .logo{
-    font-size:30px;
+    font-size:42px;
     font-weight:900;
-    letter-spacing:3px;
+    letter-spacing:6px;
     text-transform:uppercase;
-    background:linear-gradient(45deg,#ffffff,#f5f6fa,#dcdde1);
+    position:relative;
+    display:inline-block;
+
+    /* ذهب واقعي متحرك */
+    background:linear-gradient(
+        120deg,
+        #b8860b,
+        #ffd700,
+        #fff8dc,
+        #ffd700,
+        #b8860b
+    );
+    background-size:300% auto;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-    position:relative;
-    animation:logoFade 1.2s ease forwards;
+
+    animation:goldFlow 6s linear infinite;
+
+    /* ظل فاخر */
+    filter:drop-shadow(0 0 8px rgba(255,215,0,0.3));
 }
 
-/* خط ذهبي تحت الاسم */
+/* خط ذهبي مضيء تحت الاسم */
 .logo::after{
     content:"";
-    width:60%;
+    width:100px;
     height:3px;
-    background:linear-gradient(to right,#ffcc00,#f1c40f);
+    background:linear-gradient(to right,#b8860b,#ffd700);
     position:absolute;
-    bottom:-8px;
+    bottom:-18px;
     left:50%;
     transform:translateX(-50%);
-    border-radius:5px;
-    animation:lineGrow 1.5s ease forwards;
+    border-radius:6px;
+    box-shadow:0 0 20px rgba(255,215,0,0.6);
 }
 
-/* Glow خفيف */
-.logo:hover{
-    text-shadow:0 0 20px rgba(255,255,255,0.6);
-    transform:scale(1.05);
-    transition:0.3s;
+/* تأثير لمعان احترافي */
+.logo::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:60%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.7),
+        transparent
+    );
+    transform:skewX(-25deg);
+    animation:shineMove 4s infinite;
 }
 
-/* Animations */
-@keyframes logoFade{
-    from{opacity:0; transform:translateY(-20px);}
-    to{opacity:1; transform:translateY(0);}
+/* حركة الذهب */
+@keyframes goldFlow{
+    to{
+        background-position:300% center;
+    }
 }
 
-@keyframes lineGrow{
-    from{width:0;}
-    to{width:60%;}
+/* حركة اللمعة */
+@keyframes shineMove{
+    0%{ left:-120%; }
+    50%{ left:120%; }
+    100%{ left:120%; }
+}
+
+/* سطر فاخر تحت الشعار */
+.logo-sub{
+    font-size:14px;
+    letter-spacing:3px;
+    margin-top:25px;
+    color:#d4af37;
+    text-align:center;
+    opacity:0.9;
 }
