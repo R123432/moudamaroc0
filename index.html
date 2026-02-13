@@ -1,130 +1,247 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Mouda Maroc - أفضل العروض والمنتجات في المغرب مع طلب مباشر عبر واتساب">
-<meta name="keywords" content="ملابس, متجر مغربي, تسوق, عروض, Mouda Maroc">
-<meta name="author" content="Mouda Maroc">
+/* ===== إعداد عام ===== */
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:'Segoe UI',sans-serif;
+transition:0.3s;
+}
 
-<title>Mouda Maroc | متجر احترافي</title>
+body{
+background:#f4f7ff;
+direction:rtl;
+color:#222;
+}
 
-<link rel="stylesheet" href="style.css">
+/* ===== Dark Mode ===== */
+body.dark{
+background:#121212;
+color:white;
+}
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+body.dark header,
+body.dark .product,
+body.dark .categories div,
+body.dark .cart,
+body.dark .admin,
+body.dark footer{
+background:#1e1e1e;
+color:white;
+}
 
-<link rel="icon" href="favicon.ico">
+body.dark input,
+body.dark select{
+background:#2a2a2a;
+color:white;
+border:1px solid #444;
+}
 
-</head>
-<body>
+/* ===== Header ===== */
+header{
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(10px);
+padding:15px 25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+position:sticky;
+top:0;
+z-index:1000;
+}
 
-<!-- ===== HEADER ===== -->
-<header>
-    <div class="logo">Mouda Maroc</div>
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#0a3d62;
+}
 
-    <div class="social">
-        <a href="https://tiktok.com/@moudamaroc0" target="_blank">
-            <i class="fab fa-tiktok"></i>
-        </a>
+.social i{
+color:#0a3d62;
+margin-left:15px;
+font-size:20px;
+cursor:pointer;
+}
 
-        <a href="https://www.instagram.com/moudamaroc0" target="_blank">
-            <i class="fab fa-instagram"></i>
-        </a>
+.social i:hover{
+color:#e55039;
+transform:scale(1.2);
+}
 
-        <i class="fas fa-shopping-cart" onclick="toggleCart()" title="السلة"></i>
-        <i class="fas fa-user-cog" onclick="openAdmin()" title="لوحة الإدارة"></i>
-    </div>
-</header>
+/* ===== Hero ===== */
+.hero{
+background:linear-gradient(45deg,#0a3d62,#3c6382);
+color:white;
+padding:70px 20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
 
-<!-- ===== HERO + عرض يومي ===== -->
-<section class="hero">
-    🔥 عرض اليوم الخاص
-    <div id="countdown"></div>
-</section>
+/* ===== Search ===== */
+#searchInput{
+width:60%;
+max-width:400px;
+padding:10px;
+border-radius:25px;
+border:1px solid #ccc;
+text-align:center;
+}
 
-<!-- ===== أقسام ===== -->
-<section class="categories">
-    <div onclick="showCategory('men')">ملابس رجالية</div>
-    <div onclick="showCategory('women')">ملابس نسائية</div>
-    <div onclick="showCategory('kids')">ملابس أطفال</div>
-    <div onclick="showCategory('sport')">معدات رياضية</div>
-    <div onclick="showCategory('home')">أدوات منزلية</div>
-    <div onclick="showCategory('cream')">مراهم</div>
-</section>
+/* ===== Categories ===== */
+.categories{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+padding:25px;
+justify-content:center;
+}
 
-<!-- ===== عرض المنتجات ===== -->
-<section id="products"></section>
+.categories div{
+background:white;
+padding:12px 22px;
+border-radius:30px;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+font-weight:500;
+}
 
-<!-- ===== السلة ===== -->
-<section id="cart" class="cart">
+.categories div:hover{
+background:#0a3d62;
+color:white;
+transform:translateY(-4px);
+}
 
-<h2>🛒 سلة المشتريات</h2>
+/* ===== Products ===== */
+#products{
+display:flex;
+flex-wrap:wrap;
+gap:25px;
+padding:25px;
+justify-content:center;
+}
 
-<div id="cartItems"></div>
+.product{
+background:white;
+width:240px;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+position:relative;
+animation:fadeIn 0.6s ease;
+}
 
-<input id="name" placeholder="الاسم الكامل">
-<input id="phone" placeholder="رقم الهاتف">
-<input id="city" placeholder="المدينة">
-<input id="address" placeholder="العنوان الكامل">
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
 
-<input id="coupon" placeholder="كود الخصم">
+.product:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
 
-<button onclick="sendOrder()">اطلب الآن عبر واتساب</button>
+.product img{
+width:100%;
+height:230px;
+object-fit:cover;
+}
 
-<button onclick="toggleCart()">إغلاق</button>
+.product h3{
+padding:10px;
+font-size:18px;
+}
 
-</section>
+.price{
+color:#e55039;
+padding:0 10px 10px;
+font-weight:bold;
+}
 
-<!-- ===== لوحة الإدارة ===== -->
-<div id="adminPanel" class="admin">
+.product button{
+margin:10px;
+background:#0a3d62;
+color:white;
+border:none;
+border-radius:10px;
+padding:10px;
+cursor:pointer;
+}
 
-<h2>⚙️ لوحة التحكم</h2>
+.product button:hover{
+background:#e55039;
+}
 
-<input id="adminCode" placeholder="أدخل كود الإدارة">
-<button onclick="loginAdmin()">دخول</button>
+/* ===== Cart & Admin ===== */
+.cart,
+.admin{
+position:fixed;
+right:-400px;
+top:0;
+width:370px;
+height:100%;
+background:white;
+padding:25px;
+box-shadow:-5px 0 25px rgba(0,0,0,.2);
+overflow:auto;
+z-index:2000;
+}
 
-<div id="adminContent" style="display:none;">
+.cart.active,
+.admin.active{
+right:0;
+}
 
-<h3>إضافة / تعديل منتج</h3>
+/* ===== Forms ===== */
+input,
+select,
+button{
+width:100%;
+padding:10px;
+margin-bottom:12px;
+border-radius:10px;
+border:1px solid #ddd;
+}
 
-<input id="pname" placeholder="اسم المنتج">
-<input id="pprice" placeholder="السعر الجديد">
-<input id="pold" placeholder="السعر القديم (اختياري)">
-<select id="pcat">
-<option value="men">رجالي</option>
-<option value="women">نسائي</option>
-<option value="kids">أطفال</option>
-<option value="sport">رياضي</option>
-<option value="home">منزلي</option>
-<option value="cream">مراهم</option>
-</select>
+input:focus,
+select:focus{
+outline:none;
+border:1px solid #0a3d62;
+}
 
-<input type="file" id="pimage">
+button{
+background:#0a3d62;
+color:white;
+border:none;
+cursor:pointer;
+}
 
-<button onclick="addProduct()">حفظ المنتج</button>
+button:hover{
+background:#e55039;
+}
 
-<hr>
+/* ===== Footer ===== */
+footer{
+background:white;
+text-align:center;
+padding:20px;
+margin-top:40px;
+font-size:14px;
+}
 
-<h3>📦 المنتجات الحالية</h3>
-<div id="adminProducts"></div>
+/* ===== Responsive ===== */
+@media(max-width:768px){
 
-<hr>
+.product{ width:45%; }
 
-<h3>📊 الإحصائيات</h3>
-<div id="stats"></div>
+.cart,.admin{ width:100%; }
 
-</div>
+#searchInput{ width:90%; }
 
-<button onclick="openAdmin()">إغلاق</button>
+}
 
-</div>
+@media(max-width:480px){
 
-<!-- ===== FOOTER ===== -->
-<footer style="text-align:center;padding:20px;background:#fff;margin-top:40px">
-© 2026 Mouda Maroc - جميع الحقوق محفوظة
-</footer>
+.product{ width:100%; }
 
-<script src="app.js"></script>
-
-</body>
-</html>
+}
