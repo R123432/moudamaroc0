@@ -14,7 +14,7 @@
 <header>
 <div class="container header-wrapper">
 
-<div>
+<div class="logo-box">
 <h1 class="logo">MODA MAROC</h1>
 <p class="logo-sub">PREMIUM FASHION • EST. 2026</p>
 </div>
@@ -64,17 +64,15 @@
 
 <button onclick="closeAdmin()" class="close-admin">✖</button>
 
-<h2>لوحة تحكم MODA MAROC</h2>
+<h2>لوحة تحكم</h2>
 
 <div id="loginBox">
 <input type="password" id="adminPass" placeholder="كلمة المرور">
 <button onclick="loginAdmin()" class="btn-main">دخول</button>
-<p id="adminError" style="color:red;display:none;">كلمة المرور غير صحيحة</p>
+<p id="adminError" class="error-msg">كلمة المرور غير صحيحة</p>
 </div>
 
 <div id="adminContent" style="display:none;">
-
-<h3>إضافة منتج</h3>
 
 <input type="text" id="pname" placeholder="اسم المنتج">
 <input type="number" id="pprice" placeholder="السعر">
@@ -90,11 +88,9 @@
 
 <button onclick="addProduct()" class="btn-main">إضافة المنتج</button>
 
-<h3>المنتجات</h3>
 <div id="adminProducts"></div>
 
 </div>
-
 </div>
 </div>
 
@@ -102,9 +98,6 @@
 <p>© 2026 MODA MAROC</p>
 </footer>
 
-<a href="https://wa.me/212712120673" class="whatsapp-float">💬</a>
-
 <script src="app.js"></script>
-
 </body>
 </html>
