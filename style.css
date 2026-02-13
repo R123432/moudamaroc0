@@ -196,5 +196,14 @@ header.scrolled{
 }
 body{
     margin:0;
-    padding:0;
+    font-family:'Cairo', sans-serif;
+    background:#f4f6f9;
+}
+
+h1,h2,h3{
+    margin:0;
+}
+
+button{
+    font-family:'Cairo', sans-serif;
 }
