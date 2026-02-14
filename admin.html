@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم - Moda Maroc</title>
+
+<style>
+body{
+font-family:'Cairo',sans-serif;
+background:#f4f4f4;
+padding:40px;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 15px;
+background:#111;
+color:white;
+border:none;
+border-radius:20px;
+cursor:pointer;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-top:10px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+
+<h2>لوحة تحكم Moda Maroc</h2>
+
+<input type="text" id="name" placeholder="اسم المنتج">
+<input type="number" id="price" placeholder="الثمن الجديد">
+<input type="number" id="oldPrice" placeholder="الثمن القديم">
+<textarea id="description" placeholder="وصف المنتج"></textarea>
+<input type="text" id="image" placeholder="رابط الصورة">
+
+<button onclick="addProduct()">إضافة المنتج</button>
+
+<h3>المنتجات الحالية</h3>
+<div id="list"></div>
+
+<script>
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+function addProduct(){
+
+let name=document.getElementById("name").value;
+let price=document.getElementById("price").value;
+let oldPrice=document.getElementById("oldPrice").value;
+let description=document.getElementById("description").value;
+let image=document.getElementById("image").value;
+
+if(!name || !price || !image){
+alert("المرجو ملء المعلومات الأساسية");
+return;
+}
+
+products.push({name,price,oldPrice,description,image});
+localStorage.setItem("products",JSON.stringify(products));
+
+alert("تم إضافة المنتج بنجاح");
+location.reload();
+}
+
+function displayList(){
+let list=document.getElementById("list");
+list.innerHTML="";
+
+products.forEach((p,index)=>{
+list.innerHTML+=`
+<div class="card">
+${p.name} - ${p.price} درهم
+<button onclick="deleteProduct(${index})">حذف</button>
+</div>
+`;
+});
+}
+
+function deleteProduct(index){
+products.splice(index,1);
+localStorage.setItem("products",JSON.stringify(products));
+location.reload();
+}
+
+displayList();
+
+</script>
+
+</body>
+</html>
