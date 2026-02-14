@@ -14,6 +14,27 @@
 <header>
 <div class="logo">MODA MAROC</div>
 </header>
+<!-- أيقونة السلة -->
+<div class="cart-icon" onclick="toggleCart()">
+🛒 (<span id="cartCount">0</span>)
+</div>
+
+<!-- السلة الجانبية -->
+<div class="side-cart" id="sideCart">
+
+<div class="close-cart" onclick="toggleCart()">✖ إغلاق</div>
+
+<h3>سلة المشتريات</h3>
+
+<div id="cartItems"></div>
+
+<p>المجموع: <strong><span id="cartTotal">0</span> DH</strong></p>
+
+<button onclick="orderWhatsApp()" class="btn">
+إتمام الطلب عبر واتساب
+</button>
+
+</div>
 
 <!-- السلة -->
 <div class="cart-box">
