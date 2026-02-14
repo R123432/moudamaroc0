@@ -131,7 +131,7 @@ message += "المدينة:%0A";
 message += "العنوان:%0A";
 message += "رقم الهاتف:%0A";
 
-let url = `https://wa.me/${phone}?text=${message}`;
+let url = `https://wa.me/${212712120673}?text=${message}`;
 
 window.open(url, "_blank");
 }
