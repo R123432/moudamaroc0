@@ -1,92 +1,238 @@
-// عرض المنتجات
-function displayProducts(list = products) {
+/* =========================
+   تحميل المنتجات
+========================= */
 
-    const container = document.getElementById("products");
-    container.innerHTML = "";
+let products = JSON.parse(localStorage.getItem("products"));
 
-    if (!list || list.length === 0) {
-        container.innerHTML = "<p style='text-align:center'>لا توجد منتجات</p>";
-        return;
-    }
+if(!products || products.length === 0){
 
-    list.forEach(product => {
+products = [
+{
+id:1,
+name:"Nike Shoes",
+price:299,
+stock:10,
+image:"https://via.placeholder.com/250"
+},
+{
+id:2,
+name:"Adidas Shirt",
+price:199,
+stock:15,
+image:"https://via.placeholder.com/250"
+}
+];
 
-        container.innerHTML += `
-        <div class="card fade-in">
-            <img src="${product.image}" onclick="openModal(${product.id})">
-            <h3>${product.name}</h3>
-            <p>${product.price} DH</p>
-            <button class="btn" onclick="addToCart(${product.id})">
-                أضف للسلة
-            </button>
-        </div>
-        `;
-    });
+localStorage.setItem("products", JSON.stringify(products));
 }
 
-// فلترة المنتجات
-function filterProducts() {
+/* =========================
+   السلة
+========================= */
 
-    const search = document.getElementById("searchInput").value.toLowerCase();
-    const priceFilter = document.getElementById("priceFilter").value;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    let filtered = products.filter(product => 
-        product.name.toLowerCase().includes(search)
-    );
-
-    if (priceFilter) {
-        filtered = filtered.filter(product => product.price <= Number(priceFilter));
-    }
-
-    displayProducts(filtered);
+function saveCart(){
+localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// مودال المنتج
-function openModal(id) {
+/* =========================
+   عرض المنتجات
+========================= */
 
-    const product = products.find(p => p.id === id);
-    if (!product) return;
+function displayProducts(){
 
-    document.getElementById("modalBody").innerHTML = `
-        <img src="${product.image}">
-        <h2>${product.name}</h2>
-        <p>السعر: ${product.price} DH</p>
-        <button class="btn" onclick="addToCart(${product.id})">
-            أضف للسلة
-        </button>
-    `;
+const container = document.getElementById("products");
+if(!container) return;
 
-    document.getElementById("productModal").style.display = "flex";
+container.innerHTML = "";
+
+products.forEach(product=>{
+
+container.innerHTML += `
+<div class="card">
+<img src="${product.image}">
+<h3>${product.name}</h3>
+<p>${product.price} DH</p>
+<button class="btn" onclick="addToCart(${product.id})">
+أضف للسلة
+</button>
+</div>
+`;
+
+});
 }
 
-function closeModal() {
-    document.getElementById("productModal").style.display = "none";
+/* =========================
+   إضافة للسلة
+========================= */
+
+function addToCart(id){
+
+const product = products.find(p=>p.id===id);
+if(!product) return;
+
+if(product.stock <= 0){
+alert("المنتج غير متوفر ❌");
+return;
 }
 
-// Countdown بسيط
-function startCountdown() {
+let existing = cart.find(item=>item.id===id);
 
-    const countdownElement = document.getElementById("countdown");
-    if (!countdownElement) return;
+if(existing){
 
-    const targetDate = new Date();
-    targetDate.setHours(targetDate.getHours() + 24);
-
-    setInterval(() => {
-
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-        countdownElement.innerHTML = `العرض ينتهي خلال: ${hours} ساعة و ${minutes} دقيقة`;
-
-    }, 60000);
+if(existing.quantity >= product.stock){
+alert("وصلت للحد الأقصى من المخزون ⚠️");
+return;
 }
 
-// تشغيل الصفحة
-document.addEventListener("DOMContentLoaded", function () {
-    displayProducts();
-    startCountdown();
+existing.quantity++;
+
+}else{
+
+cart.push({
+id:product.id,
+name:product.name,
+price:product.price,
+quantity:1
+});
+}
+
+saveCart();
+updateCartCount();
+renderCart();
+
+alert("تمت الإضافة ✅");
+}
+
+/* =========================
+   تحديث عدد السلة
+========================= */
+
+function updateCartCount(){
+
+const count = document.getElementById("cartCount");
+if(!count) return;
+
+let totalQty = cart.reduce((sum,item)=>sum+item.quantity,0);
+count.innerText = totalQty;
+}
+
+/* =========================
+   عرض السلة
+========================= */
+
+function renderCart(){
+
+const container = document.getElementById("cartItems");
+if(!container) return;
+
+container.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+
+let itemTotal = item.price * item.quantity;
+total += itemTotal;
+
+container.innerHTML += `
+<div class="cart-item">
+<strong>${item.name}</strong><br>
+${item.price} DH × ${item.quantity} = ${itemTotal} DH
+<br>
+<button onclick="changeQty(${index},-1)">➖</button>
+<button onclick="changeQty(${index},1)">➕</button>
+<button onclick="removeItem(${index})">حذف</button>
+<hr>
+</div>
+`;
+
+});
+
+const totalElement = document.getElementById("cartTotal");
+if(totalElement){
+totalElement.innerText = total;
+}
+}
+
+/* =========================
+   تغيير الكمية
+========================= */
+
+function changeQty(index,amount){
+
+let product = products.find(p=>p.id===cart[index].id);
+if(!product) return;
+
+if(amount===1 && cart[index].quantity >= product.stock){
+alert("لا يمكنك تجاوز المخزون ⚠️");
+return;
+}
+
+cart[index].quantity += amount;
+
+if(cart[index].quantity<=0){
+cart.splice(index,1);
+}
+
+saveCart();
+renderCart();
+updateCartCount();
+}
+
+/* =========================
+   حذف عنصر
+========================= */
+
+function removeItem(index){
+cart.splice(index,1);
+saveCart();
+renderCart();
+updateCartCount();
+}
+
+/* =========================
+   طلب عبر واتساب
+========================= */
+
+function orderWhatsApp(){
+
+if(cart.length===0){
+alert("السلة فارغة ❌");
+return;
+}
+
+let phone="212712120673";
+let message="🛍️ طلب جديد:%0A%0A";
+let total=0;
+
+cart.forEach(item=>{
+
+let itemTotal=item.price*item.quantity;
+total+=itemTotal;
+
+message+=`📦 ${item.name}%0A`;
+message+=`العدد: ${item.quantity}%0A`;
+message+=`المجموع: ${itemTotal} DH%0A%0A`;
+});
+
+message+=`💰 المجموع الكلي: ${total} DH`;
+
+let url=`https://wa.me/${phone}?text=${message}`;
+window.open(url,"_blank");
+
+cart=[];
+saveCart();
+renderCart();
+updateCartCount();
+}
+
+/* =========================
+   تشغيل الصفحة
+========================= */
+
+document.addEventListener("DOMContentLoaded",function(){
+displayProducts();
+renderCart();
+updateCartCount();
 });
