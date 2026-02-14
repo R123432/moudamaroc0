@@ -33,3 +33,18 @@ ${product.price}
 `;
 });
 }
+function startCountdown(){
+let time = 3600; // ساعة
+
+setInterval(()=>{
+let minutes = Math.floor(time / 60);
+let seconds = time % 60;
+
+document.getElementById("countdown").innerText =
+"العرض ينتهي خلال: " + minutes + ":" + (seconds<10?"0":"") + seconds;
+
+if(time > 0) time--;
+},1000);
+}
+
+startCountdown();
