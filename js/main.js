@@ -8,7 +8,7 @@ container.innerHTML += `
 <div class="card-content">
 <h3>${product.name}</h3>
 <p class="price">${product.price} DH</p>
-<a class="btn" href="product.html?id=${product.id}">عرض التفاصيل</a>
+<a class="btn" onclick="addToCart(${product.id})">أضف للسلة</a>
 </div>
 </div>
 `;
