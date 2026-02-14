@@ -5,8 +5,19 @@ localStorage.clear();", JSON.stringify(cart));
 }
 
 function addToCart(id){
+
 const product = products.find(p => p.id === id);
-cart.push(product);
+
+if(product.stock <= 0){
+alert("المنتج غير متوفر حالياً");
+return;
+}
+
+let finalPrice = product.price - (product.price * product.discount / 100);
+
+cart.push({...product, price: finalPrice});
+product.stock--;
+
 saveCart();
 updateCartCount();
 renderCart();
