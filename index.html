@@ -10,61 +10,31 @@
 
 <header>
 <h1>MODA MAROC</h1>
-<div>
-<button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
 <button onclick="openAdmin()">⚙️</button>
-</div>
+<button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
 </header>
 
 <section id="products" class="products"></section>
 
-<!-- CART -->
-<div id="cart" class="cart">
-<h3>سلة المشتريات</h3>
-<div id="cartItems"></div>
-<p>المجموع: <span id="totalPrice">0</span> DH</p>
-<button onclick="sendOrder()">تأكيد الطلب</button>
-</div>
-
-<!-- ADMIN LOGIN -->
-<div id="adminPanel" class="modal">
-<div class="modal-box">
-
-<div id="loginBox">
-<h3>دخول الادمن</h3>
-<input type="password" id="adminPass" placeholder="كود الدخول">
-<button onclick="loginAdmin()">دخول</button>
-<p id="adminError">كود خاطئ</p>
-</div>
-
-<div id="adminContent">
-<h3>لوحة التحكم</h3>
-
-<input id="pname" placeholder="اسم المنتج">
-<input id="pprice" type="number" placeholder="السعر">
-<input id="pcolors" placeholder="الألوان مثال: أحمر,أزرق">
-<input id="psizes" placeholder="المقاسات مثال: S,M,L">
-<textarea id="pimages" placeholder="روابط الصور مفصولة بفاصلة"></textarea>
-
-<button onclick="saveProduct()">حفظ المنتج</button>
-
-<hr>
-
-<label>نسبة الخصم %</label>
-<input type="number" id="discountInput">
-<button onclick="saveDiscount()">حفظ الخصم</button>
-
-<hr>
-
-<h4>المنتجات الحالية</h4>
-<div id="adminProducts"></div>
-
-<button onclick="closeAdmin()">إغلاق</button>
-</div>
-
+<!-- PRODUCT POPUP -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span onclick="closeModal()">✖</span>
+<div id="modalBody"></div>
 </div>
 </div>
 
-<script src="app.js"></script>
+<!-- ORDER FORM -->
+<div id="orderModal" class="modal">
+<div class="modal-content">
+<h3>معلومات الطلب</h3>
+<input id="clientName" placeholder="الاسم الكامل">
+<input id="clientPhone" placeholder="رقم الهاتف">
+<textarea id="clientAddress" placeholder="العنوان الكامل"></textarea>
+<button onclick="confirmOrder()">إرسال الطلب</button>
+</div>
+</div>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>
