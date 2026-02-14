@@ -76,4 +76,25 @@ container.innerHTML += `
 }
 });
 }
+function openProduct(id){
+
+let product = products.find(p=>p.id===id);
+let finalPrice = product.price - (product.price * product.discount / 100);
+
+document.getElementById("modalBody").innerHTML = `
+<img src="${product.image}">
+<h2>${product.name}</h2>
+<p>${finalPrice} DH</p>
+<p>باقي ${product.stock} فقط</p>
+<button onclick="addToCart(${product.id})" class="btn">
+أضف للسلة
+</button>
+`;
+
+document.getElementById("productModal").style.display="flex";
+}
+
+function closeModal(){
+document.getElementById("productModal").style.display="none";
+}
 startCountdown();
