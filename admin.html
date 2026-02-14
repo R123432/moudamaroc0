@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم - MODA MAROC</title>
-<link rel="stylesheet" href="style.css">
+<title>لوحة التحكم</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 <body>
 
-<header>
-<h2 style="color:gold;">لوحة التحكم</h2>
-</header>
+<div class="admin-container">
 
-<div style="padding:20px;max-width:500px;margin:auto;">
+    <h1>لوحة التحكم</h1>
 
-<h3>إضافة منتج جديد</h3>
+    <!-- إضافة منتج -->
+    <div class="admin-form">
+        <h2>إضافة منتج جديد</h2>
 
-<input type="text" id="name" placeholder="اسم المنتج">
-<input type="number" id="price" placeholder="السعر">
-<input type="number" id="stock" placeholder="الكمية في المخزون">
-<input type="text" id="image" placeholder="رابط الصورة">
+        <input type="text" id="productName" placeholder="اسم المنتج">
+        <input type="number" id="productPrice" placeholder="ثمن المنتج">
+        <input type="text" id="productImage" placeholder="رابط الصورة">
+        <button onclick="addProduct()">إضافة المنتج</button>
+    </div>
 
-<button class="btn" onclick="addProduct()">إضافة المنتج</button>
-
-<hr style="margin:20px 0;">
-
-<h3>المنتجات الحالية</h3>
-<div id="adminProducts"></div>
+    <!-- عرض المنتجات -->
+    <div class="admin-products">
+        <h2>المنتجات الحالية</h2>
+        <div id="productsList"></div>
+    </div>
 
 </div>
 
-<script src="admin.js"></script>
+<!-- JS -->
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+
 </body>
 </html>
