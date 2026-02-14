@@ -57,3 +57,38 @@ color:gold;
 font-weight:bold;
 margin-top:10px;
 }
+header{
+position:sticky;
+top:0;
+z-index:100;
+backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.8);
+}
+
+.card{
+background:linear-gradient(145deg,#111,#1c1c1c);
+border:1px solid rgba(255,215,0,0.2);
+}
+
+.card:hover{
+box-shadow:0 0 40px rgba(255,215,0,0.6);
+}
+
+.btn{
+background:linear-gradient(45deg,gold,#c9a100);
+transition:.3s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:8px 0;
+background:#111;
+border:1px solid gold;
+color:white;
+border-radius:8px;
+}
