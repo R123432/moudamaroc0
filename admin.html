@@ -1,72 +1,58 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<div class="admin-login" id="loginBox">
-<h2>دخول لوحة التحكم</h2>
-<input type="password" id="adminPass" placeholder="أدخل الكود">
-<button onclick="login()">دخول</button>
-<p id="error" style="color:red;display:none;">كود خاطئ</p>
-</div>
-
-<div class="admin-panel" id="adminPanel" style="display:none;">
-<h2>إدارة المنتجات</h2>
-
-<input type="text" id="pname" placeholder="اسم المنتج">
-<input type="number" id="pprice" placeholder="السعر">
-<input type="number" id="pstock" placeholder="المخزون">
-<input type="number" id="pdiscount" placeholder="نسبة الخصم">
-<input type="text" id="pimage" placeholder="رابط الصورة">
-
-<button onclick="addProduct()">إضافة منتج</button>
-
-<hr>
-
-<div id="adminProducts"></div>
-
-</div>
-
 <script>
+
 const ADMIN_CODE = "1995";
 
 function login(){
 let pass = document.getElementById("adminPass").value;
-
 if(pass === ADMIN_CODE){
 document.getElementById("loginBox").style.display="none";
 document.getElementById("adminPanel").style.display="block";
 loadProducts();
 }else{
-document.getElementById("error").style.display="block";
+alert("كود خاطئ");
 }
 }
 
 let products = JSON.parse(localStorage.getItem("products")) || [];
+let editIndex = null;
 
 function save(){
 localStorage.setItem("products", JSON.stringify(products));
 }
 
 function addProduct(){
+
+let reader = new FileReader();
+let file = document.getElementById("pimage").files[0];
+
+reader.onload = function(e){
+
 let product = {
 id: Date.now(),
 name: pname.value,
 price: Number(pprice.value),
 stock: Number(pstock.value),
 discount: Number(pdiscount.value),
-image: pimage.value
+image: e.target.result
 };
 
+if(editIndex !== null){
+products[editIndex] = product;
+editIndex = null;
+}else{
 products.push(product);
+}
+
 save();
 loadProducts();
-alert("تمت الإضافة");
+alert("تم الحفظ");
+}
+
+if(file){
+reader.readAsDataURL(file);
+}else{
+alert("اختر صورة");
+}
 }
 
 function loadProducts(){
@@ -75,12 +61,24 @@ container.innerHTML="";
 
 products.forEach((p,index)=>{
 container.innerHTML += `
-<div>
+<div style="margin:10px 0;">
 ${p.name} - ${p.price} DH
+<button onclick="editProduct(${index})">تعديل</button>
 <button onclick="deleteProduct(${index})">حذف</button>
 </div>
 `;
 });
+}
+
+function editProduct(index){
+let p = products[index];
+
+pname.value = p.name;
+pprice.value = p.price;
+pstock.value = p.stock;
+pdiscount.value = p.discount;
+
+editIndex = index;
 }
 
 function deleteProduct(index){
@@ -88,7 +86,5 @@ products.splice(index,1);
 save();
 loadProducts();
 }
-</script>
 
-</body>
-</html>
+</script>
