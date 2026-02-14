@@ -24,8 +24,8 @@ ${product.price}
 
 <p style="color:gold;">باقي ${product.stock} فقط 🔥</p>
 
-<a class="btn" onclick="addToCart(${product.id})">
-أضف للسلة
+<a class="btn" onclick="openProduct(${product.id})">
+عرض المنتج
 </a>
 </div>
 </div>
