@@ -27,7 +27,6 @@ ${product.price}
 <a class="btn" onclick="addToCart(${product.id})">
 أضف للسلة
 </a>
-
 </div>
 </div>
 `;
