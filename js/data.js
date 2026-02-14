@@ -1,4 +1,8 @@
-let products = JSON.parse(localStorage.getItem("products")) || [
+let storedProducts = JSON.parse(localStorage.getItem("products"));
+
+if(!storedProducts || storedProducts.length === 0){
+
+storedProducts = [
 {
 id:1,
 name:"Nike Shoes",
@@ -16,3 +20,8 @@ discount:10,
 image:"https://via.placeholder.com/250"
 }
 ];
+
+localStorage.setItem("products", JSON.stringify(storedProducts));
+}
+
+let products = storedProducts;
