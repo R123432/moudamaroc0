@@ -1,77 +1,177 @@
-import { initializeApp } from 
-"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+const ADMIN_PASS="1995";
+const WHATSAPP="212712120673";
 
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from
-"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+let products=JSON.parse(localStorage.getItem("products"))||[];
+let cart=[];
+let editId=null;
+let discount=localStorage.getItem("discount")||0;
+document.getElementById("discountInput").value=discount;
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from
-"https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+function openAdmin(){adminModal.style.display="flex"}
+function closeAdmin(){adminModal.style.display="none"}
+function toggleCart(){cartModal.style.display="flex"}
+function openOrder(){orderModal.style.display="flex"}
 
-const firebaseConfig = {
-  apiKey: "PUT_YOURS",
-  authDomain: "PUT_YOURS",
-  projectId: "PUT_YOURS",
-  storageBucket: "PUT_YOURS",
-  messagingSenderId: "PUT_YOURS",
-  appId: "PUT_YOURS"
+function loginAdmin(){
+if(adminPass.value===ADMIN_PASS){
+adminLogin.style.display="none";
+adminPanel.style.display="block";
+loadAdminProducts();
+}else adminError.style.display="block";
+}
+
+function saveProduct(){
+let product={
+id:editId||Date.now(),
+name:pname.value,
+desc:pdesc.value,
+price:Number(pprice.value),
+stock:Number(pstock.value),
+rating:prating.value,
+colors:pcolors.value.split(","),
+sizes:psizes.value.split(","),
+images:pimages.value.split(",")
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
+if(editId){
+products=products.map(p=>p.id===editId?product:p);
+editId=null;
+}else products.push(product);
 
-let cart=[];
+localStorage.setItem("products",JSON.stringify(products));
+loadProducts();
+loadAdminProducts();
+clearForm();
+}
 
-async function loadProducts(){
-let snapshot = await getDocs(collection(db,"products"));
-let container=document.getElementById("products");
-container.innerHTML="";
+function loadProducts(){
+productsContainer=document.getElementById("products");
+productsContainer.innerHTML="";
 
-snapshot.forEach(doc=>{
-let p=doc.data();
+products.forEach(p=>{
+let finalPrice=p.price-(p.price*discount/100);
 
-container.innerHTML+=`
-<div class="product" onclick="openProduct('${doc.id}','${p.name}',${p.price},'${p.images}')">
+productsContainer.innerHTML+=`
+<div class="product" onclick="openProduct(${p.id})">
 <img src="${p.images[0]}">
 <h4>${p.name}</h4>
-<p>${p.price} DH</p>
+<p><del>${p.price}</del> ${finalPrice} DH</p>
+<p>⭐ ${p.rating}</p>
 </div>`;
 });
 }
 
-window.openProduct=(id,name,price,images)=>{
-let imgs=images.split(",");
-let sliderHTML="";
-imgs.forEach(img=>{
-sliderHTML+=`<img src="${img}" class="slide">`;
-});
+function openProduct(id){
+let p=products.find(x=>x.id===id);
+let finalPrice=p.price-(p.price*discount/100);
 
-document.getElementById("modalBody").innerHTML=`
-<div class="slider">${sliderHTML}</div>
-<h3>${name}</h3>
-<p>${price} DH</p>
-<button onclick="addToCart('${name}',${price})">إضافة للسلة</button>
+productDetails.innerHTML=`
+<h3>${p.name}</h3>
+<img src="${p.images[0]}" style="width:100%">
+<p>${p.desc}</p>
+<p>المخزون: ${p.stock}</p>
+<select id="selectedColor">${p.colors.map(c=>`<option>${c}</option>`)}</select>
+<select id="selectedSize">${p.sizes.map(s=>`<option>${s}</option>`)}</select>
+<input type="number" id="qty" value="1" min="1">
+<p>${finalPrice} DH</p>
+<button onclick="addToCart(${p.id})">إضافة للسلة</button>
+<button onclick="closeModal()">إغلاق</button>
 `;
-document.getElementById("productModal").style.display="flex";
+productModal.style.display="flex";
 }
 
-window.addToCart=(name,price)=>{
-cart.push({name,price});
-alert("تمت الإضافة");
+function closeModal(){productModal.style.display="none"}
+
+function addToCart(id){
+let p=products.find(x=>x.id===id);
+let finalPrice=p.price-(p.price*discount/100);
+
+cart.push({
+name:p.name,
+price:finalPrice,
+color:selectedColor.value,
+size:selectedSize.value,
+qty:qty.value
+});
+updateCart();
+closeModal();
 }
 
-window.confirmOrder=()=>{
-let name=document.getElementById("clientName").value;
-let phone=document.getElementById("clientPhone").value;
-let address=document.getElementById("clientAddress").value;
+function updateCart(){
+cartItems.innerHTML="";
+let total=0;
+cart.forEach(i=>{
+total+=i.price*i.qty;
+cartItems.innerHTML+=`
+<p>${i.name} - ${i.color} - ${i.size} × ${i.qty}</p>`;
+});
+totalPrice.innerText=total;
+cartCount.innerText=cart.length;
+}
 
-let total=cart.reduce((a,b)=>a+b.price,0);
+function sendOrder(){
+let total=cart.reduce((a,b)=>a+(b.price*b.qty),0);
 
-let msg=`طلب جديد:%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${address}%0A`;
-cart.forEach(p=>msg+=p.name+"%0A");
-msg+=`المجموع: ${total} DH`;
+let msg=`طلب جديد:%0A`;
+msg+=`الاسم: ${clientName.value}%0A`;
+msg+=`الهاتف: ${clientPhone.value}%0A`;
+msg+=`المدينة: ${clientCity.value}%0A`;
+msg+=`العنوان: ${clientAddress.value}%0A%0A`;
 
-window.open("https://wa.me/212712120673?text="+msg);
+cart.forEach(i=>{
+msg+=`${i.name} - ${i.color} - ${i.size} × ${i.qty}%0A`;
+});
+msg+=`%0Aالمجموع: ${total} DH`;
+
+window.open(`https://wa.me/${WHATSAPP}?text=${msg}`);
+}
+
+function saveDiscount(){
+discount=discountInput.value;
+localStorage.setItem("discount",discount);
+loadProducts();
+}
+
+function loadAdminProducts(){
+adminProducts.innerHTML="";
+products.forEach(p=>{
+adminProducts.innerHTML+=`
+<p>${p.name}
+<button onclick="editProduct(${p.id})">تعديل</button>
+<button onclick="deleteProduct(${p.id})">حذف</button>
+</p>`;
+});
+}
+
+function editProduct(id){
+let p=products.find(x=>x.id===id);
+pname.value=p.name;
+pdesc.value=p.desc;
+pprice.value=p.price;
+pstock.value=p.stock;
+prating.value=p.rating;
+pcolors.value=p.colors.join(",");
+psizes.value=p.sizes.join(",");
+pimages.value=p.images.join(",");
+editId=id;
+}
+
+function deleteProduct(id){
+products=products.filter(p=>p.id!==id);
+localStorage.setItem("products",JSON.stringify(products));
+loadProducts();
+loadAdminProducts();
+}
+
+function clearForm(){
+pname.value="";
+pdesc.value="";
+pprice.value="";
+pstock.value="";
+prating.value="";
+pcolors.value="";
+psizes.value="";
+pimages.value="";
 }
 
 loadProducts();
