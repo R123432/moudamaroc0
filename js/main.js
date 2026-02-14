@@ -1,77 +1,92 @@
-let cart = [];
+// عرض المنتجات
+function displayProducts(list = products) {
 
-// عناصر DOM
-const cartCount = document.querySelector(".cart-count");
-const cartItemsContainer = document.querySelector(".cart-items");
-const cartPanel = document.querySelector(".cart-panel");
-const cartIcon = document.querySelector(".cart-icon");
+    const container = document.getElementById("products");
+    container.innerHTML = "";
 
-// فتح / إغلاق السلة
-cartIcon.addEventListener("click", () => {
-  cartPanel.classList.toggle("active");
-});
+    if (!list || list.length === 0) {
+        container.innerHTML = "<p style='text-align:center'>لا توجد منتجات</p>";
+        return;
+    }
 
-// إضافة منتج للسلة
-function addToCart(id, name, price) {
+    list.forEach(product => {
 
-  const existingProduct = cart.find(item => item.id === id);
-
-  if (existingProduct) {
-    existingProduct.quantity += 1;
-  } else {
-    cart.push({
-      id: id,
-      name: name,
-      price: price,
-      quantity: 1
+        container.innerHTML += `
+        <div class="card fade-in">
+            <img src="${product.image}" onclick="openModal(${product.id})">
+            <h3>${product.name}</h3>
+            <p>${product.price} DH</p>
+            <button class="btn" onclick="addToCart(${product.id})">
+                أضف للسلة
+            </button>
+        </div>
+        `;
     });
-  }
-
-  updateCart();
 }
 
-// تحديث السلة
-function updateCart() {
+// فلترة المنتجات
+function filterProducts() {
 
-  cartItemsContainer.innerHTML = "";
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const priceFilter = document.getElementById("priceFilter").value;
 
-  let totalCount = 0;
+    let filtered = products.filter(product => 
+        product.name.toLowerCase().includes(search)
+    );
 
-  cart.forEach(item => {
+    if (priceFilter) {
+        filtered = filtered.filter(product => product.price <= Number(priceFilter));
+    }
 
-    totalCount += item.quantity;
+    displayProducts(filtered);
+}
 
-    const div = document.createElement("div");
-    div.classList.add("cart-item");
+// مودال المنتج
+function openModal(id) {
 
-    div.innerHTML = `
-      <h4>${item.name}</h4>
-      <p>${item.price} DH</p>
-      <div>
-        <button onclick="changeQuantity(${item.id}, -1)">-</button>
-        ${item.quantity}
-        <button onclick="changeQuantity(${item.id}, 1)">+</button>
-      </div>
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+
+    document.getElementById("modalBody").innerHTML = `
+        <img src="${product.image}">
+        <h2>${product.name}</h2>
+        <p>السعر: ${product.price} DH</p>
+        <button class="btn" onclick="addToCart(${product.id})">
+            أضف للسلة
+        </button>
     `;
 
-    cartItemsContainer.appendChild(div);
-  });
-
-  cartCount.textContent = totalCount;
+    document.getElementById("productModal").style.display = "flex";
 }
 
-// تغيير الكمية
-function changeQuantity(id, amount) {
-
-  const product = cart.find(item => item.id === id);
-
-  if (!product) return;
-
-  product.quantity += amount;
-
-  if (product.quantity <= 0) {
-    cart = cart.filter(item => item.id !== id);
-  }
-
-  updateCart();
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
 }
+
+// Countdown بسيط
+function startCountdown() {
+
+    const countdownElement = document.getElementById("countdown");
+    if (!countdownElement) return;
+
+    const targetDate = new Date();
+    targetDate.setHours(targetDate.getHours() + 24);
+
+    setInterval(() => {
+
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        countdownElement.innerHTML = `العرض ينتهي خلال: ${hours} ساعة و ${minutes} دقيقة`;
+
+    }, 60000);
+}
+
+// تشغيل الصفحة
+document.addEventListener("DOMContentLoaded", function () {
+    displayProducts();
+    startCountdown();
+});
