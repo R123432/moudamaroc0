@@ -1,143 +1,77 @@
-const ADMIN_PASS="2025";
-const WHATSAPP="212712120673";
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let cart=[];
-let editId=null;
-let discount=localStorage.getItem("discount")||0;
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-document.getElementById("discountInput").value=discount;
+import { getStorage, ref, uploadBytes, getDownloadURL } from
+"https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-function openAdmin(){
-document.getElementById("adminPanel").style.display="flex";
-}
-
-function closeAdmin(){
-document.getElementById("adminPanel").style.display="none";
-}
-
-function loginAdmin(){
-let pass=document.getElementById("adminPass").value;
-if(pass===ADMIN_PASS){
-document.getElementById("loginBox").style.display="none";
-document.getElementById("adminContent").style.display="block";
-loadAdminProducts();
-}else{
-document.getElementById("adminError").style.display="block";
-}
-}
-
-function saveProduct(){
-let product={
-id:editId||Date.now(),
-name:pname.value,
-price:Number(pprice.value),
-colors:pcolors.value.split(","),
-sizes:psizes.value.split(","),
-images:pimages.value.split(",")
+const firebaseConfig = {
+  apiKey: "PUT_YOURS",
+  authDomain: "PUT_YOURS",
+  projectId: "PUT_YOURS",
+  storageBucket: "PUT_YOURS",
+  messagingSenderId: "PUT_YOURS",
+  appId: "PUT_YOURS"
 };
 
-if(editId){
-products=products.map(p=>p.id===editId?product:p);
-editId=null;
-}else{
-products.push(product);
-}
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-localStorage.setItem("products",JSON.stringify(products));
-clearForm();
-loadProducts();
-loadAdminProducts();
-}
+let cart=[];
 
-function loadProducts(){
+async function loadProducts(){
+let snapshot = await getDocs(collection(db,"products"));
 let container=document.getElementById("products");
 container.innerHTML="";
 
-products.forEach(p=>{
-let finalPrice=p.price-(p.price*discount/100);
+snapshot.forEach(doc=>{
+let p=doc.data();
 
 container.innerHTML+=`
-<div class="product">
+<div class="product" onclick="openProduct('${doc.id}','${p.name}',${p.price},'${p.images}')">
 <img src="${p.images[0]}">
 <h4>${p.name}</h4>
-<p><del>${p.price}</del> ${finalPrice} DH</p>
-<p>الألوان: ${p.colors.join(", ")}</p>
-<p>المقاسات: ${p.sizes.join(", ")}</p>
-<button onclick="addToCart(${finalPrice},'${p.name}')">
-إضافة للسلة
-</button>
+<p>${p.price} DH</p>
 </div>`;
 });
 }
 
-function loadAdminProducts(){
-let box=document.getElementById("adminProducts");
-box.innerHTML="";
-products.forEach(p=>{
-box.innerHTML+=`
-<div class="admin-item">
-${p.name}
-<button onclick="editProduct(${p.id})">تعديل</button>
-<button onclick="deleteProduct(${p.id})">حذف</button>
-</div>`;
+window.openProduct=(id,name,price,images)=>{
+let imgs=images.split(",");
+let sliderHTML="";
+imgs.forEach(img=>{
+sliderHTML+=`<img src="${img}" class="slide">`;
 });
+
+document.getElementById("modalBody").innerHTML=`
+<div class="slider">${sliderHTML}</div>
+<h3>${name}</h3>
+<p>${price} DH</p>
+<button onclick="addToCart('${name}',${price})">إضافة للسلة</button>
+`;
+document.getElementById("productModal").style.display="flex";
 }
 
-function editProduct(id){
-let p=products.find(x=>x.id===id);
-pname.value=p.name;
-pprice.value=p.price;
-pcolors.value=p.colors.join(",");
-psizes.value=p.sizes.join(",");
-pimages.value=p.images.join(",");
-editId=id;
+window.addToCart=(name,price)=>{
+cart.push({name,price});
+alert("تمت الإضافة");
 }
 
-function deleteProduct(id){
-products=products.filter(p=>p.id!==id);
-localStorage.setItem("products",JSON.stringify(products));
-loadProducts();
-loadAdminProducts();
-}
+window.confirmOrder=()=>{
+let name=document.getElementById("clientName").value;
+let phone=document.getElementById("clientPhone").value;
+let address=document.getElementById("clientAddress").value;
 
-function clearForm(){
-pname.value="";
-pprice.value="";
-pcolors.value="";
-psizes.value="";
-pimages.value="";
-}
-
-function addToCart(price,name){
-cart.push({price,name});
-updateCart();
-}
-
-function updateCart(){
-document.getElementById("cartCount").innerText=cart.length;
-let total=0;
-let items="";
-cart.forEach(p=>{
-total+=p.price;
-items+=`<p>${p.name}</p>`;
-});
-document.getElementById("cartItems").innerHTML=items;
-document.getElementById("totalPrice").innerText=total;
-}
-
-function sendOrder(){
 let total=cart.reduce((a,b)=>a+b.price,0);
-let msg="طلب جديد:%0A";
-cart.forEach(p=>msg+=p.name+"%0A");
-msg+="المجموع: "+total+" DH";
-window.open("https://wa.me/"+WHATSAPP+"?text="+msg);
-}
 
-function saveDiscount(){
-discount=document.getElementById("discountInput").value;
-localStorage.setItem("discount",discount);
-loadProducts();
+let msg=`طلب جديد:%0Aالاسم: ${name}%0Aالهاتف: ${phone}%0Aالعنوان: ${address}%0A`;
+cart.forEach(p=>msg+=p.name+"%0A");
+msg+=`المجموع: ${total} DH`;
+
+window.open("https://wa.me/212712120673?text="+msg);
 }
 
 loadProducts();
