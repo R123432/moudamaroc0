@@ -1,27 +1,22 @@
-let storedProducts = JSON.parse(localStorage.getItem("products"));
-
-if(!storedProducts || storedProducts.length === 0){
-
-storedProducts = [
-{
-id:1,
-name:"Nike Shoes",
-price:299,
-stock:10,
-discount:0,
-image:"https://via.placeholder.com/250"
-},
-{
-id:2,
-name:"Adidas Shirt",
-price:199,
-stock:15,
-discount:10,
-image:"https://via.placeholder.com/250"
-}
+let products = JSON.parse(localStorage.getItem("products")) || [
+    {
+        id: 1,
+        name: "هاتف ذكي",
+        price: 1200,
+        image: "https://via.placeholder.com/200"
+    },
+    {
+        id: 2,
+        name: "حاسوب محمول",
+        price: 3500,
+        image: "https://via.placeholder.com/200"
+    },
+    {
+        id: 3,
+        name: "سماعات بلوتوث",
+        price: 300,
+        image: "https://via.placeholder.com/200"
+    }
 ];
 
-localStorage.setItem("products", JSON.stringify(storedProducts));
-}
-
-let products = storedProducts;
+localStorage.setItem("products", JSON.stringify(products));
