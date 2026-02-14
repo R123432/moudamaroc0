@@ -14,6 +14,11 @@ price:299,
 stock:10,
 image:"https://via.placeholder.com/250"
 },
+/* ===== فتح وإغلاق السلة ===== */
+
+function toggleCart(){
+document.getElementById("sideCart").classList.toggle("active");
+}
 {
 id:2,
 name:"Adidas Shirt",
