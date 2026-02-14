@@ -46,4 +46,34 @@ if(time > 0) time--;
 },1000);
 }
 
+function filterProducts(){
+
+let search = document.getElementById("searchInput").value.toLowerCase();
+let price = document.getElementById("priceFilter").value;
+
+const container = document.getElementById("products");
+container.innerHTML="";
+
+products.forEach(product=>{
+
+let matchSearch = product.name.toLowerCase().includes(search);
+let matchPrice = price==="" || product.price <= price;
+
+if(matchSearch && matchPrice){
+
+let finalPrice = product.price - (product.price * product.discount / 100);
+
+container.innerHTML += `
+<div class="card">
+<img src="${product.image}">
+<div class="card-content">
+<h3>${product.name}</h3>
+<p class="price">${finalPrice} DH</p>
+<a class="btn" onclick="addToCart(${product.id})">أضف للسلة</a>
+</div>
+</div>
+`;
+}
+});
+}
 startCountdown();
