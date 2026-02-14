@@ -3,45 +3,182 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Store Pro</title>
-<link rel="stylesheet" href="style.css">
+<title>Moda Maroc</title>
+
+<style>
+:root{
+  --black:#111;
+  --gold:#C6A75E;
+  --light:#f9f9f9;
+  --text:#222;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Cairo', sans-serif;
+}
+
+body{
+  background:var(--light);
+  color:var(--text);
+}
+
+/* ===== Navbar ===== */
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 8%;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo{
+  font-size:22px;
+  font-weight:bold;
+  color:var(--black);
+}
+
+.logo span{
+  color:var(--gold);
+}
+
+.cart{
+  font-size:18px;
+  cursor:pointer;
+}
+
+.cart span{
+  color:var(--gold);
+  font-weight:bold;
+}
+
+/* ===== Hero ===== */
+.hero{
+  height:60vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(to right,#111,#333);
+  color:white;
+}
+
+.hero h1{
+  font-size:40px;
+  margin-bottom:15px;
+}
+
+.hero p{
+  font-size:18px;
+  color:#ddd;
+}
+
+/* ===== Products ===== */
+.products{
+  padding:60px 8%;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+
+.card{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+.card img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:20px;
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+.price{
+  color:var(--gold);
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+button{
+  background:var(--black);
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:var(--gold);
+}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;
+  padding:20px;
+  background:#111;
+  color:white;
+  margin-top:40px;
+}
+</style>
 </head>
 <body>
 
-<header>
-<div class="logo">🌍 Global Store</div>
-<div class="controls">
-<input type="text" id="search" placeholder="بحث...">
-<button id="darkBtn">🌙</button>
-<div class="cart-btn" id="cartBtn">🛒 (<span id="count">0</span>)</div>
-</div>
-</header>
+<!-- Navbar -->
+<nav>
+  <div class="logo">Moda <span>Maroc</span></div>
+  <div class="cart">🛒 (<span id="cart-count">0</span>)</div>
+</nav>
 
+<!-- Hero -->
 <section class="hero">
-<h2>تسوق بأفضل جودة عالمية</h2>
-<p>منتجات احترافية بتصميم عصري</p>
+  <h1>Moda Maroc</h1>
+  <p>أناقة فاخرة لكل العائلة بأثمنة مناسبة</p>
 </section>
 
-<div class="container" id="products"></div>
+<!-- Products -->
+<section class="products">
 
-<!-- Cart -->
-<div class="cart-box" id="cartBox">
-<h2>سلة المشتريات</h2>
-<div id="cartItems"></div>
-<p class="total">المجموع: $<span id="total">0</span></p>
-</div>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38" alt="">
+    <div class="card-content">
+      <h3>بدلة رجالية فاخرة</h3>
+      <div class="price">$120</div>
+      <button onclick="addToCart()">أضف للسلة</button>
+    </div>
+  </div>
 
-<!-- Product Details Modal -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<span class="close" id="closeModal">&times;</span>
-<img id="modalImg">
-<h3 id="modalTitle"></h3>
-<p id="modalPrice"></p>
-<p>منتج عالي الجودة مناسب للاستعمال اليومي.</p>
-</div>
-</div>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a5f" alt="">
+    <div class="card-content">
+      <h3>فستان أنيق</h3>
+      <div class="price">$90</div>
+      <button onclick="addToCart()">أضف للسلة</button>
+    </div>
+  </div>
 
-<script src="script.js"></script>
-</body>
-</html>
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f" alt="">
+    <div class="card-content">
+      <h3>ساعة كلاسيكية</h3>
+      <div class="price">$60</div>
+      <button onclick="addToCart()">أضف
