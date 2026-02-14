@@ -9,7 +9,7 @@
 :root{
   --black:#111;
   --gold:#C6A75E;
-  --light:#f8f8f8;
+  --light:#f6f6f6;
 }
 
 *{
@@ -21,6 +21,7 @@
 
 body{
   background:var(--light);
+  overflow-x:hidden;
 }
 
 /* ===== Navbar ===== */
@@ -29,9 +30,8 @@ nav{
   justify-content:space-between;
   padding:20px 8%;
   background:white;
-  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
   font-weight:bold;
-  font-size:20px;
 }
 
 nav span{ color:var(--gold); }
@@ -43,19 +43,19 @@ nav span{ color:var(--gold); }
 }
 
 .hero h1{
-  font-size:40px;
+  font-size:38px;
 }
 
 .hero p{
-  margin-top:10px;
   color:#666;
+  margin-top:10px;
 }
 
 /* ===== Products Grid ===== */
 .products{
   padding:40px 8%;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:30px;
 }
 
@@ -63,18 +63,19 @@ nav span{ color:var(--gold); }
   background:white;
   border-radius:15px;
   overflow:hidden;
-  box-shadow:0 8px 25px rgba(0,0,0,0.06);
-  transition:0.4s;
+  box-shadow:0 8px 20px rgba(0,0,0,0.05);
+  transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-8px);
+  transform:translateY(-6px);
 }
 
 .card img{
   width:100%;
-  height:300px;
+  height:280px;
   object-fit:cover;
+  display:block;
 }
 
 .card-content{
@@ -102,52 +103,80 @@ button:hover{
   background:var(--gold);
 }
 
-/* ===== Footer ===== */
-footer{
-  text-align:center;
-  padding:30px;
-  margin-top:40px;
-  background:#111;
-  color:white;
-}
-
-/* ===== Social Floating ===== */
-.socials{
+/* ===== Product Modal ===== */
+.modal{
+  display:none;
   position:fixed;
-  bottom:20px;
-  right:20px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-.socials a{
-  width:55px;
-  height:55px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
+  inset:0;
+  background:rgba(0,0,0,0.6);
   justify-content:center;
-  color:white;
-  font-size:22px;
-  text-decoration:none;
+  align-items:center;
+  padding:20px;
 }
 
-.whatsapp{ background:#25D366; }
-.instagram{ background:#E1306C; }
-.tiktok{ background:#000; }
+.modal-content{
+  background:white;
+  max-width:900px;
+  width:100%;
+  border-radius:15px;
+  display:flex;
+  flex-wrap:wrap;
+  overflow:hidden;
+}
+
+.modal-images{
+  flex:1;
+  min-width:300px;
+}
+
+.modal-images img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.modal-info{
+  flex:1;
+  padding:30px;
+  min-width:300px;
+}
+
+.option-btn{
+  padding:8px 12px;
+  margin:5px;
+  border:1px solid #ccc;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.option-btn.active{
+  background:var(--gold);
+  color:white;
+  border:none;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+
+.modal-content{
+  flex-direction:column;
+}
+
+.card img{
+  height:220px;
+}
+
+}
 
 </style>
 </head>
 <body>
 
-<nav>
-  Moda <span>Maroc</span>
-</nav>
+<nav>Moda <span>Maroc</span></nav>
 
 <section class="hero">
-  <h1>Moda Maroc</h1>
-  <p>أناقة فاخرة لكل العائلة</p>
+<h1>Moda Maroc</h1>
+<p>أناقة فاخرة لكل العائلة</p>
 </section>
 
 <section class="products">
@@ -157,78 +186,77 @@ footer{
 <div class="card-content">
 <h3>بدلة رجالية فاخرة</h3>
 <div class="price">120$</div>
-<button onclick="orderNow('بدلة رجالية فاخرة','120$')">
-اطلب عبر واتساب
-</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a5f">
-<div class="card-content">
-<h3>فستان أنيق</h3>
-<div class="price">90$</div>
-<button onclick="orderNow('فستان أنيق','90$')">
-اطلب عبر واتساب
-</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
-<div class="card-content">
-<h3>ساعة كلاسيكية</h3>
-<div class="price">60$</div>
-<button onclick="orderNow('ساعة كلاسيكية','60$')">
-اطلب عبر واتساب
-</button>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1528701800489-20be3c4d7a1b">
-<div class="card-content">
-<h3>حقيبة فاخرة</h3>
-<div class="price">75$</div>
-<button onclick="orderNow('حقيبة فاخرة','75$')">
-اطلب عبر واتساب
-</button>
+<button onclick="openProduct()">عرض المنتج</button>
 </div>
 </div>
 
 </section>
 
-<footer>
-© 2026 Moda Maroc - جميع الحقوق محفوظة
-</footer>
+<!-- Modal -->
+<div class="modal" id="productModal">
+<div class="modal-content">
 
-<div class="socials">
-<a class="whatsapp"
-href="https://wa.me/212712120673"
-target="_blank">💬</a>
+<div class="modal-images">
+<img id="modalImage"
+src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
+</div>
 
-<a class="instagram"
-href="https://www.instagram.com/moudamaroc0"
-target="_blank">📸</a>
+<div class="modal-info">
+<h2>بدلة رجالية فاخرة</h2>
+<div class="price">120$</div>
 
-<a class="tiktok"
-href="https://www.tiktok.com/@moudamaroc0"
-target="_blank">🎵</a>
+<p>تصميم راقي بجودة عالية مناسب للمناسبات الرسمية.</p>
+
+<br>
+<strong>المقاس:</strong><br>
+<button class="option-btn" onclick="selectOption(this)">S</button>
+<button class="option-btn" onclick="selectOption(this)">M</button>
+<button class="option-btn" onclick="selectOption(this)">L</button>
+<button class="option-btn" onclick="selectOption(this)">XL</button>
+
+<br><br>
+<strong>اللون:</strong><br>
+<button class="option-btn" onclick="selectOption(this)">أسود</button>
+<button class="option-btn" onclick="selectOption(this)">رمادي</button>
+
+<br><br>
+
+<button onclick="orderNow()">اطلب عبر واتساب</button>
+<button onclick="closeProduct()" style="margin-top:10px;background:#ccc;color:#000;">
+إغلاق
+</button>
+
+</div>
+
+</div>
 </div>
 
 <script>
-function orderNow(product,price){
 
-let message="🛍️ طلب جديد - Moda Maroc 👑\n\n";
-message+="المنتج: "+product+"\n";
-message+="الثمن: "+price+"\n";
-message+="━━━━━━━━━━━━━━\n";
+function openProduct(){
+document.getElementById("productModal").style.display="flex";
+}
+
+function closeProduct(){
+document.getElementById("productModal").style.display="none";
+}
+
+function selectOption(btn){
+let buttons=btn.parentElement.querySelectorAll(".option-btn");
+buttons.forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+}
+
+function orderNow(){
+
+let message="🛍️ طلب جديد - Moda Maroc 👑\n";
+message+="المنتج: بدلة رجالية فاخرة\n";
 message+="المرجو تأكيد الطلب 🙏";
 
 let url="https://wa.me/212712120673?text="+encodeURIComponent(message);
-
 window.open(url,"_blank");
 }
+
 </script>
 
 </body>
