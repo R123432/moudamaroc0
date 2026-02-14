@@ -1,26 +1,25 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function saveCart(){
-localStorage.clear();", JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 function addToCart(id){
 
 const product = products.find(p => p.id === id);
 
-if(product.stock <= 0){
-alert("المنتج غير متوفر حالياً");
+if(!product){
+alert("خطأ: المنتج غير موجود");
 return;
 }
 
-let finalPrice = product.price - (product.price * product.discount / 100);
-
-cart.push({...product, price: finalPrice});
-product.stock--;
+cart.push(product);
 
 saveCart();
 updateCartCount();
 renderCart();
+
+alert("تمت إضافة المنتج للسلة ✅");
 }
 
 function updateCartCount(){
@@ -28,11 +27,6 @@ const count = document.getElementById("cartCount");
 if(count){
 count.innerText = cart.length;
 }
-}
-
-function toggleCart(){
-document.getElementById("cartPanel").classList.toggle("active");
-renderCart();
 }
 
 function renderCart(){
@@ -46,13 +40,11 @@ container.innerHTML = "";
 let total = 0;
 
 cart.forEach((item,index)=>{
-
-let price = Number(item.price);   // 🔥 التحويل الإجباري لرقم
-total += price;
+total += Number(item.price);
 
 container.innerHTML += `
 <div class="cart-item">
-${item.name} - ${price} DH
+${item.name} - ${item.price} DH
 <button onclick="removeItem(${index})">حذف</button>
 </div>
 `;
@@ -69,4 +61,3 @@ updateCartCount();
 }
 
 updateCartCount();
-renderCart();
