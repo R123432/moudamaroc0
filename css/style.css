@@ -160,6 +160,29 @@ msg+="%0Aالمجموع: "+total+" DH";
 
 window.open("https://wa.me/212712120673?text="+msg);
 }
+@media(max-width:768px){
+
+header{
+padding:15px;
+}
+
+.logo{
+font-size:18px;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.products{
+padding:30px 15px;
+}
+
+.cart-panel{
+width:100%;
+}
+
+}
 </script>
 
 </body>
