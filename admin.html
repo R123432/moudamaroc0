@@ -12,20 +12,22 @@ body{
 background:#0f0f0f;
 color:white;
 padding:20px;
+font-family:Cairo;
 }
 
 .box{
 background:#111;
 padding:20px;
 border-radius:10px;
-max-width:500px;
+max-width:800px;
 margin:auto;
+margin-bottom:20px;
 }
 
-h2{
-text-align:center;
-margin-bottom:20px;
+h2,h3{
 color:gold;
+text-align:center;
+margin-bottom:15px;
 }
 
 input{
@@ -47,17 +49,24 @@ cursor:pointer;
 margin-top:10px;
 width:100%;
 font-weight:bold;
+border-radius:8px;
 }
 
-.product-item{
+.btn-red{
+background:red;
+color:white;
+}
+
+.item-box{
 background:#1a1a1a;
 padding:10px;
 margin-top:10px;
 border-radius:8px;
+border:1px solid #333;
 }
 </style>
-
 </head>
+
 <body>
 
 <!-- ===== تسجيل الدخول ===== -->
@@ -67,14 +76,15 @@ border-radius:8px;
 
 <input type="password" id="adminPass" placeholder="أدخل الكود السري">
 <button onclick="login()" class="btn">دخول</button>
-
 </div>
 
 <!-- ===== لوحة التحكم ===== -->
 
-<div class="box" id="adminPanel" style="display:none;">
+<div id="adminPanel" style="display:none;">
 
-<h2>لوحة التحكم</h2>
+<!-- إضافة منتج -->
+<div class="box">
+<h2>إضافة منتج</h2>
 
 <input type="text" id="pName" placeholder="اسم المنتج">
 <input type="number" id="pPrice" placeholder="الثمن">
@@ -83,13 +93,22 @@ border-radius:8px;
 
 <button onclick="addProduct()" class="btn">إضافة منتج</button>
 
-<button onclick="logout()" class="btn" style="background:red;margin-top:10px;">
+<button onclick="logout()" class="btn btn-red">
 تسجيل الخروج
 </button>
+</div>
 
-<h3 style="margin-top:20px;">المنتجات الحالية:</h3>
-
+<!-- عرض المنتجات -->
+<div class="box">
+<h3>المنتجات الحالية</h3>
 <div id="productList"></div>
+</div>
+
+<!-- عرض الطلبيات -->
+<div class="box">
+<h3>الطلبيات</h3>
+<div id="ordersList"></div>
+</div>
 
 </div>
 
@@ -97,11 +116,11 @@ border-radius:8px;
 
 /* ===== حماية الصفحة ===== */
 
-if(localStorage.getItem("adminLoggedIn") !== "true"){
-document.getElementById("loginBox").style.display="block";
-}else{
+if(localStorage.getItem("adminLoggedIn")==="true"){
 document.getElementById("loginBox").style.display="none";
 document.getElementById("adminPanel").style.display="block";
+loadProducts();
+loadOrders();
 }
 
 /* ===== تسجيل الدخول ===== */
@@ -110,14 +129,14 @@ function login(){
 
 let pass=document.getElementById("adminPass").value;
 
-if(pass==="1995"){ // الكود السري
-
+if(pass==="1995"){
 localStorage.setItem("adminLoggedIn","true");
 
 document.getElementById("loginBox").style.display="none";
 document.getElementById("adminPanel").style.display="block";
 
 loadProducts();
+loadOrders();
 
 }else{
 alert("كود خاطئ ❌");
@@ -137,18 +156,18 @@ location.reload();
 function loadProducts(){
 
 let products=JSON.parse(localStorage.getItem("products")) || [];
-
 const list=document.getElementById("productList");
+
 list.innerHTML="";
 
 products.forEach((p,index)=>{
 
 list.innerHTML+=`
-<div class="product-item">
+<div class="item-box">
 <strong>${p.name}</strong><br>
 الثمن: ${p.price} DH<br>
 المخزون: ${p.stock}<br>
-<button onclick="deleteProduct(${index})" class="btn" style="background:red;margin-top:5px;">
+<button onclick="deleteProduct(${index})" class="btn btn-red" style="margin-top:5px;">
 حذف
 </button>
 </div>
@@ -194,26 +213,65 @@ document.getElementById("pImage").value="";
 loadProducts();
 }
 
-/* ===== حذف ===== */
+/* ===== حذف منتج ===== */
 
 function deleteProduct(index){
 
 let products=JSON.parse(localStorage.getItem("products")) || [];
-
 products.splice(index,1);
-
 localStorage.setItem("products",JSON.stringify(products));
-
 loadProducts();
 }
 
-/* ===== عند تحميل الصفحة ===== */
+/* ===== تحميل الطلبيات ===== */
 
-document.addEventListener("DOMContentLoaded",()=>{
-if(localStorage.getItem("adminLoggedIn")==="true"){
-loadProducts();
-}
+function loadOrders(){
+
+let orders=JSON.parse(localStorage.getItem("orders")) || [];
+const container=document.getElementById("ordersList");
+
+container.innerHTML="";
+let totalRevenue=0;
+
+orders.forEach((order,index)=>{
+
+totalRevenue+=order.total;
+
+container.innerHTML+=`
+<div class="item-box">
+<strong>طلبية رقم: ${order.id}</strong><br>
+التاريخ: ${order.date}<br>
+المجموع: ${order.total} DH<br>
+الحالة: ${order.status}<br>
+<button onclick="changeStatus(${index})" class="btn" style="margin-top:5px;">
+تغيير الحالة
+</button>
+</div>
+`;
 });
+
+container.innerHTML+=`
+<h3 style="margin-top:20px;color:gold;">
+إجمالي الأرباح: ${totalRevenue} DH
+</h3>
+`;
+}
+
+/* ===== تغيير حالة الطلب ===== */
+
+function changeStatus(index){
+
+let orders=JSON.parse(localStorage.getItem("orders")) || [];
+
+if(orders[index].status==="قيد المعالجة"){
+orders[index].status="مكتمل";
+}else{
+orders[index].status="قيد المعالجة";
+}
+
+localStorage.setItem("orders",JSON.stringify(orders));
+loadOrders();
+}
 
 </script>
 
