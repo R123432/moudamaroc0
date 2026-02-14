@@ -3,337 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Store</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-background:#f5f7fa;
-color:#1e293b;
-transition:0.3s;
-}
-
-body.dark{
-background:#0f172a;
-color:#f1f5f9;
-}
-
-/* HEADER */
-header{
-background:white;
-padding:20px 40px;
-display:flex;
-flex-wrap:wrap;
-gap:15px;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 4px 20px rgba(0,0,0,0.05);
-position:sticky;
-top:0;
-z-index:100;
-}
-
-body.dark header{
-background:#1e293b;
-}
-
-.logo{
-font-size:22px;
-font-weight:700;
-color:#2563eb;
-}
-
-.controls{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-input, select{
-padding:10px 15px;
-border-radius:10px;
-border:1px solid #e2e8f0;
-outline:none;
-}
-
-button{
-border:none;
-cursor:pointer;
-}
-
-.dark-btn{
-padding:8px 14px;
-border-radius:10px;
-background:#e2e8f0;
-}
-
-.cart-btn{
-background:#2563eb;
-color:white;
-padding:10px 18px;
-border-radius:12px;
-font-weight:600;
-transition:0.3s;
-}
-
-.cart-btn:hover{
-transform:scale(1.05);
-box-shadow:0 10px 25px rgba(37,99,235,0.3);
-}
-
-/* HERO */
-.hero{
-text-align:center;
-padding:60px 20px;
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:white;
-}
-
-.hero h2{
-font-size:36px;
-margin-bottom:10px;
-}
-
-/* PRODUCTS */
-.container{
-padding:40px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-}
-
-.card{
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
-transition:0.4s;
-}
-
-body.dark .card{
-background:#1e293b;
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 20px 40px rgba(0,0,0,0.1);
-}
-
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.card-content{
-padding:15px;
-}
-
-.price{
-color:#2563eb;
-font-weight:700;
-margin:10px 0;
-}
-
-.add-btn{
-width:100%;
-padding:10px;
-border-radius:12px;
-background:linear-gradient(135deg,#2563eb,#1d4ed8);
-color:white;
-font-weight:600;
-transition:0.3s;
-}
-
-.add-btn:hover{
-transform:scale(1.05);
-box-shadow:0 10px 25px rgba(37,99,235,0.4);
-}
-
-/* CART */
-.cart-box{
-position:fixed;
-right:0;
-top:0;
-width:350px;
-height:100%;
-background:white;
-padding:25px;
-box-shadow:-10px 0 40px rgba(0,0,0,0.1);
-transform:translateX(100%);
-transition:0.4s;
-overflow:auto;
-z-index:999;
-}
-
-body.dark .cart-box{
-background:#1e293b;
-}
-
-.cart-box.active{
-transform:translateX(0);
-}
-
-.cart-item{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-border-bottom:1px solid #e2e8f0;
-padding-bottom:10px;
-}
-
-.remove{
-color:red;
-cursor:pointer;
-}
-
-.total{
-font-weight:700;
-margin-top:15px;
-}
-
-.checkout{
-margin-top:15px;
-width:100%;
-padding:12px;
-border-radius:12px;
-background:linear-gradient(135deg,#16a34a,#15803d);
-color:white;
-font-weight:600;
-}
-</style>
+<title>Global Store Pro</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header>
 <div class="logo">🌍 Global Store</div>
-
 <div class="controls">
 <input type="text" id="search" placeholder="بحث...">
-<select id="filter">
-<option value="all">كل الأسعار</option>
-<option value="50">أقل من 50$</option>
-<option value="100">أقل من 100$</option>
-</select>
-<button class="dark-btn" onclick="toggleDark()">🌙</button>
-<div class="cart-btn" onclick="toggleCart()">🛒 (<span id="count">0</span>)</div>
+<button id="darkBtn">🌙</button>
+<div class="cart-btn" id="cartBtn">🛒 (<span id="count">0</span>)</div>
 </div>
 </header>
 
 <section class="hero">
-<h2>أفضل المنتجات العالمية</h2>
-<p>تسوق بأفضل جودة وأفضل سعر</p>
+<h2>تسوق بأفضل جودة عالمية</h2>
+<p>منتجات احترافية بتصميم عصري</p>
 </section>
 
 <div class="container" id="products"></div>
 
+<!-- Cart -->
 <div class="cart-box" id="cartBox">
 <h2>سلة المشتريات</h2>
 <div id="cartItems"></div>
-<div class="total">المجموع: $<span id="total">0</span></div>
-<button class="checkout" onclick="checkout()">إتمام الطلب</button>
+<p class="total">المجموع: $<span id="total">0</span></p>
 </div>
 
-<script>
-const products=[
-{name:"Smart Watch",price:50,image:"https://images.unsplash.com/photo-1519741497674-611481863552"},
-{name:"Headphones",price:80,image:"https://images.unsplash.com/photo-1580894908361-967195033215"},
-{name:"Sneakers",price:120,image:"https://images.unsplash.com/photo-1528701800489-20be3c69a1b1"},
-{name:"Backpack",price:40,image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"}
-];
-
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-
-function displayProducts(list=products){
-const container=document.getElementById("products");
-container.innerHTML="";
-list.forEach((product,index)=>{
-container.innerHTML+=`
-<div class="card">
-<img src="${product.image}">
-<div class="card-content">
-<h3>${product.name}</h3>
-<div class="price">$${product.price}</div>
-<button class="add-btn" onclick="addToCart(${index})">إضافة للسلة</button>
+<!-- Product Details Modal -->
+<div class="modal" id="modal">
+<div class="modal-content">
+<span class="close" id="closeModal">&times;</span>
+<img id="modalImg">
+<h3 id="modalTitle"></h3>
+<p id="modalPrice"></p>
+<p>منتج عالي الجودة مناسب للاستعمال اليومي.</p>
 </div>
-</div>`;
-});
-}
+</div>
 
-function addToCart(i){
-cart.push(products[i]);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function updateCart(){
-const cartItems=document.getElementById("cartItems");
-cartItems.innerHTML="";
-let sum=0;
-
-cart.forEach((item,i)=>{
-sum+=item.price;
-cartItems.innerHTML+=`
-<div class="cart-item">
-<span>${item.name}</span>
-<span>$${item.price}</span>
-<span class="remove" onclick="removeItem(${i})">❌</span>
-</div>`;
-});
-
-document.getElementById("total").textContent=sum;
-document.getElementById("count").textContent=cart.length;
-}
-
-function removeItem(i){
-cart.splice(i,1);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function toggleCart(){
-document.getElementById("cartBox").classList.toggle("active");
-}
-
-function toggleDark(){
-document.body.classList.toggle("dark");
-}
-
-document.getElementById("search").onkeyup=filterProducts;
-document.getElementById("filter").onchange=filterProducts;
-
-function filterProducts(){
-let text=document.getElementById("search").value.toLowerCase();
-let price=document.getElementById("filter").value;
-
-let filtered=products.filter(p=>{
-let matchName=p.name.toLowerCase().includes(text);
-let matchPrice=(price==="all")||(p.price<=price);
-return matchName&&matchPrice;
-});
-
-displayProducts(filtered);
-}
-
-function checkout(){
-alert("تم إرسال طلبك بنجاح ✅");
-cart=[];
-localStorage.removeItem("cart");
-updateCart();
-}
-
-displayProducts();
-updateCart();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
