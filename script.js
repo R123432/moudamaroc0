@@ -38,7 +38,7 @@ container.appendChild(card);
 
 function order(name, price){
 const phone = "212XXXXXXXXX"; // ضع رقمك هنا
-const message = مرحبا أريد طلب ${name} بسعر ${price} درهم;
-const url = https://wa.me/${phone}?text=${encodeURIComponent(message)};
+const message = `مرحبا أريد طلب ${name} بسعر ${price} درهم`;
+const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 window.open(url, "_blank");
 }
