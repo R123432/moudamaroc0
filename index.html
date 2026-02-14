@@ -1,9 +1,3 @@
-<div id="productModal" class="modal">
-<div class="modal-content">
-<span onclick="closeModal()" style="cursor:pointer;font-size:20px;">✖</span>
-<div id="modalBody"></div>
-</div>
-</div>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -22,6 +16,10 @@
 
 <nav>
 <a href="#">الرئيسية</a>
+<a href="#">منتجات</a>
+<a href="#">تواصل</a>
+</nav>
+
 <div style="padding:20px;text-align:center;">
 <input type="text" id="searchInput" placeholder="بحث عن منتج..." onkeyup="filterProducts()">
 <select id="priceFilter" onchange="filterProducts()">
@@ -30,9 +28,6 @@
 <option value="500">أقل من 500</option>
 </select>
 </div>
-<a href="#">منتجات</a>
-<a href="#">تواصل</a>
-</nav>
 
 <div class="cart-icon" onclick="toggleCart()">
 🛒
@@ -41,6 +36,7 @@
 </header>
 
 
+<!-- سلة المشتريات -->
 <div class="cart-panel" id="cartPanel">
 <h2>سلة المشتريات</h2>
 <div id="cartItems"></div>
@@ -49,21 +45,32 @@
 </div>
 
 
+<!-- Hero -->
 <section class="hero">
 <div class="countdown" id="countdown"></div>
 <h1>الفخامة تبدأ من هنا 👑</h1>
 </section>
 
+
+<!-- المنتجات -->
 <section class="products" id="products"></section>
+
 
 <footer>
 © 2025 MODA MAROC - جميع الحقوق محفوظة
 </footer>
 
-<a class="whatsapp" 
-href="https://wa.me/212712120673" 
-target="_blank">💬</a>
 
+<!-- مودال المنتج -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span onclick="closeModal()" style="cursor:pointer;font-size:20px;">✖</span>
+<div id="modalBody"></div>
+</div>
+</div>
+
+
+<!-- السكريبتات -->
 <script src="js/data.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
