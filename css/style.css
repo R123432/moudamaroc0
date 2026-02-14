@@ -60,8 +60,6 @@ font-weight:bold;
 width:100%;
 }
 
-/* ===== Side Cart ===== */
-
 .cart-icon{
 position:fixed;
 top:20px;
@@ -101,8 +99,7 @@ margin-bottom:15px;
 font-weight:bold;
 }
 
-input{
-width:100%;
+input,select{
 padding:8px;
 margin-top:10px;
 }
