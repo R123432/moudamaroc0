@@ -4,6 +4,7 @@ const ADMIN_CODE = "1995";
 
 function login(){
 let pass = document.getElementById("adminPass").value;
+
 if(pass === ADMIN_CODE){
 document.getElementById("loginBox").style.display="none";
 document.getElementById("adminPanel").style.display="block";
@@ -12,6 +13,7 @@ loadProducts();
 alert("كود خاطئ");
 }
 }
+
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let editIndex = null;
 
@@ -22,15 +24,21 @@ localStorage.setItem("products", JSON.stringify(products));
 function addProduct(){
 
 let reader = new FileReader();
-let file = let file = document.getElementById("pimage").files[0];
+let file = document.getElementById("pimage").files[0];
+
+if(!file){
+alert("اختر صورة");
+return;
+}
+
 reader.onload = function(e){
 
 let product = {
 id: Date.now(),
-name: pname.value,
-price: Number(pprice.value),
-stock: Number(pstock.value),
-discount: Number(pdiscount.value),
+name: document.getElementById("pname").value,
+price: Number(document.getElementById("pprice").value),
+stock: Number(document.getElementById("pstock").value),
+discount: Number(document.getElementById("pdiscount").value),
 image: e.target.result
 };
 
@@ -44,39 +52,42 @@ products.push(product);
 save();
 loadProducts();
 alert("تم الحفظ");
-}
 
-if(file){
+};
+
 reader.readAsDataURL(file);
-}else{
-alert("اختر صورة");
-}
 }
 
 function loadProducts(){
+
 let container = document.getElementById("adminProducts");
 container.innerHTML="";
 
 products.forEach((p,index)=>{
 container.innerHTML += `
-<div style="margin:10px 0;">
+<div style="margin:10px 0; border-bottom:1px solid #333; padding:10px;">
+<img src="${p.image}" width="60"><br>
 ${p.name} - ${p.price} DH
+<br>
 <button onclick="editProduct(${index})">تعديل</button>
 <button onclick="deleteProduct(${index})">حذف</button>
 </div>
 `;
 });
+
 }
 
 function editProduct(index){
+
 let p = products[index];
 
-pname.value = p.name;
-pprice.value = p.price;
-pstock.value = p.stock;
-pdiscount.value = p.discount;
+document.getElementById("pname").value = p.name;
+document.getElementById("pprice").value = p.price;
+document.getElementById("pstock").value = p.stock;
+document.getElementById("pdiscount").value = p.discount;
 
 editIndex = index;
+
 }
 
 function deleteProduct(index){
