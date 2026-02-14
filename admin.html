@@ -1,6 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+.admin-box{
+max-width:500px;
+margin:40px auto;
+background:#111;
+padding:20px;
+border-radius:10px;
+}
+input{
+width:100%;
+padding:8px;
+margin:8px 0;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+<div class="logo">لوحة تحكم MODA MAROC</div>
+</header>
+
+<!-- تسجيل الدخول -->
+<div class="admin-box" id="loginBox">
+<h3>أدخل كود الإدارة</h3>
+<input type="password" id="adminPass" placeholder="الكود السري">
+<button class="btn" onclick="login()">دخول</button>
+</div>
+
+<!-- لوحة الإدارة -->
+<div class="admin-box" id="adminPanel" style="display:none">
+
+<h3>إضافة / تعديل منتج</h3>
+
+<input type="text" id="pname" placeholder="اسم المنتج">
+<input type="number" id="pprice" placeholder="السعر">
+<input type="number" id="pstock" placeholder="المخزون">
+<input type="file" id="pimage">
+
+<button class="btn" onclick="addProduct()">حفظ المنتج</button>
+
+<hr>
+<h3>المنتجات</h3>
+<div id="adminProducts"></div>
+
+</div>
+
 <script>
 
 const ADMIN_CODE = "1995";
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+let editIndex = null;
 
 function login(){
 let pass = document.getElementById("adminPass").value;
@@ -10,26 +70,23 @@ document.getElementById("loginBox").style.display="none";
 document.getElementById("adminPanel").style.display="block";
 loadProducts();
 }else{
-alert("كود خاطئ");
+alert("كود خاطئ ❌");
 }
 }
 
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let editIndex = null;
-
-function save(){
+function saveProducts(){
 localStorage.setItem("products", JSON.stringify(products));
 }
 
 function addProduct(){
 
-let reader = new FileReader();
 let file = document.getElementById("pimage").files[0];
-
 if(!file){
 alert("اختر صورة");
 return;
 }
+
+let reader = new FileReader();
 
 reader.onload = function(e){
 
@@ -38,20 +95,20 @@ id: Date.now(),
 name: document.getElementById("pname").value,
 price: Number(document.getElementById("pprice").value),
 stock: Number(document.getElementById("pstock").value),
-discount: Number(document.getElementById("pdiscount").value),
 image: e.target.result
 };
 
 if(editIndex !== null){
+product.id = products[editIndex].id;
 products[editIndex] = product;
 editIndex = null;
 }else{
 products.push(product);
 }
 
-save();
+saveProducts();
 loadProducts();
-alert("تم الحفظ");
+alert("تم الحفظ ✅");
 
 };
 
@@ -64,10 +121,11 @@ let container = document.getElementById("adminProducts");
 container.innerHTML="";
 
 products.forEach((p,index)=>{
-container.innerHTML += `
-<div style="margin:10px 0; border-bottom:1px solid #333; padding:10px;">
+
+container.innerHTML+=`
+<div style="border-bottom:1px solid #333;padding:10px 0;">
 <img src="${p.image}" width="60"><br>
-${p.name} - ${p.price} DH
+${p.name} - ${p.price} DH - مخزون: ${p.stock}
 <br>
 <button onclick="editProduct(${index})">تعديل</button>
 <button onclick="deleteProduct(${index})">حذف</button>
@@ -84,16 +142,17 @@ let p = products[index];
 document.getElementById("pname").value = p.name;
 document.getElementById("pprice").value = p.price;
 document.getElementById("pstock").value = p.stock;
-document.getElementById("pdiscount").value = p.discount;
 
 editIndex = index;
-
 }
 
 function deleteProduct(index){
 products.splice(index,1);
-save();
+saveProducts();
 loadProducts();
 }
 
 </script>
+
+</body>
+</html>
