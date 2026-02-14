@@ -39,6 +39,23 @@
 
 </div>
 
+<!-- البحث والفلترة -->
+<div style="padding:20px;text-align:center;">
+
+<input type="text" id="searchInput" placeholder="ابحث عن منتج..." 
+onkeyup="filterProducts()" 
+style="padding:8px;width:250px;">
+
+<select id="priceFilter" onchange="filterProducts()" 
+style="padding:8px;margin-right:10px;">
+<option value="">كل الأسعار</option>
+<option value="0-200">أقل من 200 DH</option>
+<option value="200-300">بين 200 و 300 DH</option>
+<option value="300-1000">أكثر من 300 DH</option>
+</select>
+
+</div>
+
 <section class="products" id="products"></section>
 
 <script src="js/main.js"></script>
