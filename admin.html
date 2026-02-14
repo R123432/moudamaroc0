@@ -1,253 +1,35 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة التحكم الاحترافية</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-body{
-background:#0f0f0f;
-color:white;
-font-family:Cairo;
-padding:20px;
-}
-
-.box{
-background:#111;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-border:1px solid rgba(255,215,0,0.2);
-}
-
-h2,h3{
-color:gold;
-text-align:center;
-margin-bottom:15px;
-}
-
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-background:#111;
-border:1px solid gold;
-color:white;
-border-radius:8px;
-}
-
-button{
-background:gold;
-color:black;
-padding:10px;
-border:none;
-cursor:pointer;
-width:100%;
-margin-top:10px;
-font-weight:bold;
-border-radius:8px;
-}
-
-button:hover{
-transform:scale(1.03);
-}
-
-.red{
-background:red;
-color:white;
-}
-
-.item{
-background:#1a1a1a;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-}
-</style>
+<title>لوحة التحكم - MODA MAROC</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- تسجيل الدخول -->
+<header>
+<h2 style="color:gold;">لوحة التحكم</h2>
+</header>
 
-<div id="loginBox" class="box">
-<h2>دخول الإدارة</h2>
-<input type="password" id="adminPass" placeholder="الكود السري">
-<button onclick="login()">دخول</button>
-</div>
+<div style="padding:20px;max-width:500px;margin:auto;">
 
-<!-- لوحة التحكم -->
+<h3>إضافة منتج جديد</h3>
 
-<div id="adminPanel" style="display:none;">
+<input type="text" id="name" placeholder="اسم المنتج">
+<input type="number" id="price" placeholder="السعر">
+<input type="number" id="stock" placeholder="الكمية في المخزون">
+<input type="text" id="image" placeholder="رابط الصورة">
 
-<div class="box">
-<h2>إضافة منتج</h2>
-<input type="text" id="pName" placeholder="اسم المنتج">
-<input type="number" id="pPrice" placeholder="الثمن">
-<input type="number" id="pStock" placeholder="المخزون">
-<input type="text" id="pImage" placeholder="رابط الصورة">
-<button onclick="addProduct()">إضافة</button>
-<button onclick="logout()" class="red">تسجيل الخروج</button>
-</div>
+<button class="btn" onclick="addProduct()">إضافة المنتج</button>
 
-<div class="box">
-<h3>المنتجات</h3>
-<div id="productList"></div>
-</div>
+<hr style="margin:20px 0;">
 
-<div class="box">
-<h3>الطلبيات</h3>
-<div id="ordersList"></div>
-<canvas id="salesChart"></canvas>
-</div>
+<h3>المنتجات الحالية</h3>
+<div id="adminProducts"></div>
 
 </div>
 
-<script>
-
-/* ===== تسجيل الدخول ===== */
-
-if(localStorage.getItem("adminLoggedIn")==="true"){
-showPanel();
-}
-
-function login(){
-let pass=document.getElementById("adminPass").value;
-
-if(pass==="1995"){
-localStorage.setItem("adminLoggedIn","true");
-showPanel();
-}else{
-alert("كود خاطئ ❌");
-}
-}
-
-function logout(){
-localStorage.removeItem("adminLoggedIn");
-location.reload();
-}
-
-function showPanel(){
-document.getElementById("loginBox").style.display="none";
-document.getElementById("adminPanel").style.display="block";
-init();
-}
-
-/* ===== تشغيل كل شيء ===== */
-
-function init(){
-loadProducts();
-loadOrders();
-drawChart();
-}
-
-/* ===== المنتجات ===== */
-
-function loadProducts(){
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let list=document.getElementById("productList");
-list.innerHTML="";
-
-products.forEach((p,i)=>{
-list.innerHTML+=`
-<div class="item">
-${p.name} - ${p.price} DH - المخزون: ${p.stock}
-<button onclick="deleteProduct(${i})" class="red">حذف</button>
-</div>
-`;
-});
-}
-
-function addProduct(){
-let name=pName.value;
-let price=pPrice.value;
-let stock=pStock.value;
-let image=pImage.value;
-
-if(!name||!price||!stock||!image){
-alert("عمر جميع الحقول");
-return;
-}
-
-let products=JSON.parse(localStorage.getItem("products"))||[];
-
-products.push({
-id:Date.now(),
-name:name,
-price:Number(price),
-stock:Number(stock),
-image:image
-});
-
-localStorage.setItem("products",JSON.stringify(products));
-
-pName.value="";
-pPrice.value="";
-pStock.value="";
-pImage.value="";
-
-loadProducts();
-}
-
-function deleteProduct(i){
-let products=JSON.parse(localStorage.getItem("products"))||[];
-products.splice(i,1);
-localStorage.setItem("products",JSON.stringify(products));
-loadProducts();
-}
-
-/* ===== الطلبيات ===== */
-
-function loadOrders(){
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
-let box=document.getElementById("ordersList");
-box.innerHTML="";
-
-let total=0;
-
-orders.forEach(o=>{
-total+=o.total;
-
-box.innerHTML+=`
-<div class="item">
-طلبية: ${o.id}<br>
-المجموع: ${o.total} DH<br>
-الحالة: ${o.status}
-</div>
-`;
-});
-
-box.innerHTML+=`<h3>إجمالي الأرباح: ${total} DH</h3>`;
-}
-
-/* ===== رسم بياني ===== */
-
-function drawChart(){
-
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
-
-let labels=orders.map(o=>o.id);
-let data=orders.map(o=>o.total);
-
-new Chart(document.getElementById("salesChart"),{
-type:"bar",
-data:{
-labels:labels,
-datasets:[{
-label:"الأرباح",
-data:data,
-backgroundColor:"gold"
-}]
-},
-options:{responsive:true}
-});
-
-}
-
-</script>
-
+<script src="admin.js"></script>
 </body>
 </html>
