@@ -195,6 +195,17 @@ font-size:20px;
 box-shadow:0 0 15px rgba(0,0,0,.3);
 z-index:1000;
 }
+.fade-in{
+animation:fadeIn .8s ease forwards;
+opacity:0;
+}
+
+@keyframes fadeIn{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
 </script>
 
 </body>
