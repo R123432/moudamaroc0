@@ -12,9 +12,8 @@ color:white;
 
 header{
 display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 40px;
+justify-content:center;
+padding:20px;
 background:black;
 border-bottom:1px solid gold;
 }
@@ -37,6 +36,11 @@ background:#1a1a1a;
 padding:20px;
 border-radius:10px;
 text-align:center;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card img{
@@ -48,19 +52,14 @@ object-fit:cover;
 .btn{
 background:gold;
 color:black;
-padding:8px 15px;
+padding:8px;
 border:none;
 cursor:pointer;
 margin-top:10px;
 font-weight:bold;
+width:100%;
 }
 
-.cart-box{
-background:#111;
-padding:20px;
-margin:20px;
-border-radius:10px;
-}
 /* ===== Side Cart ===== */
 
 .cart-icon{
@@ -100,4 +99,10 @@ cursor:pointer;
 color:red;
 margin-bottom:15px;
 font-weight:bold;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-top:10px;
 }
