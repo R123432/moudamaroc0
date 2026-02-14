@@ -6,6 +6,11 @@ localStorage.setItem("cart", JSON.stringify(cart));
 
 function addToCart(id){
 
+if(typeof products === "undefined"){
+alert("خطأ: المنتجات لم يتم تحميلها");
+return;
+}
+
 const product = products.find(p => p.id === id);
 
 if(!product){
@@ -13,7 +18,11 @@ alert("خطأ: المنتج غير موجود");
 return;
 }
 
-cart.push(product);
+cart.push({
+id: product.id,
+name: product.name,
+price: Number(product.price)
+});
 
 saveCart();
 updateCartCount();
@@ -50,7 +59,10 @@ ${item.name} - ${item.price} DH
 `;
 });
 
-document.getElementById("cartTotal").innerText = total;
+const totalElement = document.getElementById("cartTotal");
+if(totalElement){
+totalElement.innerText = total;
+}
 }
 
 function removeItem(index){
@@ -60,4 +72,7 @@ renderCart();
 updateCartCount();
 }
 
+document.addEventListener("DOMContentLoaded", function(){
 updateCartCount();
+renderCart();
+});
