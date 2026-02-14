@@ -1,62 +1,65 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إتمام الطلب</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<header>
-<div class="logo">MODA MAROC</div>
-</header>
-
-<div class="products">
-<div class="card">
-<div class="card-content">
-<h2>معلومات الطلب</h2>
-
-<input type="text" id="name" placeholder="الاسم الكامل"><br><br>
-<input type="text" id="address" placeholder="العنوان الكامل"><br><br>
-<input type="text" id="phone" placeholder="رقم الهاتف"><br><br>
-
-<button class="btn" onclick="sendOrder()">إرسال عبر واتساب</button>
-
-</div>
-</div>
-</div>
-
-<script src="js/data.js"></script>
 <script src="js/cart.js"></script>
+
 <script>
 
 function sendOrder(){
-let name=document.getElementById("name").value;
-let address=document.getElementById("address").value;
-let phone=document.getElementById("phone").value;
 
-if(!name||!address||!phone){
-alert("يرجى ملء جميع المعلومات");
+let name = document.getElementById("name").value.trim();
+let address = document.getElementById("address").value.trim();
+let phoneClient = document.getElementById("phone").value.trim();
+
+if(!name || !address || !phoneClient){
+alert("يرجى ملء جميع المعلومات ❌");
 return;
 }
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let total=0;
-let msg="طلب جديد من "+name+"%0A";
-msg+="العنوان: "+address+"%0A";
-msg+="الهاتف: "+phone+"%0A%0A";
 
-cart.forEach(p=>{
-msg+=p.name+" - "+p.price+" DH%0A";
-total+=p.price;
+if(cart.length === 0){
+alert("السلة فارغة ❌");
+return;
+}
+
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+let total = 0;
+let msg = "🛍️ طلب جديد من متجر MODA MAROC%0A%0A";
+
+msg += "👤 الاسم: " + name + "%0A";
+msg += "📍 العنوان: " + address + "%0A";
+msg += "📞 الهاتف: " + phoneClient + "%0A%0A";
+
+cart.forEach(item => {
+
+let product = products.find(p => p.id === item.id);
+
+// نقص المخزون
+if(product){
+product.stock -= item.quantity;
+}
+
+let itemTotal = item.price * item.quantity;
+total += itemTotal;
+
+msg += "📦 " + item.name + "%0A";
+msg += "العدد: " + item.quantity + "%0A";
+msg += "المجموع: " + itemTotal + " DH%0A%0A";
+
 });
 
-msg+="%0Aالمجموع: "+total+" DH";
+localStorage.setItem("products", JSON.stringify(products));
 
-window.open("https://wa.me/212712120673?text="+msg);
+msg += "💰 المجموع الكلي: " + total + " DH";
+
+window.open("https://wa.me/212712120673?text=" + msg, "_blank");
+
+// نفرغ السلة
+localStorage.removeItem("cart");
+
+alert("تم إرسال الطلب وتحديث المخزون ✅");
+
+// إعادة توجيه للصفحة الرئيسية
+window.location.href = "index.html";
 }
-</script>
 
-</body>
-</html>
+</script>
