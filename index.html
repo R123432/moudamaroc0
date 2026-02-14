@@ -6,66 +6,90 @@
 <title>MODA MAROC</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f2f2f2}
-.header{display:flex;justify-content:space-between;padding:15px;background:#111;color:#fff}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:20px}
-.product{background:#fff;border-radius:10px;padding:10px;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-.product img{width:100%;height:180px;object-fit:cover;border-radius:8px}
-button{padding:8px;margin:5px 0;cursor:pointer;width:100%}
-.modal{position:fixed;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;justify-content:center;align-items:center}
-.box{background:#fff;padding:20px;width:95%;max-width:400px;border-radius:10px;max-height:90%;overflow:auto}
+body{margin:0;font-family:Arial;background:#f4f4f4}
+header{background:#000;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:15px}
+.card{background:#fff;border-radius:10px;padding:10px;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:8px}
+button{padding:8px;border:none;border-radius:6px;cursor:pointer}
+.add{background:#000;color:#fff;width:100%;margin-top:5px}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;justify-content:center;align-items:center}
+.box{background:#fff;width:90%;max-width:400px;padding:15px;border-radius:10px;max-height:90%;overflow:auto}
 input,textarea{width:100%;padding:8px;margin:5px 0}
-.total{font-weight:bold}
+.adminBtn{background:#444;color:#fff}
+.cartBtn{background:#fff;color:#000}
 </style>
 </head>
 
 <body>
 
-<header class="header">
-<h1>MODA MAROC</h1>
+<header>
+<h2>MODA MAROC</h2>
 <div>
-<button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
-<button onclick="openAdmin()">⚙️</button>
+<button class="cartBtn" onclick="openCart()">🛒 <span id="count">0</span></button>
+<button class="adminBtn" onclick="openAdmin()">⚙️</button>
 </div>
 </header>
 
-<section id="products" class="products"></section>
+<div class="products" id="products"></div>
 
-<div id="cartModal" class="modal">
+<!-- CART -->
+<div class="modal" id="cartModal">
 <div class="box">
 <h3>سلة المشتريات</h3>
 <div id="cartItems"></div>
-<p class="total">المجموع: <span id="totalPrice">0</span> DH</p>
+<p>المجموع: <span id="total">0</span> DH</p>
+<button onclick="sendOrder()">إرسال عبر واتساب</button>
 <button onclick="closeCart()">إغلاق</button>
 </div>
 </div>
 
+<!-- ADMIN -->
+<div class="modal" id="adminModal">
+<div class="box">
+<h3>لوحة التحكم</h3>
+<input type="password" id="adminPass" placeholder="كود الدخول">
+<button onclick="login()">دخول</button>
+
+<div id="adminPanel" style="display:none;">
+<hr>
+<input id="name" placeholder="اسم المنتج">
+<input id="price" type="number" placeholder="السعر">
+<input id="image" placeholder="رابط الصورة">
+<button onclick="addProduct()">إضافة منتج</button>
+<hr>
+<div id="adminProducts"></div>
+</div>
+
+<button onclick="closeAdmin()">إغلاق</button>
+</div>
+</div>
+
 <script>
+const ADMIN_CODE="1995";
 const WHATSAPP="212712120673";
+
 let products=[
-{
-id:1,
-name:"قميص رجالي فاخر",
-price:250,
-image:"https://via.placeholder.com/400x400"
-}
+{id:1,name:"قميص عصري",price:250,image:"https://via.placeholder.com/400x400"},
+{id:2,name:"حذاء أنيق",price:320,image:"https://via.placeholder.com/400x400"}
 ];
 
 let cart=[];
 
 function loadProducts(){
-let container=document.getElementById("products");
-container.innerHTML="";
+let html="";
 products.forEach(p=>{
-container.innerHTML+=`
-<div class="product">
+html+=`
+<div class="card">
 <img src="${p.image}">
 <h4>${p.name}</h4>
 <p>${p.price} DH</p>
-<button onclick="addToCart(${p.id})">إضافة للسلة</button>
+<button class="add" onclick="addToCart(${p.id})">إضافة للسلة</button>
 </div>`;
 });
+document.getElementById("products").innerHTML=html;
 }
+loadProducts();
 
 function addToCart(id){
 let p=products.find(x=>x.id===id);
@@ -74,26 +98,57 @@ updateCart();
 }
 
 function updateCart(){
-let items="";
+let html="";
 let total=0;
-cart.forEach(i=>{
-items+=`<p>${i.name}</p>`;
-total+=i.price;
+cart.forEach(p=>{
+html+=`<p>${p.name}</p>`;
+total+=p.price;
 });
-document.getElementById("cartItems").innerHTML=items;
-document.getElementById("totalPrice").innerText=total;
-document.getElementById("cartCount").innerText=cart.length;
+document.getElementById("cartItems").innerHTML=html;
+document.getElementById("total").innerText=total;
+document.getElementById("count").innerText=cart.length;
 }
 
-function toggleCart(){
-document.getElementById("cartModal").style.display="flex";
+function openCart(){document.getElementById("cartModal").style.display="flex";}
+function closeCart(){document.getElementById("cartModal").style.display="none";}
+
+function sendOrder(){
+let total=cart.reduce((a,b)=>a+b.price,0);
+let msg="طلب جديد:%0A";
+cart.forEach(p=>msg+=p.name+"%0A");
+msg+="المجموع: "+total+" DH";
+window.open("https://wa.me/"+WHATSAPP+"?text="+msg);
 }
 
-function closeCart(){
-document.getElementById("cartModal").style.display="none";
+function openAdmin(){document.getElementById("adminModal").style.display="flex";}
+function closeAdmin(){document.getElementById("adminModal").style.display="none";}
+
+function login(){
+if(document.getElementById("adminPass").value===ADMIN_CODE){
+document.getElementById("adminPanel").style.display="block";
+loadAdminProducts();
+}
 }
 
+function addProduct(){
+let newProduct={
+id:Date.now(),
+name:document.getElementById("name").value,
+price:Number(document.getElementById("price").value),
+image:document.getElementById("image").value
+};
+products.push(newProduct);
 loadProducts();
+loadAdminProducts();
+}
+
+function loadAdminProducts(){
+let html="";
+products.forEach(p=>{
+html+=`<p>${p.name}</p>`;
+});
+document.getElementById("adminProducts").innerHTML=html;
+}
 </script>
 
 </body>
