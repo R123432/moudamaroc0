@@ -16,6 +16,14 @@
 
 <nav>
 <a href="#">الرئيسية</a>
+<div style="padding:20px;text-align:center;">
+<input type="text" id="searchInput" placeholder="بحث عن منتج..." onkeyup="filterProducts()">
+<select id="priceFilter" onchange="filterProducts()">
+<option value="">كل الأسعار</option>
+<option value="300">أقل من 300</option>
+<option value="500">أقل من 500</option>
+</select>
+</div>
 <a href="#">منتجات</a>
 <a href="#">تواصل</a>
 </nav>
