@@ -9,15 +9,23 @@
 </head>
 <body>
 
-<header>
+<div class="cart-icon" onclick="toggleCart()">
+🛒
+<span class="cart-count" id="cartCount">0</span>
+</div> 
 <div class="logo">MODA MAROC</div>
 <nav>
 <a href="#">الرئيسية</a>
 <a href="#">منتجات</a>
 <a href="#">تواصل</a>
 </nav>
-</header>
-
+</header><div class="cart-panel" id="cartPanel">
+<h2>سلة المشتريات</h2>
+<div id="cartItems"></div>
+<h3>المجموع: <span id="cartTotal">0</span> DH</h3>
+<a class="btn" href="checkout.html">إتمام الطلب</a>
+</div>
+<script src="js/cart.js"></script>
 <section class="hero">
 <h1>الفخامة تبدأ من هنا 👑</h1>
 </section>
