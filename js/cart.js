@@ -20,20 +20,7 @@ console.log("المنتجات:", products);
 return;
 }
 
-cart.push(product);
-saveCart();
-updateCartCount();
-renderCart();
 
-alert("تمت إضافة المنتج للسلة ✅");
-}
-
-const product = products.find(p => p.id === id);
-
-if(!product){
-alert("خطأ: المنتج غير موجود");
-return;
-}
 
 cart.push({
 id: product.id,
