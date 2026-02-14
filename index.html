@@ -3,143 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MODA MAROC</title>
+<title>MODA MAROC - Secure Admin</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f5f5f5}
-header{background:#000;color:#fff;padding:15px;display:flex;justify-content:space-between;align-items:center}
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;padding:20px}
-.card{background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,.1);overflow:hidden;position:relative}
-.card img{width:100%;height:250px;object-fit:cover}
-.badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:5px}
-.badge{background:#000;color:#fff;padding:5px 10px;border-radius:20px;font-size:12px}
-.info{padding:15px}
-.price del{color:#888;margin-left:5px}
-button{padding:10px;border:none;border-radius:8px;cursor:pointer;width:100%;margin-top:10px}
-.add{background:#000;color:#fff}
-.sliderBtns{position:absolute;top:50%;width:100%;display:flex;justify-content:space-between;transform:translateY(-50%)}
-.sliderBtns button{background:rgba(0,0,0,.5);color:#fff;border:none;width:35px;height:35px;border-radius:50%}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;justify-content:center;align-items:center}
-.box{background:#fff;width:90%;max-width:400px;padding:20px;border-radius:15px}
+body{
+margin:0;
+background:#0b0b0b;
+color:white;
+font-family:Arial;
+}
+
+header{
+background:black;
+padding:15px;
+text-align:center;
+border-bottom:1px solid gold;
+}
+
+h1{color:gold}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:#111;
+padding:15px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(255,215,0,.2);
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+}
+
+button{
+background:gold;
+border:none;
+padding:8px;
+width:100%;
+margin-top:5px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.admin-btn{
+position:fixed;
+bottom:20px;
+left:20px;
+background:red;
+color:white;
+width:auto;
+padding:10px 15px;
+border-radius:30px;
+}
+
+/* ADMIN PANEL */
+#adminPanel{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:none;
+overflow:auto;
+padding:20px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin:5px 0;
+border-radius:6px;
+border:none;
+}
+
+.close{
+background:red;
+}
 </style>
 </head>
-
 <body>
 
 <header>
-<h2>MODA MAROC</h2>
-<button onclick="openCart()">🛒 <span id="count">0</span></button>
+<h1>MODA MAROC</h1>
 </header>
 
-<div class="products" id="products"></div>
+<section class="products" id="products"></section>
 
-<!-- CART -->
-<div class="modal" id="cartModal">
-<div class="box">
-<h3>سلة المشتريات</h3>
-<div id="cartItems"></div>
-<p>المجموع: <span id="total">0</span> DH</p>
-<button onclick="sendOrder()">إرسال عبر واتساب</button>
-<button onclick="closeCart()">إغلاق</button>
-</div>
+<button class="admin-btn" onclick="login()">لوحة التحكم</button>
+
+<div id="adminPanel">
+<h2>لوحة التحكم المشفرة</h2>
+
+<input id="name" placeholder="اسم المنتج">
+<input id="price" type="number" placeholder="السعر">
+<input id="image" placeholder="رابط الصورة">
+<button onclick="addProduct()">إضافة منتج</button>
+
+<h3>نسبة الخصم %</h3>
+<input id="discountInput" type="number">
+<button onclick="updateDiscount()">تحديث الخصم</button>
+
+<button class="close" onclick="closeAdmin()">إغلاق</button>
 </div>
 
 <script>
 const WHATSAPP="212712120673";
-let discount=10;
+const ADMIN_CODE="1995";
 
-let products=[
-{
-id:1,
-name:"قميص عصري",
-price:300,
-rating:4,
-images:[
-"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab",
-"https://images.unsplash.com/photo-1516826957135-700dedea698c"
-]
+let products=JSON.parse(localStorage.getItem("products")) || [];
+let discount=localStorage.getItem("discount") || 0;
+
+function saveData(){
+localStorage.setItem("products",JSON.stringify(products));
+localStorage.setItem("discount",discount);
 }
-];
-
-let cart=[];
-let currentImageIndex={};
 
 function loadProducts(){
 let html="";
-products.forEach(p=>{
-currentImageIndex[p.id]=0;
+products.forEach((p,i)=>{
 let final=p.price-(p.price*discount/100);
 html+=`
 <div class="card">
-<div class="badges">
-<span class="badge">✔ جودة عالية</span>
-<span class="badge">✨ أناقة</span>
-</div>
-
-<img id="img${p.id}" src="${p.images[0]}">
-
-<div class="sliderBtns">
-<button onclick="prevImg(${p.id})">‹</button>
-<button onclick="nextImg(${p.id})">›</button>
-</div>
-
-<div class="info">
+<img src="${p.image}">
 <h3>${p.name}</h3>
-<div class="price">
-<span>${final} DH</span>
-<del>${p.price}</del>
-</div>
-<p>⭐ ${p.rating}</p>
-<button class="add" onclick="addToCart(${p.id})">إضافة للسلة</button>
-</div>
+<p>${final} DH <del>${p.price}</del></p>
+<button onclick="order('${p.name}',${final})">اطلب</button>
+<button onclick="deleteProduct(${i})">حذف</button>
 </div>`;
 });
 document.getElementById("products").innerHTML=html;
 }
 loadProducts();
 
-function nextImg(id){
-let p=products.find(x=>x.id===id);
-currentImageIndex[id]++;
-if(currentImageIndex[id]>=p.images.length) currentImageIndex[id]=0;
-document.getElementById("img"+id).src=p.images[currentImageIndex[id]];
+function order(name,price){
+let msg="أريد طلب "+name+" بسعر "+price+" DH";
+window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(msg));
 }
 
-function prevImg(id){
-let p=products.find(x=>x.id===id);
-currentImageIndex[id]--;
-if(currentImageIndex[id]<0) currentImageIndex[id]=p.images.length-1;
-document.getElementById("img"+id).src=p.images[currentImageIndex[id]];
+function login(){
+let code=prompt("أدخل كود الدخول");
+if(code===ADMIN_CODE){
+document.getElementById("adminPanel").style.display="block";
+document.getElementById("discountInput").value=discount;
+}else{
+alert("كود خاطئ");
+}
 }
 
-function addToCart(id){
-let p=products.find(x=>x.id===id);
-let final=p.price-(p.price*discount/100);
-cart.push({name:p.name,price:final});
-updateCart();
+function closeAdmin(){
+document.getElementById("adminPanel").style.display="none";
 }
 
-function updateCart(){
-let html="";
-let total=0;
-cart.forEach(p=>{
-html+=`<p>${p.name}</p>`;
-total+=p.price;
-});
-document.getElementById("cartItems").innerHTML=html;
-document.getElementById("total").innerText=total;
-document.getElementById("count").innerText=cart.length;
+function addProduct(){
+let name=document.getElementById("name").value;
+let price=document.getElementById("price").value;
+let image=document.getElementById("image").value;
+
+if(name && price && image){
+products.push({name,price,image});
+saveData();
+loadProducts();
+alert("تمت الإضافة");
+}
 }
 
-function openCart(){document.getElementById("cartModal").style.display="flex";}
-function closeCart(){document.getElementById("cartModal").style.display="none";}
+function deleteProduct(i){
+if(confirm("حذف المنتج؟")){
+products.splice(i,1);
+saveData();
+loadProducts();
+}
+}
 
-function sendOrder(){
-let total=cart.reduce((a,b)=>a+b.price,0);
-let msg="طلب جديد:%0A";
-cart.forEach(p=>msg+=p.name+"%0A");
-msg+="المجموع: "+total+" DH";
-window.open("https://wa.me/"+WHATSAPP+"?text="+msg);
+function updateDiscount(){
+discount=document.getElementById("discountInput").value;
+saveData();
+loadProducts();
+alert("تم تحديث الخصم");
 }
 </script>
 
