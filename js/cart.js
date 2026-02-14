@@ -102,3 +102,36 @@ document.addEventListener("DOMContentLoaded", function(){
 updateCartCount();
 renderCart();
 });
+function orderWhatsApp(){
+
+if(cart.length === 0){
+alert("السلة فارغة ❌");
+return;
+}
+
+let phone = "212600000000"; // 🔥 بدلها برقمك (بلا +)
+
+let message = "🛍️ طلب جديد من متجر MODA MAROC:%0A%0A";
+
+let total = 0;
+
+cart.forEach(item=>{
+let itemTotal = item.price * item.quantity;
+total += itemTotal;
+
+message += `📦 ${item.name}%0A`;
+message += `العدد: ${item.quantity}%0A`;
+message += `السعر: ${item.price} DH%0A`;
+message += `المجموع: ${itemTotal} DH%0A%0A`;
+});
+
+message += `💰 المجموع الكلي: ${total} DH%0A%0A`;
+message += "الاسم:%0A";
+message += "المدينة:%0A";
+message += "العنوان:%0A";
+message += "رقم الهاتف:%0A";
+
+let url = `https://wa.me/${phone}?text=${message}`;
+
+window.open(url, "_blank");
+}
