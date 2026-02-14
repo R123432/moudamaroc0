@@ -1,128 +1,77 @@
-// نجيب المنتجات من localStorage
-let products = JSON.parse(localStorage.getItem("products")) || [];
+let cart = [];
 
-// عرض المنتجات
-function renderProducts(){
+// عناصر DOM
+const cartCount = document.querySelector(".cart-count");
+const cartItemsContainer = document.querySelector(".cart-items");
+const cartPanel = document.querySelector(".cart-panel");
+const cartIcon = document.querySelector(".cart-icon");
 
-const container = document.getElementById("products");
-if(!container) return;
-
-container.innerHTML = "";
-
-products.forEach(product=>{
-
-let finalPrice = product.price - (product.price * product.discount / 100);
-
-container.innerHTML += `
-<div class="card fade-in">
-<img src="${product.image}">
-<div class="card-content">
-<h3>${product.name}</h3>
-
-<p class="price">
-${finalPrice} DH 
-<span style="text-decoration:line-through;color:gray;">
-${product.price}
-</span>
-</p>
-
-<div class="badge">خصم ${product.discount}%</div>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<p style="color:gold;">باقي ${product.stock} فقط 🔥</p>
-
-<a class="btn" onclick="openProduct(${product.id})">
-عرض المنتج
-</a>
-</div>
-</div>
-`;
+// فتح / إغلاق السلة
+cartIcon.addEventListener("click", () => {
+  cartPanel.classList.toggle("active");
 });
 
+// إضافة منتج للسلة
+function addToCart(id, name, price) {
+
+  const existingProduct = cart.find(item => item.id === id);
+
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+  } else {
+    cart.push({
+      id: id,
+      name: name,
+      price: price,
+      quantity: 1
+    });
+  }
+
+  updateCart();
 }
 
-// فلترة وبحث
-function filterProducts(){
+// تحديث السلة
+function updateCart() {
 
-let search = document.getElementById("searchInput")?.value.toLowerCase() || "";
-let price = document.getElementById("priceFilter")?.value || "";
+  cartItemsContainer.innerHTML = "";
 
-const container = document.getElementById("products");
-if(!container) return;
+  let totalCount = 0;
 
-container.innerHTML="";
+  cart.forEach(item => {
 
-products.forEach(product=>{
+    totalCount += item.quantity;
 
-let matchSearch = product.name.toLowerCase().includes(search);
-let matchPrice = price==="" || product.price <= Number(price);
+    const div = document.createElement("div");
+    div.classList.add("cart-item");
 
-if(matchSearch && matchPrice){
+    div.innerHTML = `
+      <h4>${item.name}</h4>
+      <p>${item.price} DH</p>
+      <div>
+        <button onclick="changeQuantity(${item.id}, -1)">-</button>
+        ${item.quantity}
+        <button onclick="changeQuantity(${item.id}, 1)">+</button>
+      </div>
+    `;
 
-let finalPrice = product.price - (product.price * product.discount / 100);
+    cartItemsContainer.appendChild(div);
+  });
 
-container.innerHTML += `
-<div class="card">
-<img src="${product.image}">
-<div class="card-content">
-<h3>${product.name}</h3>
-<p class="price">${finalPrice} DH</p>
-<a class="btn" onclick="addToCart(${product.id})">أضف للسلة</a>
-</div>
-</div>
-`;
-}
-});
-
+  cartCount.textContent = totalCount;
 }
 
-// فتح popup المنتج
-function openProduct(id){
+// تغيير الكمية
+function changeQuantity(id, amount) {
 
-id = Number(id);
+  const product = cart.find(item => item.id === id);
 
-let product = products.find(p=>Number(p.id)===id);
-if(!product) return;
+  if (!product) return;
 
-let finalPrice = product.price - (product.price * product.discount / 100);
+  product.quantity += amount;
 
-document.getElementById("modalBody").innerHTML = `
-<img src="${product.image}">
-<h2>${product.name}</h2>
-<p>${finalPrice} DH</p>
-<p>باقي ${product.stock} فقط</p>
-<button onclick="addToCart(${product.id})" class="btn">
-أضف للسلة
-</button>
-`;
+  if (product.quantity <= 0) {
+    cart = cart.filter(item => item.id !== id);
+  }
 
-document.getElementById("productModal").style.display="flex";
+  updateCart();
 }
-
-function closeModal(){
-document.getElementById("productModal").style.display="none";
-}
-
-// عداد العرض
-function startCountdown(){
-let time = 3600;
-
-setInterval(()=>{
-let minutes = Math.floor(time / 60);
-let seconds = time % 60;
-
-let el = document.getElementById("countdown");
-if(el){
-el.innerText =
-"العرض ينتهي خلال: " + minutes + ":" + (seconds<10?"0":"") + seconds;
-}
-
-if(time > 0) time--;
-},1000);
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-renderProducts();
-startCountdown();
-});
