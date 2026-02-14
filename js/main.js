@@ -1,6 +1,14 @@
-const container = document.getElementById("products");
+// نجيب المنتجات من localStorage
+let products = JSON.parse(localStorage.getItem("products")) || [];
 
-if(container){
+// عرض المنتجات
+function renderProducts(){
+
+const container = document.getElementById("products");
+if(!container) return;
+
+container.innerHTML = "";
+
 products.forEach(product=>{
 
 let finalPrice = product.price - (product.price * product.discount / 100);
@@ -31,33 +39,24 @@ ${product.price}
 </div>
 `;
 });
-}
-function startCountdown(){
-let time = 3600; // ساعة
 
-setInterval(()=>{
-let minutes = Math.floor(time / 60);
-let seconds = time % 60;
-
-document.getElementById("countdown").innerText =
-"العرض ينتهي خلال: " + minutes + ":" + (seconds<10?"0":"") + seconds;
-
-if(time > 0) time--;
-},1000);
 }
 
+// فلترة وبحث
 function filterProducts(){
 
-let search = document.getElementById("searchInput").value.toLowerCase();
-let price = document.getElementById("priceFilter").value;
+let search = document.getElementById("searchInput")?.value.toLowerCase() || "";
+let price = document.getElementById("priceFilter")?.value || "";
 
 const container = document.getElementById("products");
+if(!container) return;
+
 container.innerHTML="";
 
 products.forEach(product=>{
 
 let matchSearch = product.name.toLowerCase().includes(search);
-let matchPrice = price==="" || product.price <= price;
+let matchPrice = price==="" || product.price <= Number(price);
 
 if(matchSearch && matchPrice){
 
@@ -75,10 +74,17 @@ container.innerHTML += `
 `;
 }
 });
+
 }
+
+// فتح popup المنتج
 function openProduct(id){
 
-let product = products.find(p=>p.id===id);
+id = Number(id);
+
+let product = products.find(p=>Number(p.id)===id);
+if(!product) return;
+
 let finalPrice = product.price - (product.price * product.discount / 100);
 
 document.getElementById("modalBody").innerHTML = `
@@ -97,4 +103,26 @@ document.getElementById("productModal").style.display="flex";
 function closeModal(){
 document.getElementById("productModal").style.display="none";
 }
+
+// عداد العرض
+function startCountdown(){
+let time = 3600;
+
+setInterval(()=>{
+let minutes = Math.floor(time / 60);
+let seconds = time % 60;
+
+let el = document.getElementById("countdown");
+if(el){
+el.innerText =
+"العرض ينتهي خلال: " + minutes + ":" + (seconds<10?"0":"") + seconds;
+}
+
+if(time > 0) time--;
+},1000);
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+renderProducts();
 startCountdown();
+});
