@@ -7,13 +7,13 @@
 
 <link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
 </head>
 <body>
 
 <header>
 <div class="logo">MODA MAROC</div>
 </header>
+
 <!-- أيقونة السلة -->
 <div class="cart-icon" onclick="toggleCart()">
 🛒 (<span id="cartCount">0</span>)
@@ -28,6 +28,9 @@
 
 <div id="cartItems"></div>
 
+<input type="text" id="promoInput" placeholder="كود التخفيض">
+<button onclick="applyPromo()" class="btn">تطبيق الكود</button>
+
 <p>المجموع: <strong><span id="cartTotal">0</span> DH</strong></p>
 
 <button onclick="orderWhatsApp()" class="btn">
@@ -36,18 +39,6 @@
 
 </div>
 
-<!-- السلة -->
-<div class="cart-box">
-<h3>🛒 السلة (<span id="cartCount">0</span>)</h3>
-
-<div id="cartItems"></div>
-
-<p>المجموع: <strong><span id="cartTotal">0</span> DH</strong></p>
-</div>
-<button onclick="orderWhatsApp()" class="btn">
-إتمام الطلب عبر واتساب
-</button>
-<!-- المنتجات -->
 <section class="products" id="products"></section>
 
 <script src="js/main.js"></script>
