@@ -1,10 +1,8 @@
-/* =========================
-   تحميل المنتجات
-========================= */
+/* ===== تحميل المنتجات ===== */
 
 let products = JSON.parse(localStorage.getItem("products"));
 
-if(!products || products.length === 0){
+if(!products || products.length===0){
 
 products = [
 {
@@ -14,11 +12,6 @@ price:299,
 stock:10,
 image:"https://via.placeholder.com/250"
 },
-/* ===== فتح وإغلاق السلة ===== */
-
-function toggleCart(){
-document.getElementById("sideCart").classList.toggle("active");
-}
 {
 id:2,
 name:"Adidas Shirt",
@@ -31,19 +24,17 @@ image:"https://via.placeholder.com/250"
 localStorage.setItem("products", JSON.stringify(products));
 }
 
-/* =========================
-   تحميل السلة
-========================= */
+/* ===== السلة ===== */
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let discount = 0;
+const PROMO_CODE = "MODA10";
 
 function saveCart(){
 localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-/* =========================
-   عرض المنتجات
-========================= */
+/* ===== عرض المنتجات ===== */
 
 function displayProducts(){
 
@@ -63,20 +54,15 @@ container.innerHTML+=`
 </button>
 </div>
 `;
-
 });
 }
 
-/* =========================
-   إضافة للسلة
-========================= */
+/* ===== إضافة للسلة ===== */
 
 function addToCart(id){
 
 let product = products.find(p=>p.id===id);
-if(!product) return;
-
-if(product.stock<=0){
+if(!product || product.stock<=0){
 alert("المنتج غير متوفر ❌");
 return;
 }
@@ -107,9 +93,7 @@ renderCart();
 updateCartCount();
 }
 
-/* =========================
-   عرض السلة
-========================= */
+/* ===== عرض السلة ===== */
 
 function renderCart(){
 
@@ -131,24 +115,43 @@ ${item.name} × ${item.quantity} = ${itemTotal} DH
 <hr>
 </div>
 `;
-
 });
 
-document.getElementById("cartTotal").innerText=total;
+let finalTotal = total;
+
+if(discount>0){
+finalTotal = total - (total*discount/100);
 }
 
-/* =========================
-   تحديث العدد
-========================= */
+document.getElementById("cartTotal").innerHTML =
+`${discount>0?`<del>${total} DH</del> ➜ `:""}${finalTotal.toFixed(2)} DH`;
+}
+
+/* ===== تطبيق الكود ===== */
+
+function applyPromo(){
+
+let code=document.getElementById("promoInput").value;
+
+if(code===PROMO_CODE){
+discount=10;
+alert("تم تطبيق خصم 10% ✅");
+}else{
+discount=0;
+alert("كود غير صحيح ❌");
+}
+
+renderCart();
+}
+
+/* ===== تحديث العدد ===== */
 
 function updateCartCount(){
 let totalQty=cart.reduce((sum,item)=>sum+item.quantity,0);
 document.getElementById("cartCount").innerText=totalQty;
 }
 
-/* =========================
-   تغيير الكمية
-========================= */
+/* ===== تغيير الكمية ===== */
 
 function changeQty(index,amount){
 
@@ -170,9 +173,7 @@ renderCart();
 updateCartCount();
 }
 
-/* =========================
-   حذف عنصر
-========================= */
+/* ===== حذف ===== */
 
 function removeItem(index){
 cart.splice(index,1);
@@ -181,9 +182,13 @@ renderCart();
 updateCartCount();
 }
 
-/* =========================
-   طلب عبر واتساب + نقص المخزون
-========================= */
+/* ===== فتح وإغلاق السلة ===== */
+
+function toggleCart(){
+document.getElementById("sideCart").classList.toggle("active");
+}
+
+/* ===== الطلب عبر واتساب ===== */
 
 function orderWhatsApp(){
 
@@ -199,10 +204,7 @@ let total=0;
 cart.forEach(item=>{
 
 let product = products.find(p=>p.id===item.id);
-
-if(product){
-product.stock-=item.quantity;
-}
+if(product) product.stock-=item.quantity;
 
 let itemTotal=item.price*item.quantity;
 total+=itemTotal;
@@ -212,24 +214,27 @@ message+=`العدد: ${item.quantity}%0A`;
 message+=`المجموع: ${itemTotal} DH%0A%0A`;
 });
 
+if(discount>0){
+total = total - (total*discount/100);
+}
+
 localStorage.setItem("products", JSON.stringify(products));
 
-message+=`💰 المجموع الكلي: ${total} DH`;
+message+=`💰 المجموع الكلي: ${total.toFixed(2)} DH`;
 
 window.open(`https://wa.me/${phone}?text=${message}`,"_blank");
 
 cart=[];
+discount=0;
 saveCart();
 renderCart();
 updateCartCount();
 displayProducts();
 
-alert("تم إرسال الطلب وتحديث المخزون ✅");
+alert("تم إرسال الطلب ✅");
 }
 
-/* =========================
-   تشغيل الصفحة
-========================= */
+/* ===== تشغيل الصفحة ===== */
 
 document.addEventListener("DOMContentLoaded",()=>{
 displayProducts();
