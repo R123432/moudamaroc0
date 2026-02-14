@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<header>
+<header class="header">
 <h1>MODA MAROC</h1>
 <div>
 <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
@@ -18,45 +18,42 @@
 
 <section id="products" class="products"></section>
 
-<!-- PRODUCT DETAILS -->
-<div id="productModal" class="modal">
-<div class="modal-box" id="productDetails"></div>
-</div>
-
 <!-- CART -->
 <div id="cartModal" class="modal">
-<div class="modal-box">
+<div class="box">
 <h3>سلة المشتريات</h3>
 <div id="cartItems"></div>
 <p class="total">المجموع: <span id="totalPrice">0</span> DH</p>
 <button onclick="openOrder()">إتمام الطلب</button>
+<button onclick="closeCart()">إغلاق</button>
 </div>
 </div>
 
-<!-- ORDER FORM -->
+<!-- ORDER -->
 <div id="orderModal" class="modal">
-<div class="modal-box">
+<div class="box">
 <h3>معلومات الطلب</h3>
 <input id="clientName" placeholder="الاسم الكامل">
 <input id="clientPhone" placeholder="رقم الهاتف">
 <input id="clientCity" placeholder="المدينة">
 <textarea id="clientAddress" placeholder="العنوان الكامل"></textarea>
 <button onclick="sendOrder()">إرسال الطلب</button>
+<button onclick="closeOrder()">إغلاق</button>
 </div>
 </div>
 
 <!-- ADMIN -->
 <div id="adminModal" class="modal">
-<div class="modal-box">
+<div class="box">
 
-<div id="adminLogin">
+<div id="loginBox">
 <h3>دخول الإدارة</h3>
 <input type="password" id="adminPass" placeholder="كود الدخول">
 <button onclick="loginAdmin()">دخول</button>
 <p id="adminError">كود خاطئ</p>
 </div>
 
-<div id="adminPanel">
+<div id="adminPanel" style="display:none;">
 <h3>لوحة التحكم</h3>
 
 <input id="pname" placeholder="اسم المنتج">
@@ -66,7 +63,7 @@
 <input id="prating" type="number" placeholder="التقييم /5">
 <input id="pcolors" placeholder="الألوان مثال: أحمر,أزرق">
 <input id="psizes" placeholder="المقاسات مثال: S,M,L">
-<textarea id="pimages" placeholder="روابط الصور مفصولة بفاصلة"></textarea>
+<input id="pimage" placeholder="رابط الصورة">
 
 <button onclick="saveProduct()">حفظ المنتج</button>
 
