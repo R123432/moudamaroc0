@@ -1,0 +1,104 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Cairo',sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:black;
+border-bottom:1px solid gold;
+}
+
+.logo{
+font-size:24px;
+color:gold;
+letter-spacing:3px;
+font-weight:bold;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+}
+
+.hero{
+height:70vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d');
+background-size:cover;
+background-position:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:42px;
+color:gold;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+padding:60px 40px;
+}
+
+.card{
+background:#1a1a1a;
+border-radius:15px;
+overflow:hidden;
+transition:.3s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px rgba(255,215,0,.4);
+}
+
+.card img{
+width:100%;
+height:300px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.price{
+color:gold;
+margin-top:10px;
+font-weight:bold;
+}
+
+.btn{
+display:inline-block;
+margin-top:15px;
+padding:10px 15px;
+background:gold;
+color:black;
+border-radius:8px;
+text-decoration:none;
+font-weight:bold;
+}
+
+footer{
+padding:40px;
+text-align:center;
+border-top:1px solid gold;
+margin-top:50px;
+}
