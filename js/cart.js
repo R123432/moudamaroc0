@@ -16,12 +16,26 @@ alert("المنتج غير موجود ❌");
 return;
 }
 
-// نشوف واش موجود فالسلة
+// إذا المخزون صفر
+if(product.stock <= 0){
+alert("هذا المنتج نفذ من المخزون ❌");
+return;
+}
+
 let existing = cart.find(item => item.id === id);
 
 if(existing){
+
+// إذا وصل للحد الأقصى ديال المخزون
+if(existing.quantity >= product.stock){
+alert("وصلت للحد الأقصى من المخزون ⚠️");
+return;
+}
+
 existing.quantity += 1;
+
 }else{
+
 cart.push({
 id: product.id,
 name: product.name,
