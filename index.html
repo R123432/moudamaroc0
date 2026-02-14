@@ -1,11 +1,33 @@
-<section id="products" class="products"></section>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODA MAROC</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<header>
+<div class="logo">MODA MAROC</div>
+</header>
+
+<!-- السلة -->
+<div class="cart-box">
+<h3>🛒 السلة (<span id="cartCount">0</span>)</h3>
 
 <div id="cartItems"></div>
-<span id="cartCount">0</span>
-<div>المجموع: <span id="cartTotal">0</span> DH</div>
 
-<button onclick="orderWhatsApp()" class="btn">
-إتمام الطلب عبر واتساب
-</button>
+<p>المجموع: <strong><span id="cartTotal">0</span> DH</strong></p>
+</div>
+
+<!-- المنتجات -->
+<section class="products" id="products"></section>
 
 <script src="js/main.js"></script>
+
+</body>
+</html>
