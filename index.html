@@ -14,9 +14,9 @@
 <header>
 <div class="container header-wrapper">
 
-<div class="logo-box">
+<div>
 <h1 class="logo">MODA MAROC</h1>
-<p class="logo-sub">PREMIUM FASHION • EST. 2026</p>
+<p class="logo-sub">PREMIUM FASHION • EST. 2025</p>
 </div>
 
 <div class="header-actions">
@@ -27,6 +27,26 @@
 
 </div>
 </header>
+
+<!-- HERO -->
+<section class="hero">
+<div class="container hero-flex">
+
+<div class="hero-text">
+<span class="badge-offer">🔥 خصم %30 لفترة محدودة</span>
+<h2>أحدث صيحات الموضة العصرية</h2>
+<p>توصيل سريع • جودة عالية • الدفع عند الاستلام</p>
+<button onclick="document.querySelector('.categories').scrollIntoView({behavior:'smooth'})" class="hero-btn">
+تسوق الآن
+</button>
+</div>
+
+<div class="hero-image">
+<img src="https://images.unsplash.com/photo-1521335629791-ce4aec67dd53">
+</div>
+
+</div>
+</section>
 
 <main class="container">
 
@@ -55,11 +75,11 @@
 </div>
 </aside>
 
+<!-- ADMIN -->
 <div id="adminPanel" class="admin-panel">
 <div class="admin-box">
 
 <button onclick="closeAdmin()" class="close-admin">✖</button>
-
 <h2>لوحة تحكم</h2>
 
 <div id="loginBox">
@@ -69,7 +89,6 @@
 </div>
 
 <div id="adminContent" style="display:none;">
-
 <input type="text" id="pname" placeholder="اسم المنتج">
 <input type="number" id="pprice" placeholder="السعر">
 <input type="number" id="pstock" placeholder="المخزون">
@@ -84,13 +103,13 @@
 
 <button onclick="addProduct()" class="btn-main">إضافة المنتج</button>
 <div id="adminProducts"></div>
-
 </div>
+
 </div>
 </div>
 
 <footer class="footer">
-<p>© 2026 MODA MAROC</p>
+<p>© 2025 MODA MAROC</p>
 </footer>
 
 <script src="app.js"></script>
