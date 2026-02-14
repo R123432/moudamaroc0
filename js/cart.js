@@ -123,21 +123,46 @@ alert("السلة فارغة ❌");
 return;
 }
 
-let phone = "212600000000"; // 🔥 بدلها برقمك (بلا +)
+let products = JSON.parse(localStorage.getItem("products")) || [];
 
-let message = "🛍️ طلب جديد من متجر MODA MAROC:%0A%0A";
-
+let phone = "212712120673"; // غير رقمك
+let message = "🛍️ طلب جديد:%0A%0A";
 let total = 0;
 
 cart.forEach(item=>{
+
+let product = products.find(p => p.id === item.id);
+
+// نقص من المخزون
+if(product){
+product.stock -= item.quantity;
+}
+
 let itemTotal = item.price * item.quantity;
 total += itemTotal;
 
 message += `📦 ${item.name}%0A`;
 message += `العدد: ${item.quantity}%0A`;
-message += `السعر: ${item.price} DH%0A`;
 message += `المجموع: ${itemTotal} DH%0A%0A`;
+
 });
+
+localStorage.setItem("products", JSON.stringify(products));
+
+message += `💰 المجموع الكلي: ${total} DH`;
+
+let url = `https://wa.me/${212712120673}?text=${message}`;
+
+window.open(url, "_blank");
+
+// نفرغ السلة بعد الطلب
+cart = [];
+saveCart();
+updateCartCount();
+renderCart();
+
+alert("تم إرسال الطلب وتحديث المخزون ✅");
+}
 
 message += `💰 المجموع الكلي: ${total} DH%0A%0A`;
 message += "الاسم:%0A";
