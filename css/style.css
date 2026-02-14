@@ -182,7 +182,6 @@ padding:30px 15px;
 width:100%;
 }
 
-}
 .whatsapp{
 position:fixed;
 bottom:20px;
@@ -204,7 +203,6 @@ opacity:0;
 to{
 opacity:1;
 transform:translateY(0);
-}
 }
 </script>
 
