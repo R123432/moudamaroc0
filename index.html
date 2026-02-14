@@ -1,46 +1,35 @@
-<div id="productModal" class="modal">  
-<div class="modal-content">  
-<span onclick="closeModal()" style="cursor:pointer;font-size:20px;">✖</span>  
-<div id="modalBody"></div>  
-</div>  
-</div>  
-<!DOCTYPE html>  
-<html lang="ar" dir="rtl">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>MODA MAROC 2025</title>  <link rel="stylesheet" href="css/style.css">  
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">  
-</head>  <body>  <header>  
-<div class="logo">MODA MAROC</div>  <nav>  
-<a href="#">الرئيسية</a>  
-<div style="padding:20px;text-align:center;">  
-<input type="text" id="searchInput" placeholder="بحث عن منتج..." onkeyup="filterProducts()">  
-<select id="priceFilter" onchange="filterProducts()">  
-<option value="">كل الأسعار</option>  
-<option value="300">أقل من 300</option>  
-<option value="500">أقل من 500</option>  
-</select>  
-</div>  
-<a href="#">منتجات</a>  
-<a href="#">تواصل</a>  
-</nav>  <div class="cart-icon" onclick="toggleCart()">  
-🛒  
-<span class="cart-count" id="cartCount">0</span>  
-</div>  
-</header>  <div class="cart-panel" id="cartPanel">  
-<h2>سلة المشتريات</h2>  
-<div id="cartItems"></div>  
-<h3>المجموع: <span id="cartTotal">0</span> DH</h3>  
-<a class="btn" href="checkout.html">إتمام الطلب</a>  
-</div>  <section class="hero">  
-<div class="countdown" id="countdown"></div>  
-<h1>الفخامة تبدأ من هنا 👑</h1>  
-</section>  <section class="products" id="products"></section>  <footer>  
-© 2025 MODA MAROC - جميع الحقوق محفوظة  
-</footer>  <a class="whatsapp"   
-href="https://wa.me/212712120673"   
-target="_blank">💬</a>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODA MAROC 2025</title>
 
-<script src="js/data.js"></script>  <script src="js/cart.js"></script>  <script src="js/main.js"></script>  </body>  
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- كل المحتوى ديالك هنا -->
+
+<section class="products" id="products"></section>
+
+<footer>
+© 2025 MODA MAROC - جميع الحقوق محفوظة
+</footer>
+
+<!-- ✅ حط المودال هنا -->
+<div id="productModal" class="modal">
+<div class="modal-content">
+<span onclick="closeModal()" style="cursor:pointer;font-size:20px;">✖</span>
+<div id="modalBody"></div>
+</div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+
+</body>
 </html>
