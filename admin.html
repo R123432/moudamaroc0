@@ -21,12 +21,13 @@ border:1px solid #ccc;
 }
 
 button{
-padding:10px 15px;
+padding:8px 15px;
 background:#111;
 color:white;
 border:none;
 border-radius:20px;
 cursor:pointer;
+margin-top:5px;
 }
 
 .card{
@@ -36,9 +37,23 @@ margin-top:10px;
 border-radius:10px;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
+
+#loginBox{
+max-width:300px;
+margin:auto;
+margin-top:100px;
+}
 </style>
 </head>
 <body>
+
+<div id="loginBox">
+<h3>دخول لوحة التحكم</h3>
+<input type="password" id="password" placeholder="ادخل كلمة السر">
+<button onclick="login()">دخول</button>
+</div>
+
+<div id="adminPanel" style="display:none;">
 
 <h2>لوحة تحكم Moda Maroc</h2>
 
@@ -46,34 +61,57 @@ box-shadow:0 5px 15px rgba(0,0,0,0.1);
 <input type="number" id="price" placeholder="الثمن الجديد">
 <input type="number" id="oldPrice" placeholder="الثمن القديم">
 <textarea id="description" placeholder="وصف المنتج"></textarea>
-<input type="text" id="image" placeholder="رابط الصورة">
+
+<h4>روابط الصور (كل رابط في سطر)</h4>
+<textarea id="images" placeholder="ضع كل رابط صورة في سطر"></textarea>
 
 <button onclick="addProduct()">إضافة المنتج</button>
 
 <h3>المنتجات الحالية</h3>
 <div id="list"></div>
 
+</div>
+
 <script>
+
+function login(){
+let pass=document.getElementById("password").value;
+if(pass==="2025"){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("adminPanel").style.display="block";
+}else{
+alert("كلمة السر غير صحيحة");
+}
+}
 
 let products = JSON.parse(localStorage.getItem("products")) || [];
 
 function addProduct(){
 
-let name=document.getElementById("name").value;
-let price=document.getElementById("price").value;
-let oldPrice=document.getElementById("oldPrice").value;
-let description=document.getElementById("description").value;
-let image=document.getElementById("image").value;
+let name=nameInput.value;
+let price=priceInput.value;
+let oldPrice=oldPriceInput.value;
+let description=descriptionInput.value;
+let imagesText=document.getElementById("images").value;
 
-if(!name || !price || !image){
+if(!name || !price || !imagesText){
 alert("المرجو ملء المعلومات الأساسية");
 return;
 }
 
-products.push({name,price,oldPrice,description,image});
+let imagesArray=imagesText.split("\n");
+
+products.push({
+name,
+price,
+oldPrice,
+description,
+images:imagesArray
+});
+
 localStorage.setItem("products",JSON.stringify(products));
 
-alert("تم إضافة المنتج بنجاح");
+alert("تمت الإضافة بنجاح");
 location.reload();
 }
 
