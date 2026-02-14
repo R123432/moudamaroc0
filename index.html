@@ -10,31 +10,81 @@
 
 <header>
 <h1>MODA MAROC</h1>
-<button onclick="openAdmin()">⚙️</button>
+<div>
 <button onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+<button onclick="openAdmin()">⚙️</button>
+</div>
 </header>
 
 <section id="products" class="products"></section>
 
-<!-- PRODUCT POPUP -->
+<!-- PRODUCT DETAILS -->
 <div id="productModal" class="modal">
-<div class="modal-content">
-<span onclick="closeModal()">✖</span>
-<div id="modalBody"></div>
+<div class="modal-box" id="productDetails"></div>
+</div>
+
+<!-- CART -->
+<div id="cartModal" class="modal">
+<div class="modal-box">
+<h3>سلة المشتريات</h3>
+<div id="cartItems"></div>
+<p class="total">المجموع: <span id="totalPrice">0</span> DH</p>
+<button onclick="openOrder()">إتمام الطلب</button>
 </div>
 </div>
 
 <!-- ORDER FORM -->
 <div id="orderModal" class="modal">
-<div class="modal-content">
+<div class="modal-box">
 <h3>معلومات الطلب</h3>
 <input id="clientName" placeholder="الاسم الكامل">
 <input id="clientPhone" placeholder="رقم الهاتف">
+<input id="clientCity" placeholder="المدينة">
 <textarea id="clientAddress" placeholder="العنوان الكامل"></textarea>
-<button onclick="confirmOrder()">إرسال الطلب</button>
+<button onclick="sendOrder()">إرسال الطلب</button>
 </div>
 </div>
 
-<script type="module" src="app.js"></script>
+<!-- ADMIN -->
+<div id="adminModal" class="modal">
+<div class="modal-box">
+
+<div id="adminLogin">
+<h3>دخول الإدارة</h3>
+<input type="password" id="adminPass" placeholder="كود الدخول">
+<button onclick="loginAdmin()">دخول</button>
+<p id="adminError">كود خاطئ</p>
+</div>
+
+<div id="adminPanel">
+<h3>لوحة التحكم</h3>
+
+<input id="pname" placeholder="اسم المنتج">
+<input id="pdesc" placeholder="الوصف">
+<input id="pprice" type="number" placeholder="السعر">
+<input id="pstock" type="number" placeholder="المخزون">
+<input id="prating" type="number" placeholder="التقييم /5">
+<input id="pcolors" placeholder="الألوان مثال: أحمر,أزرق">
+<input id="psizes" placeholder="المقاسات مثال: S,M,L">
+<textarea id="pimages" placeholder="روابط الصور مفصولة بفاصلة"></textarea>
+
+<button onclick="saveProduct()">حفظ المنتج</button>
+
+<hr>
+<label>نسبة الخصم %</label>
+<input type="number" id="discountInput">
+<button onclick="saveDiscount()">حفظ الخصم</button>
+
+<hr>
+<h4>المنتجات الحالية</h4>
+<div id="adminProducts"></div>
+
+<button onclick="closeAdmin()">إغلاق</button>
+</div>
+
+</div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
