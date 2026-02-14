@@ -8,19 +8,14 @@ function addToCart(id){
 
 let products = JSON.parse(localStorage.getItem("products")) || [];
 
-// نحولو id لرقم باش نضمنو التطابق
 id = Number(id);
 
 const product = products.find(p => Number(p.id) === id);
 
 if(!product){
 alert("خطأ: المنتج غير موجود ❌");
-console.log("ID المرسل:", id);
-console.log("المنتجات:", products);
 return;
 }
-
-
 
 cart.push({
 id: product.id,
