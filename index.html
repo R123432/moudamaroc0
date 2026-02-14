@@ -116,29 +116,38 @@ button:hover{
   background:var(--gold);
 }
 
-/* ===== WhatsApp Button ===== */
-.whatsapp{
+/* ===== Social Buttons ===== */
+.socials{
   position:fixed;
   bottom:20px;
   right:20px;
-  background:#25D366;
-  color:white;
-  width:60px;
-  height:60px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:1000;
+}
+
+.socials a{
+  width:55px;
+  height:55px;
   border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:28px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  color:white;
+  font-size:22px;
   text-decoration:none;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
   transition:0.3s;
-  z-index:1000;
 }
 
-.whatsapp:hover{
+.socials a:hover{
   transform:scale(1.1);
 }
+
+.whatsapp{ background:#25D366; }
+.instagram{ background:#E1306C; }
+.tiktok{ background:#000; }
 
 /* ===== Footer ===== */
 footer{
@@ -163,7 +172,6 @@ footer{
 </section>
 
 <section class="products">
-
   <div class="card">
     <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
     <div class="card-content">
@@ -172,28 +180,31 @@ footer{
       <button onclick="addToCart()">أضف للسلة</button>
     </div>
   </div>
-
-  <div class="card">
-    <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a5f">
-    <div class="card-content">
-      <h3>فستان أنيق</h3>
-      <div class="price">$90</div>
-      <button onclick="addToCart()">أضف للسلة</button>
-    </div>
-  </div>
-
 </section>
 
 <footer>
   © 2026 Moda Maroc - جميع الحقوق محفوظة
 </footer>
 
-<!-- زر واتساب -->
-<a class="whatsapp" 
-   href="https://wa.me/212712120673" 
-   target="_blank">
-   🟢
-</a>
+<!-- Social Media Floating -->
+<div class="socials">
+
+  <!-- WhatsApp مع رسالة جاهزة -->
+  <a class="whatsapp"
+     href="https://wa.me/212712120673?text=مرحبا%20Moda%20Maroc%20بغيت%20نستفسر%20على%20واحد%20المنتج"
+     target="_blank">💬</a>
+
+  <!-- Instagram -->
+  <a class="instagram"
+     href="https://www.instagram.com/moudamaroc0"
+     target="_blank">📸</a>
+
+  <!-- TikTok -->
+  <a class="tiktok"
+     href="https://www.tiktok.com/@moudamaroc0"
+     target="_blank">🎵</a>
+
+</div>
 
 <script>
 let count = 0;
