@@ -6,9 +6,26 @@ localStorage.setItem("cart", JSON.stringify(cart));
 
 function addToCart(id){
 
-if(typeof products === "undefined"){
-alert("خطأ: المنتجات لم يتم تحميلها");
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+// نحولو id لرقم باش نضمنو التطابق
+id = Number(id);
+
+const product = products.find(p => Number(p.id) === id);
+
+if(!product){
+alert("خطأ: المنتج غير موجود ❌");
+console.log("ID المرسل:", id);
+console.log("المنتجات:", products);
 return;
+}
+
+cart.push(product);
+saveCart();
+updateCartCount();
+renderCart();
+
+alert("تمت إضافة المنتج للسلة ✅");
 }
 
 const product = products.find(p => p.id === id);
